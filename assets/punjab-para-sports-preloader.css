@@ -1,0 +1,183 @@
+/* Punjab Para Sports Preloader - Coordinate-Based Motion Line Architecture */
+:root {
+  --pps-blue: #0D47A1;
+  --pps-yellow: #FFC107;
+  --pps-yellow-text: #D97706;
+  --pps-light-blue: #4FC3F7;
+  --pps-bg: #FFFFFF;
+  --pps-tagline-color: #334155;
+  --pps-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Fullscreen Pure White Preloader Overlay */
+.pps-preloader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--pps-bg);
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s ease;
+  will-change: opacity, visibility;
+  font-family: var(--pps-font);
+  -webkit-font-smoothing: antialiased;
+}
+
+.pps-preloader-overlay.pps-hiding {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pps-preloader-overlay.pps-hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Centered Stage */
+.pps-preloader-stage {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* Responsive Art Board (+20% scale maintained) */
+.pps-svg-container {
+  width: 290px;
+  height: 265px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.pps-svg-main {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Absolute Coordinate-Based Motion Curves Container */
+/* Anchored at x = 25.7%, y = 30.9% relative to animation container */
+.pps-motion-curves-container {
+  position: absolute;
+  left: 25.7%;
+  top: 30.9%;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 2;
+  transform: translate(-25.7%, -30.9%);
+}
+
+.pps-motion-stroke {
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Explicit Layer Ordering */
+#pps-punjab-map-group { z-index: 1; }
+.pps-motion-curves-container { z-index: 2; }
+#pps-athlete-group { z-index: 3; }
+#pps-ball-group { z-index: 4; }
+
+/* Typography Lockup */
+.pps-brand-text {
+  text-align: center;
+  margin-top: 18px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.45s cubic-bezier(0.25, 1, 0.5, 1), transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 5;
+}
+
+.pps-brand-text.pps-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pps-logo-title {
+  font-size: 1.32rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.pps-blue-text {
+  color: var(--pps-blue);
+}
+
+.pps-yellow-text {
+  color: var(--pps-yellow-text);
+}
+
+.pps-tagline-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.pps-tagline-line {
+  display: inline-block;
+  width: 28px;
+  height: 1.5px;
+  background: #94A3B8;
+  opacity: 0.6;
+}
+
+.pps-tagline {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--pps-tagline-color);
+  display: inline-block;
+}
+
+/* Responsive Mobile Scaling */
+@media (max-width: 480px) {
+  .pps-svg-container {
+    width: 220px;
+    height: 200px;
+  }
+  .pps-logo-title {
+    font-size: 1.1rem;
+  }
+  .pps-tagline {
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+  }
+}
+
+/* Reduced Motion Mode Support */
+@media (prefers-reduced-motion: reduce) {
+  .pps-preloader-stage * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .pps-brand-text {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
