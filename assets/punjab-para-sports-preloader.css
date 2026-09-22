@@ -71,19 +71,17 @@
   overflow: visible;
 }
 
-/* Absolute Coordinate-Based Motion Curves Container */
-/* Anchored at x = 25.7%, y = 30.9% relative to animation container */
-/* Sits in FRONT of Punjab Map (z-index: 2 vs z-index: 1), NEVER hidden */
+/* Absolute Motion Curves Container */
+/* Aligned 1:1 with the main SVG coordinate space */
 .pps-motion-curves-container {
   position: absolute;
-  left: 25.7%;
-  top: 30.9%;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
   overflow: visible;
   z-index: 2;
-  transform: translate(-25.7%, -30.9%);
 }
 
 .pps-motion-stroke {

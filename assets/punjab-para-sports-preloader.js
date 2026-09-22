@@ -95,62 +95,51 @@ class PunjabParaSportsPreloader {
             </g>
           </svg>
 
-          <!-- LAYER 2: 5 STAGGERED ATHLETIC MOTION LINES / RACING LANES (z-index: 2, IN FRONT OF MAP, NEVER HIDDEN) -->
+          <!-- LAYER 2: 4 CONCENTRIC ATHLETIC RACING LANES (AROUND THE MAP ON WHITE CANVAS, NEVER ON THE MAP) -->
           <div class="pps-motion-curves-container">
             <svg viewBox="0 0 420 370" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; overflow: visible;">
-              <!-- Lane 1: Yellow Outer Energy Wave (Outer flank on white background) -->
+              <!-- Lane 1: Primary Blue Innermost Arc (Sweeps outside western/southern border, ~10px clearance) -->
               <path id="pps-lane-1" class="pps-motion-stroke"
-                d="M 105,260 A 148,148 0 0,1 190,52" 
-                fill="none" 
-                stroke="#FFC107" 
-                stroke-width="3.5" 
-                stroke-dasharray="260"
-                stroke-dashoffset="${isReducedMotion ? '0' : '260'}"
-                opacity="${isReducedMotion ? '0.95' : '0'}"
-              />
-
-              <!-- Lane 2: Primary Blue Main Athletic Lane (Bold lead lane sweeping across) -->
-              <path id="pps-lane-2" class="pps-motion-stroke"
-                d="M 116,248 A 136,136 0 0,1 198,68" 
+                d="M 205,310 C 45,322 5,200 128,68" 
                 fill="none" 
                 stroke="#0D47A1" 
                 stroke-width="4.2" 
-                stroke-dasharray="235"
-                stroke-dashoffset="${isReducedMotion ? '0' : '235'}"
+                stroke-dasharray="370"
+                stroke-dashoffset="${isReducedMotion ? '0' : '370'}"
                 opacity="${isReducedMotion ? '0.95' : '0'}"
               />
 
-              <!-- Lane 3: Vibrant Royal Blue Racing Lane (Staggered offset) -->
+              <!-- Lane 2: Vibrant Sports Blue Mid-Inner Arc (Sweeps outside Lane 1, ~21px clearance) -->
+              <path id="pps-lane-2" class="pps-motion-stroke"
+                d="M 225,322 C 32,334 -10,208 118,54" 
+                fill="none" 
+                stroke="#1565C0" 
+                stroke-width="3.8" 
+                stroke-dasharray="420"
+                stroke-dashoffset="${isReducedMotion ? '0' : '420'}"
+                opacity="${isReducedMotion ? '0.95' : '0'}"
+              />
+
+              <!-- Lane 3: Royal Blue Mid-Outer Arc (Sweeps outside Lane 2, ~32px clearance) -->
               <path id="pps-lane-3" class="pps-motion-stroke"
-                d="M 125,240 A 126,126 0 0,1 190,85" 
+                d="M 190,334 C 18,346 -24,218 108,66" 
                 fill="none" 
                 stroke="#1976D2" 
-                stroke-width="3.8" 
-                stroke-dasharray="210"
-                stroke-dashoffset="${isReducedMotion ? '0' : '210'}"
+                stroke-width="3.5" 
+                stroke-dasharray="405"
+                stroke-dashoffset="${isReducedMotion ? '0' : '405'}"
                 opacity="${isReducedMotion ? '0.92' : '0'}"
               />
 
-              <!-- Lane 4: Cyan/Light Blue Accent Lane (Speed vector closest to athlete) -->
+              <!-- Lane 4: Dynamic Cyan/Accent Blue Outermost Speed Arc (~36px clearance) -->
               <path id="pps-lane-4" class="pps-motion-stroke"
-                d="M 134,232 A 116,116 0 0,1 180,102" 
+                d="M 238,346 C 5,358 -38,226 96,80" 
                 fill="none" 
-                stroke="#4FC3F7" 
+                stroke="#0288D1" 
                 stroke-width="3.2" 
-                stroke-dasharray="180"
-                stroke-dashoffset="${isReducedMotion ? '0' : '180'}"
+                stroke-dasharray="450"
+                stroke-dashoffset="${isReducedMotion ? '0' : '450'}"
                 opacity="${isReducedMotion ? '0.88' : '0'}"
-              />
-
-              <!-- Lane 5: Inner Speed Trajectory Lane -->
-              <path id="pps-lane-5" class="pps-motion-stroke"
-                d="M 142,226 A 106,106 0 0,1 172,118" 
-                fill="none" 
-                stroke="#0D47A1" 
-                stroke-width="2.8" 
-                stroke-dasharray="150"
-                stroke-dashoffset="${isReducedMotion ? '0' : '150'}"
-                opacity="${isReducedMotion ? '0.85' : '0'}"
               />
             </svg>
           </div>
@@ -299,12 +288,11 @@ class PunjabParaSportsPreloader {
     const punjabMap = document.getElementById('pps-punjab-map');
     const mapPulse = document.getElementById('pps-map-pulse');
 
-    // 5 Staggered Motion Lanes (Layer 2, in front of Punjab map)
+    // 4 Concentric Motion Lanes (Layer 2, wrapping outside around the Punjab map)
     const l1 = document.getElementById('pps-lane-1');
     const l2 = document.getElementById('pps-lane-2');
     const l3 = document.getElementById('pps-lane-3');
     const l4 = document.getElementById('pps-lane-4');
-    const l5 = document.getElementById('pps-lane-5');
 
     // Athlete Element Groups
     const athleteGroup = document.getElementById('pps-athlete-group');
@@ -345,51 +333,42 @@ class PunjabParaSportsPreloader {
       ], { duration: totalMs * 0.18, easing: 'ease-in-out', fill: 'forwards' });
     }, totalMs * 0.11);
 
-    // PHASE 3: 5 Staggered Athletic Motion Lines sweep across in FRONT of map (0.45 – 1.15s)
+    // PHASE 3: 4 Concentric Motion Lanes sweep around the map on the white canvas (0.45 – 1.15s)
     setTimeout(() => {
       if (this.isCompleted) return;
 
-      // Lane 1: Outer Yellow Wave (0ms -> 550ms)
+      // Lane 1: Primary Blue Innermost Arc (0ms -> 550ms)
       l1.animate([
-        { strokeDashoffset: 260, opacity: 0 },
+        { strokeDashoffset: 370, opacity: 0 },
         { strokeDashoffset: 0, opacity: 0.95 }
       ], { duration: 550, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
 
-      // Lane 2: Primary Blue Main Lane (+70ms -> 520ms)
+      // Lane 2: Vibrant Sports Blue Mid-Inner Arc (+70ms -> 520ms)
       setTimeout(() => {
         if (this.isCompleted) return;
         l2.animate([
-          { strokeDashoffset: 235, opacity: 0 },
+          { strokeDashoffset: 420, opacity: 0 },
           { strokeDashoffset: 0, opacity: 0.95 }
         ], { duration: 520, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
       }, 70);
 
-      // Lane 3: Royal Blue Secondary Lane (+140ms -> 500ms)
+      // Lane 3: Royal Blue Mid-Outer Arc (+140ms -> 500ms)
       setTimeout(() => {
         if (this.isCompleted) return;
         l3.animate([
-          { strokeDashoffset: 210, opacity: 0 },
+          { strokeDashoffset: 405, opacity: 0 },
           { strokeDashoffset: 0, opacity: 0.92 }
         ], { duration: 500, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
       }, 140);
 
-      // Lane 4: Cyan Accent Lane (+210ms -> 480ms)
+      // Lane 4: Dynamic Cyan/Accent Blue Outermost Speed Arc (+210ms -> 480ms)
       setTimeout(() => {
         if (this.isCompleted) return;
         l4.animate([
-          { strokeDashoffset: 180, opacity: 0 },
+          { strokeDashoffset: 450, opacity: 0 },
           { strokeDashoffset: 0, opacity: 0.88 }
         ], { duration: 480, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
       }, 210);
-
-      // Lane 5: Inner Trajectory Lane (+280ms -> 450ms)
-      setTimeout(() => {
-        if (this.isCompleted) return;
-        l5.animate([
-          { strokeDashoffset: 150, opacity: 0 },
-          { strokeDashoffset: 0, opacity: 0.85 }
-        ], { duration: 450, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
-      }, 280);
     }, totalMs * 0.17);
 
     // PHASE 6: Wheelchair athlete assembles cleanly over Punjab map (0.70 – 1.25s)
