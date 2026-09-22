@@ -3,15 +3,18 @@
 A minimal, lightweight, GPU-accelerated vector preloader animation component for the Punjab Para Sports Association web portal.
 
 ## Corrective Visual Architecture
-- **Redrawn Paralympic Athlete Pictogram**: Distinct, non-overlapping vector components:
+- **Universal Multi-Sport Concept**: Completely removed all ball and throwing mechanics. Represents multiple para-sports across Punjab (movement, competition, racing lanes, inclusion, forward momentum).
+- **5 Staggered Athletic Motion Lines / Racing Lanes**:
+  - Emerging from underneath the Punjab map.
+  - Fanning outward at progressive angles with staggered race-start endpoints.
+  - Positioned behind the Punjab map (Layer 1) so strokes emerge cleanly beyond its yellow contours.
+- **Redrawn Paralympic Athlete Pictogram**:
   - **Large Rear Wheel**: Unmistakable circular wheel (diameter: 84px = 1.5x torso height) with visible central hub (`stroke-width: 5px`).
   - **Wheelchair Frame & Seat**: Clean seat tube, backrest, and footrest downtube with front caster wheel.
   - **Lower Body / Legs**: Clean pictogram stroke resting naturally on wheelchair seat.
-  - **Torso**: Single strong stroke (`6px`) leaning forward at 31° in an athletic throwing posture.
-  - **Head**: Solid blue circular dot with **15px clear negative space gap** above the torso.
-  - **Throwing Arm**: Two-segment arm originating from the shoulder and extending diagonally upward toward the ball.
-  - **Sports Ball**: Solid blue circle with subtle dashed trajectory trail and 50px clean whitespace gap from hand.
-- **Motion Curves**: 3.5–4.5px thick dynamic curves anchored responsively at `x: 25.7%, y: 30.9%`, keeping 20px+ clearance from the athlete.
+  - **Torso**: Single strong stroke (`6px`) leaning forward at 31° in a strong competitive forward-racing posture.
+  - **Head**: Solid blue circular dot with **16px clear negative space gap** above the torso.
+  - **Driving Arm**: Powerful forward propulsion stroke driving the wheel/momentum forward.
 - **Punjab Map**: Authentic state silhouette in official brand yellow (`#FFC107`).
 - **Typography**: `PUNJAB` in brand blue (`#0D47A1`), `PARA SPORTS` in brand yellow/amber, with `— STRONGER TOGETHER —` tagline.
 - **Accessibility**: Full `prefers-reduced-motion` compliance.

@@ -1,16 +1,12 @@
 /**
  * Punjab Para Sports Preloader Animation Component
- * Redrawn Wheelchair Para-Athlete Pictogram Architecture:
- * - Clean, non-overlapping Paralympic sports pictogram
- * - Unmistakable large rear wheelchair wheel (1.5x torso height) with visible hub
- * - Distinct wheelchair frame, seat, and front caster
- * - Natural lower body / leg indication resting on wheelchair
- * - Strong, forward-leaning athletic torso stroke (31° lean)
- * - Distinct circular head with 15px negative space clearance above torso
- * - Two-segment throwing arm originating from shoulder, pointing directly toward ball
- * - 50px whitespace between hand and sports ball with curved trajectory
- * - Motion curves positioned cleanly behind/around athlete with 20px+ clearance
- * - 11-Phase sequential construction animation
+ * Staggered Athletic Motion Lanes Architecture:
+ * - NO BALL / NO THROWING (Universal Para-Sports Progression Concept)
+ * - 5 Staggered Athletic Motion Lanes emerging from underneath the Punjab map
+ * - Lanes Fan OUTWARD at progressive angles with staggered race-start endpoints
+ * - Layer Order: Background (1) -> Motion Lanes (2) -> Punjab Map (3) -> Athlete (4) -> Typography (5)
+ * - Athlete in strong competitive forward-racing wheelchair posture
+ * - Progressive path-draw animations with staggered timing
  */
 
 class PunjabParaSportsPreloader {
@@ -73,9 +69,7 @@ class PunjabParaSportsPreloader {
     container.innerHTML = `
       <div class="pps-preloader-stage">
         <div class="pps-svg-container" id="pps-art-stage">
-          
-          <!-- LAYER 1: PUNJAB STATE MAP -->
-          <svg class="pps-svg-main" viewBox="0 0 420 370" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 0; left: 0; z-index: 1;">
+          <svg class="pps-svg-main" viewBox="0 0 420 370" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <filter id="pps-pulse-glow" x="-30%" y="-30%" width="160%" height="160%">
                 <feGaussianBlur stdDeviation="8" result="blur" />
@@ -83,6 +77,66 @@ class PunjabParaSportsPreloader {
               </filter>
             </defs>
 
+            <!-- LAYER 1: 5 STAGGERED ATHLETIC MOTION LINES (Behind the Punjab Map) -->
+            <!-- Emerging from underneath the lower edge of Punjab, fanning outward with staggered race-start endpoints -->
+            <g id="pps-motion-lines-group">
+              <!-- Lane 1 (Lead lane, Primary Blue, reaches furthest north to apex) -->
+              <path id="pps-lane-1" class="pps-motion-lane"
+                d="M 122,245 A 132,132 0 0,1 215,58"
+                fill="none"
+                stroke="#0D47A1"
+                stroke-width="4.5"
+                stroke-dasharray="245"
+                stroke-dashoffset="${isReducedMotion ? '0' : '245'}"
+                opacity="${isReducedMotion ? '0.95' : '0'}"
+              />
+
+              <!-- Lane 2 (Secondary lane, Brand Yellow, staggered offset behind Lane 1) -->
+              <path id="pps-lane-2" class="pps-motion-lane"
+                d="M 108,258 A 144,144 0 0,1 198,75"
+                fill="none"
+                stroke="#FFC107"
+                stroke-width="3.8"
+                stroke-dasharray="235"
+                stroke-dashoffset="${isReducedMotion ? '0' : '235'}"
+                opacity="${isReducedMotion ? '0.9' : '0'}"
+              />
+
+              <!-- Lane 3 (Third lane, Primary Blue, staggered offset behind Lane 2) -->
+              <path id="pps-lane-3" class="pps-motion-lane"
+                d="M 94,272 A 156,156 0 0,1 180,95"
+                fill="none"
+                stroke="#0D47A1"
+                stroke-width="4.2"
+                stroke-dasharray="220"
+                stroke-dashoffset="${isReducedMotion ? '0' : '220'}"
+                opacity="${isReducedMotion ? '0.95' : '0'}"
+              />
+
+              <!-- Lane 4 (Fourth lane, Light Blue, staggered offset behind Lane 3) -->
+              <path id="pps-lane-4" class="pps-motion-lane"
+                d="M 80,285 A 168,168 0 0,1 160,118"
+                fill="none"
+                stroke="#4FC3F7"
+                stroke-width="3.2"
+                stroke-dasharray="200"
+                stroke-dashoffset="${isReducedMotion ? '0' : '200'}"
+                opacity="${isReducedMotion ? '0.85' : '0'}"
+              />
+
+              <!-- Lane 5 (Trailing speed lane, Brand Yellow, lower flank) -->
+              <path id="pps-lane-5" class="pps-motion-lane"
+                d="M 68,296 A 180,180 0 0,1 140,145"
+                fill="none"
+                stroke="#FFC107"
+                stroke-width="2.8"
+                stroke-dasharray="175"
+                stroke-dashoffset="${isReducedMotion ? '0' : '175'}"
+                opacity="${isReducedMotion ? '0.8' : '0'}"
+              />
+            </g>
+
+            <!-- LAYER 2: PUNJAB STATE MAP (Opaque Solid Yellow, Sits on Top of Lines) -->
             <g id="pps-punjab-map-group" transform="translate(195, 160) scale(2.82) translate(-297.4, -244.5)">
               <circle id="pps-map-pulse" cx="297.4" cy="244.5" r="9" fill="#FFC107" opacity="0" filter="url(#pps-pulse-glow)" />
               <path id="pps-punjab-map" 
@@ -97,191 +151,130 @@ class PunjabParaSportsPreloader {
                 stroke-dashoffset="${isReducedMotion ? '0' : '750'}"
               />
             </g>
-          </svg>
 
-          <!-- LAYER 2: DECORATIVE MOTION CURVES (Anchored at x = 25.7%, y = 30.9%) -->
-          <div class="pps-motion-curves-container">
-            <svg viewBox="0 0 420 370" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; overflow: visible;">
-              <!-- Curve 1: Yellow Outer Energy Wave (Balanced length ~260px) -->
-              <path id="pps-curve-1" class="pps-motion-stroke"
-                d="M 105,260 A 148,148 0 0,1 190,52" 
-                fill="none" 
-                stroke="#FFC107" 
-                stroke-width="3.5" 
-                stroke-dasharray="260"
-                stroke-dashoffset="${isReducedMotion ? '0' : '260'}"
-                opacity="${isReducedMotion ? '0.9' : '0'}"
-              />
+            <!-- LAYER 3: WHEELCHAIR PARA-ATHLETE IN COMPETITIVE FORWARD-RACING POSTURE -->
+            <!-- Completely removed all ball and throwing mechanics -->
+            <g id="pps-athlete-group" opacity="${initOpacity}">
+              
+              <!-- Wheelchair Rear Wheel (Diameter 84px = 1.5x torso height) -->
+              <g id="pps-wheel-group">
+                <circle id="pps-wheel-rim" 
+                  cx="170" 
+                  cy="225" 
+                  r="42" 
+                  fill="none" 
+                  stroke="#0D47A1" 
+                  stroke-width="5" 
+                  stroke-linecap="round"
+                  stroke-dasharray="264"
+                  stroke-dashoffset="${isReducedMotion ? '0' : '264'}"
+                />
+                <circle id="pps-wheel-hub" cx="170" cy="225" r="5.5" fill="#0D47A1" opacity="${initOpacity}" />
+              </g>
 
-              <!-- Curve 2: Primary Blue Main Wave (Concentric offset, length ~235px) -->
-              <path id="pps-curve-2" class="pps-motion-stroke"
-                d="M 118,245 A 134,134 0 0,1 198,68" 
-                fill="none" 
-                stroke="#0D47A1" 
-                stroke-width="4.2" 
-                stroke-dasharray="235"
-                stroke-dashoffset="${isReducedMotion ? '0' : '235'}"
-                opacity="${isReducedMotion ? '0.95' : '0'}"
-              />
+              <!-- Wheelchair Frame, Seat & Front Caster -->
+              <g id="pps-frame-group">
+                <!-- Seat horizontal tube -->
+                <path id="pps-frame-seat" 
+                  d="M 166,205 L 212,205" 
+                  fill="none" 
+                  stroke="#0D47A1" 
+                  stroke-width="4.5" 
+                  stroke-linecap="round"
+                  stroke-dasharray="50"
+                  stroke-dashoffset="${isReducedMotion ? '0' : '50'}"
+                />
+                <!-- Backrest tube -->
+                <path id="pps-frame-backrest" 
+                  d="M 170,205 L 158,172" 
+                  fill="none" 
+                  stroke="#0D47A1" 
+                  stroke-width="4.5" 
+                  stroke-linecap="round"
+                  stroke-dasharray="38"
+                  stroke-dashoffset="${isReducedMotion ? '0' : '38'}"
+                />
+                <!-- Footrest downtube -->
+                <path id="pps-frame-footrest" 
+                  d="M 212,205 L 236,250" 
+                  fill="none" 
+                  stroke="#0D47A1" 
+                  stroke-width="4" 
+                  stroke-linecap="round"
+                  stroke-dasharray="55"
+                  stroke-dashoffset="${isReducedMotion ? '0' : '55'}"
+                />
+                <!-- Front Caster Wheel -->
+                <circle id="pps-caster-wheel" 
+                  cx="236" 
+                  cy="256" 
+                  r="9.5" 
+                  fill="none" 
+                  stroke="#0D47A1" 
+                  stroke-width="3.5"
+                  opacity="${initOpacity}"
+                />
+                <circle id="pps-caster-hub" cx="236" cy="256" r="3" fill="#0D47A1" opacity="${initOpacity}" />
+              </g>
 
-              <!-- Curve 3: Light Blue Accent Wave (Concentric offset, length ~180px) -->
-              <path id="pps-curve-3" class="pps-motion-stroke"
-                d="M 128,232 A 120,120 0 0,1 180,98" 
-                fill="none" 
-                stroke="#4FC3F7" 
-                stroke-width="3.2" 
-                stroke-dasharray="180"
-                stroke-dashoffset="${isReducedMotion ? '0' : '180'}"
-                opacity="${isReducedMotion ? '0.85' : '0'}"
-              />
-            </svg>
-          </div>
+              <!-- Lower Body / Legs Resting on Chair -->
+              <g id="pps-lowerbody-group">
+                <path id="pps-legs-path" 
+                  d="M 178,198 L 216,198 L 230,242" 
+                  fill="none" 
+                  stroke="#0D47A1" 
+                  stroke-width="5" 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round"
+                  stroke-dasharray="90"
+                  stroke-dashoffset="${isReducedMotion ? '0' : '90'}"
+                />
+              </g>
 
-          <!-- LAYER 3: REDRAWN WHEELCHAIR PARA-ATHLETE PICTOGRAM (Non-Overlapping Distinct Components) -->
-          <svg class="pps-svg-main" viewBox="0 0 420 370" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 0; left: 0; z-index: 3; pointer-events: none;">
-            
-            <!-- Group 1: Large Rear Wheelchair Wheel (Diameter: 84px = 1.5x torso height) -->
-            <g id="pps-wheel-group" opacity="${initOpacity}">
-              <circle id="pps-wheel-rim" 
-                cx="170" 
-                cy="225" 
-                r="42" 
-                fill="none" 
-                stroke="#0D47A1" 
-                stroke-width="5" 
-                stroke-linecap="round"
-                stroke-dasharray="264"
-                stroke-dashoffset="${isReducedMotion ? '0' : '264'}"
-              />
-              <circle id="pps-wheel-hub" cx="170" cy="225" r="5.5" fill="#0D47A1" opacity="${initOpacity}" />
-            </g>
+              <!-- Torso (Strong forward-leaning athletic racing posture, 31° lean) -->
+              <g id="pps-torso-group">
+                <path id="pps-athlete-torso" 
+                  d="M 178,198 L 212,142" 
+                  fill="none" 
+                  stroke="#0D47A1" 
+                  stroke-width="6" 
+                  stroke-linecap="round"
+                  stroke-dasharray="66"
+                  stroke-dashoffset="${isReducedMotion ? '0' : '66'}"
+                />
+              </g>
 
-            <!-- Group 2: Wheelchair Frame, Seat & Front Caster -->
-            <g id="pps-frame-group" opacity="${initOpacity}">
-              <!-- Seat horizontal tube -->
-              <path id="pps-frame-seat" 
-                d="M 166,205 L 212,205" 
-                fill="none" 
-                stroke="#0D47A1" 
-                stroke-width="4.5" 
-                stroke-linecap="round"
-                stroke-dasharray="50"
-                stroke-dashoffset="${isReducedMotion ? '0' : '50'}"
-              />
-              <!-- Backrest tube -->
-              <path id="pps-frame-backrest" 
-                d="M 170,205 L 158,172" 
-                fill="none" 
-                stroke="#0D47A1" 
-                stroke-width="4.5" 
-                stroke-linecap="round"
-                stroke-dasharray="38"
-                stroke-dashoffset="${isReducedMotion ? '0' : '38'}"
-              />
-              <!-- Footrest downtube -->
-              <path id="pps-frame-footrest" 
-                d="M 212,205 L 236,250" 
-                fill="none" 
-                stroke="#0D47A1" 
-                stroke-width="4" 
-                stroke-linecap="round"
-                stroke-dasharray="55"
-                stroke-dashoffset="${isReducedMotion ? '0' : '55'}"
-              />
-              <!-- Front Caster Wheel -->
-              <circle id="pps-caster-wheel" 
-                cx="236" 
-                cy="256" 
-                r="9.5" 
-                fill="none" 
-                stroke="#0D47A1" 
-                stroke-width="3.5"
-                opacity="${initOpacity}"
-              />
-              <circle id="pps-caster-hub" cx="236" cy="256" r="3" fill="#0D47A1" opacity="${initOpacity}" />
-            </g>
+              <!-- Head (Solid circular dot, 16px clean negative space gap above torso) -->
+              <g id="pps-head-group">
+                <circle id="pps-athlete-head" 
+                  cx="222" 
+                  cy="118" 
+                  r="9" 
+                  fill="#0D47A1" 
+                  opacity="${initOpacity}"
+                  style="transform-origin: 222px 118px;"
+                />
+              </g>
 
-            <!-- Group 3: Lower Body / Legs Resting in Chair -->
-            <g id="pps-lowerbody-group" opacity="${initOpacity}">
-              <path id="pps-legs-path" 
-                d="M 178,198 L 216,198 L 230,242" 
-                fill="none" 
-                stroke="#0D47A1" 
-                stroke-width="5" 
-                stroke-linecap="round" 
-                stroke-linejoin="round"
-                stroke-dasharray="90"
-                stroke-dashoffset="${isReducedMotion ? '0' : '90'}"
-              />
-            </g>
+              <!-- Forward-Surging Competitive Drive Arms (Dynamic propulsion & momentum) -->
+              <g id="pps-arm-group">
+                <path id="pps-athlete-arm-drive" 
+                  d="M 212,142 L 248,154 L 282,144" 
+                  fill="none" 
+                  stroke="#0D47A1" 
+                  stroke-width="5.5" 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round"
+                  stroke-dasharray="75"
+                  stroke-dashoffset="${isReducedMotion ? '0' : '75'}"
+                />
+              </g>
 
-            <!-- Group 4: Athlete Torso (Strong forward-leaning athletic posture, 31° lean) -->
-            <g id="pps-torso-group" opacity="${initOpacity}">
-              <path id="pps-athlete-torso" 
-                d="M 178,198 L 212,142" 
-                fill="none" 
-                stroke="#0D47A1" 
-                stroke-width="6" 
-                stroke-linecap="round"
-                stroke-dasharray="66"
-                stroke-dashoffset="${isReducedMotion ? '0' : '66'}"
-              />
-            </g>
-
-            <!-- Group 5: Athlete Head (Solid circular dot, 15px clean negative space above torso) -->
-            <g id="pps-head-group">
-              <circle id="pps-athlete-head" 
-                cx="222" 
-                cy="118" 
-                r="9" 
-                fill="#0D47A1" 
-                opacity="${initOpacity}"
-                style="transform-origin: 222px 118px;"
-              />
-            </g>
-
-            <!-- Group 6: Two-Segment Throwing Arm (Originating from shoulder, reaching toward ball) -->
-            <g id="pps-arm-group" opacity="${initOpacity}">
-              <path id="pps-athlete-arm" 
-                d="M 212,142 L 252,126 L 296,106" 
-                fill="none" 
-                stroke="#0D47A1" 
-                stroke-width="5.5" 
-                stroke-linecap="round" 
-                stroke-linejoin="round"
-                stroke-dasharray="100"
-                stroke-dashoffset="${isReducedMotion ? '0' : '100'}"
-              />
-            </g>
-
-            <!-- Group 7: Ball Trajectory (Dashed path beginning near hand) -->
-            <g id="pps-trajectory-group">
-              <path id="pps-ball-trajectory" 
-                d="M 304,102 Q 324,91 336,87" 
-                fill="none" 
-                stroke="#0D47A1" 
-                stroke-width="2.5" 
-                stroke-dasharray="3 4"
-                opacity="${isReducedMotion ? '0.85' : '0'}"
-              />
-            </g>
-
-            <!-- Group 8: Sports Ball (Solid circular blue ball) -->
-            <g id="pps-ball-group">
-              <circle id="pps-sports-ball" 
-                cx="346" 
-                cy="84" 
-                r="9.5" 
-                fill="#0D47A1" 
-                opacity="${initOpacity}"
-                style="transform-origin: 346px 84px;"
-              />
             </g>
           </svg>
-
         </div>
 
-        <!-- LAYER 6: FINAL LOGO LOCKUP TYPOGRAPHY -->
+        <!-- LAYER 4: TYPOGRAPHY LOCKUP -->
         <div class="pps-brand-text ${isReducedMotion ? 'pps-active' : ''}" id="pps-brand-text">
           <h1 class="pps-logo-title">
             <span class="pps-blue-text">PUNJAB</span> 
@@ -302,48 +295,37 @@ class PunjabParaSportsPreloader {
 
     const punjabMap = document.getElementById('pps-punjab-map');
     const mapPulse = document.getElementById('pps-map-pulse');
-    
-    // Motion curves
-    const c1 = document.getElementById('pps-curve-1');
-    const c2 = document.getElementById('pps-curve-2');
-    const c3 = document.getElementById('pps-curve-3');
+
+    // 5 Staggered Motion Lanes
+    const l1 = document.getElementById('pps-lane-1');
+    const l2 = document.getElementById('pps-lane-2');
+    const l3 = document.getElementById('pps-lane-3');
+    const l4 = document.getElementById('pps-lane-4');
+    const l5 = document.getElementById('pps-lane-5');
 
     // Athlete Element Groups
-    const wheelGroup = document.getElementById('pps-wheel-group');
+    const athleteGroup = document.getElementById('pps-athlete-group');
     const wheelRim = document.getElementById('pps-wheel-rim');
     const wheelHub = document.getElementById('pps-wheel-hub');
-
-    const frameGroup = document.getElementById('pps-frame-group');
     const frameSeat = document.getElementById('pps-frame-seat');
     const frameBackrest = document.getElementById('pps-frame-backrest');
     const frameFootrest = document.getElementById('pps-frame-footrest');
     const casterWheel = document.getElementById('pps-caster-wheel');
     const casterHub = document.getElementById('pps-caster-hub');
-
-    const lowerBodyGroup = document.getElementById('pps-lowerbody-group');
     const legsPath = document.getElementById('pps-legs-path');
-
-    const torsoGroup = document.getElementById('pps-torso-group');
     const athleteTorso = document.getElementById('pps-athlete-torso');
-
     const athleteHead = document.getElementById('pps-athlete-head');
-
-    const armGroup = document.getElementById('pps-arm-group');
-    const athleteArm = document.getElementById('pps-athlete-arm');
-
-    const ballTrail = document.getElementById('pps-ball-trajectory');
-    const sportsBall = document.getElementById('pps-sports-ball');
+    const armDrive = document.getElementById('pps-athlete-arm-drive');
 
     const artStage = document.getElementById('pps-art-stage');
     const brandText = document.getElementById('pps-brand-text');
 
-    // PHASE 1: Punjab map outline draws in (0.00 – 0.35s)
+    // PHASE 1 & 2: Punjab map outline draws in and fills with yellow (0.00 – 0.65s)
     punjabMap.animate([
       { strokeDashoffset: '750', stroke: '#CBD5E1', strokeWidth: '1.2' },
       { strokeDashoffset: '0', stroke: '#EAB308', strokeWidth: '1.8' }
     ], { duration: totalMs * 0.13, easing: 'ease-out', fill: 'forwards' });
 
-    // PHASE 2: Yellow fill spreads across Punjab map (0.30 – 0.70s)
     setTimeout(() => {
       if (this.isCompleted) return;
       mapPulse.animate([
@@ -359,10 +341,60 @@ class PunjabParaSportsPreloader {
       ], { duration: totalMs * 0.18, easing: 'ease-in-out', fill: 'forwards' });
     }, totalMs * 0.11);
 
-    // PHASE 3: Large Wheelchair wheel draws in (0.50 – 0.85s)
+    // PHASE 3, 4, 5: 5 Staggered Motion Lanes emerge and fan outward (0.45 – 1.15s)
+    // Staggered race-start progression: Lane 1 -> +80ms Lane 2 -> +160ms Lane 3 -> +240ms Lane 4 -> +320ms Lane 5
     setTimeout(() => {
       if (this.isCompleted) return;
-      wheelGroup.style.opacity = '1';
+
+      // Lane 1: 0ms -> 600ms
+      l1.animate([
+        { strokeDashoffset: 245, opacity: 0 },
+        { strokeDashoffset: 0, opacity: 0.95 }
+      ], { duration: 600, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
+
+      // Lane 2: +80ms -> 600ms
+      setTimeout(() => {
+        if (this.isCompleted) return;
+        l2.animate([
+          { strokeDashoffset: 235, opacity: 0 },
+          { strokeDashoffset: 0, opacity: 0.9 }
+        ], { duration: 600, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
+      }, 80);
+
+      // Lane 3: +160ms -> 580ms
+      setTimeout(() => {
+        if (this.isCompleted) return;
+        l3.animate([
+          { strokeDashoffset: 220, opacity: 0 },
+          { strokeDashoffset: 0, opacity: 0.95 }
+        ], { duration: 580, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
+      }, 160);
+
+      // Lane 4: +240ms -> 550ms
+      setTimeout(() => {
+        if (this.isCompleted) return;
+        l4.animate([
+          { strokeDashoffset: 200, opacity: 0 },
+          { strokeDashoffset: 0, opacity: 0.85 }
+        ], { duration: 550, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
+      }, 240);
+
+      // Lane 5: +320ms -> 520ms
+      setTimeout(() => {
+        if (this.isCompleted) return;
+        l5.animate([
+          { strokeDashoffset: 175, opacity: 0 },
+          { strokeDashoffset: 0, opacity: 0.8 }
+        ], { duration: 520, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
+      }, 320);
+    }, totalMs * 0.17);
+
+    // PHASE 6: Wheelchair athlete assembles cleanly over Punjab map (0.70 – 1.25s)
+    setTimeout(() => {
+      if (this.isCompleted) return;
+      athleteGroup.style.opacity = '1';
+
+      // 1. Wheel draws in
       wheelRim.animate([
         { strokeDashoffset: 264 },
         { strokeDashoffset: 0 }
@@ -372,126 +404,65 @@ class PunjabParaSportsPreloader {
         { opacity: 0, transform: 'scale(0)' },
         { opacity: 1, transform: 'scale(1)' }
       ], { duration: totalMs * 0.10, fill: 'forwards' });
-    }, totalMs * 0.19);
 
-    // PHASE 4: Wheelchair Frame, Seat & Caster appear (0.65 – 0.95s)
-    setTimeout(() => {
-      if (this.isCompleted) return;
-      frameGroup.style.opacity = '1';
+      // 2. Frame & Caster
       frameSeat.animate([{ strokeDashoffset: 50 }, { strokeDashoffset: 0 }], { duration: totalMs * 0.12, fill: 'forwards' });
       frameBackrest.animate([{ strokeDashoffset: 38 }, { strokeDashoffset: 0 }], { duration: totalMs * 0.12, fill: 'forwards' });
       frameFootrest.animate([{ strokeDashoffset: 55 }, { strokeDashoffset: 0 }], { duration: totalMs * 0.14, fill: 'forwards' });
       casterWheel.animate([{ opacity: 0 }, { opacity: 1 }], { duration: totalMs * 0.10, fill: 'forwards' });
       casterHub.animate([{ opacity: 0 }, { opacity: 1 }], { duration: totalMs * 0.10, fill: 'forwards' });
-    }, totalMs * 0.24);
 
-    // PHASE 5: Lower body / legs appear (0.75 – 1.00s)
-    setTimeout(() => {
-      if (this.isCompleted) return;
-      lowerBodyGroup.style.opacity = '1';
+      // 3. Legs
       legsPath.animate([
         { strokeDashoffset: 90 },
         { strokeDashoffset: 0 }
       ], { duration: totalMs * 0.14, easing: 'ease-out', fill: 'forwards' });
-    }, totalMs * 0.28);
 
-    // PHASE 6: Torso draws upward from wheelchair (0.85 – 1.10s)
-    setTimeout(() => {
-      if (this.isCompleted) return;
-      torsoGroup.style.opacity = '1';
+      // 4. Torso
       athleteTorso.animate([
         { strokeDashoffset: 66 },
         { strokeDashoffset: 0 }
       ], { duration: totalMs * 0.15, easing: 'ease-out', fill: 'forwards' });
-    }, totalMs * 0.32);
 
-    // PHASE 7: Head appears with clean pop/scale (0.95 – 1.18s)
-    setTimeout(() => {
-      if (this.isCompleted) return;
+      // 5. Head
       athleteHead.animate([
         { opacity: 0, transform: 'scale(0.3)' },
         { opacity: 1, transform: 'scale(1)' }
       ], { duration: totalMs * 0.12, easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)', fill: 'forwards' });
-    }, totalMs * 0.36);
 
-    // PHASE 8: Two-segment Throwing Arm extends outward (1.05 – 1.35s)
-    setTimeout(() => {
-      if (this.isCompleted) return;
-      armGroup.style.opacity = '1';
-      athleteArm.animate([
-        { strokeDashoffset: 100 },
+      // 6. Driving arm
+      armDrive.animate([
+        { strokeDashoffset: 75 },
         { strokeDashoffset: 0 }
-      ], { duration: totalMs * 0.18, easing: 'ease-out', fill: 'forwards' });
-    }, totalMs * 0.40);
+      ], { duration: totalMs * 0.16, easing: 'ease-out', fill: 'forwards' });
+    }, totalMs * 0.26);
 
-    // PHASE 9: Motion curves sweep around athlete (1.15 – 1.65s)
+    // PHASE 7: Athlete settles into position with subtle forward racing momentum (1.25 – 1.50s)
     setTimeout(() => {
       if (this.isCompleted) return;
+      athleteGroup.animate([
+        { transform: 'translate(0px, 0px)' },
+        { transform: 'translate(2px, -1px)' },
+        { transform: 'translate(0px, 0px)' }
+      ], { duration: totalMs * 0.16, easing: 'ease-in-out' });
+    }, totalMs * 0.46);
 
-      c1.animate([
-        { strokeDashoffset: 260, opacity: 0 },
-        { strokeDashoffset: 0, opacity: 0.9 }
-      ], { duration: 550, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
-
-      setTimeout(() => {
-        if (this.isCompleted) return;
-        c2.animate([
-          { strokeDashoffset: 235, opacity: 0 },
-          { strokeDashoffset: 0, opacity: 0.95 }
-        ], { duration: 520, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
-      }, 100);
-
-      setTimeout(() => {
-        if (this.isCompleted) return;
-        c3.animate([
-          { strokeDashoffset: 180, opacity: 0 },
-          { strokeDashoffset: 0, opacity: 0.85 }
-        ], { duration: 500, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
-      }, 180);
-    }, totalMs * 0.43);
-
-    // Arm micro-movement throw
-    setTimeout(() => {
-      if (this.isCompleted) return;
-      athleteArm.animate([
-        { transform: 'rotate(0deg)', transformOrigin: '212px 142px' },
-        { transform: 'rotate(-4deg)', transformOrigin: '212px 142px' },
-        { transform: 'rotate(0deg)', transformOrigin: '212px 142px' }
-      ], { duration: totalMs * 0.14, easing: 'ease-in-out' });
-    }, totalMs * 0.50);
-
-    // PHASE 10: Ball trajectory & Sports ball moves to endpoint (1.40 – 1.85s)
-    setTimeout(() => {
-      if (this.isCompleted) return;
-
-      ballTrail.animate([
-        { opacity: 0 },
-        { opacity: 0.85 }
-      ], { duration: totalMs * 0.10, fill: 'forwards' });
-
-      sportsBall.animate([
-        { opacity: 0, transform: 'translate(-42px, 16px) scale(0.4)' },
-        { opacity: 1, transform: 'translate(-10px, -4px) scale(1.15)' },
-        { opacity: 1, transform: 'translate(0px, 0px) scale(1)' }
-      ], { duration: totalMs * 0.18, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' });
-    }, totalMs * 0.52);
-
-    // PHASE 11: Composition settles into official lockup (1.85 – 2.15s)
+    // PHASE 8: Composition settles into official lockup (1.80 – 2.10s)
     setTimeout(() => {
       if (this.isCompleted) return;
       artStage.animate([
         { transform: 'scale(1.02)' },
         { transform: 'scale(1)' }
       ], { duration: totalMs * 0.14, easing: 'cubic-bezier(0.25, 1, 0.5, 1)', fill: 'forwards' });
-    }, totalMs * 0.68);
+    }, totalMs * 0.67);
 
-    // PHASE 12: Typography lockup appears ("PUNJAB PARA SPORTS" + "STRONGER TOGETHER")
+    // PHASE 9: Typography lockup appears ("PUNJAB PARA SPORTS" + "STRONGER TOGETHER")
     setTimeout(() => {
       if (this.isCompleted) return;
       brandText.classList.add('pps-active');
-    }, totalMs * 0.78);
+    }, totalMs * 0.77);
 
-    // Hold briefly and fade into website (2.70s+)
+    // PHASE 10: Hold briefly and fade into website (2.70s+)
     this.timerId = setTimeout(() => {
       this.complete();
     }, totalMs);

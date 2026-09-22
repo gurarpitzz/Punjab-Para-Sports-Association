@@ -1,4 +1,4 @@
-/* Punjab Para Sports Preloader - Coordinate-Based Motion Line Architecture */
+/* Punjab Para Sports Preloader - Staggered Athletic Racing Lanes Architecture */
 :root {
   --pps-blue: #0D47A1;
   --pps-yellow: #FFC107;
@@ -45,7 +45,7 @@
 .pps-preloader-stage {
   position: relative;
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -54,10 +54,10 @@
   box-sizing: border-box;
 }
 
-/* Responsive Art Board (+20% scale maintained) */
+/* Responsive Art Board */
 .pps-svg-container {
-  width: 290px;
-  height: 265px;
+  width: 300px;
+  height: 270px;
   position: relative;
   display: flex;
   align-items: center;
@@ -71,31 +71,12 @@
   overflow: visible;
 }
 
-/* Absolute Coordinate-Based Motion Curves Container */
-/* Anchored at x = 25.7%, y = 30.9% relative to animation container */
-.pps-motion-curves-container {
-  position: absolute;
-  left: 25.7%;
-  top: 30.9%;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: visible;
-  z-index: 2;
-  transform: translate(-25.7%, -30.9%);
-}
-
-.pps-motion-stroke {
+/* Staggered Motion Lanes */
+.pps-motion-lane {
   vector-effect: non-scaling-stroke;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-
-/* Explicit Layer Ordering */
-#pps-punjab-map-group { z-index: 1; }
-.pps-motion-curves-container { z-index: 2; }
-#pps-athlete-group { z-index: 3; }
-#pps-ball-group { z-index: 4; }
 
 /* Typography Lockup */
 .pps-brand-text {
@@ -104,7 +85,7 @@
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.45s cubic-bezier(0.25, 1, 0.5, 1), transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
-  z-index: 5;
+  z-index: 10;
 }
 
 .pps-brand-text.pps-active {
@@ -113,7 +94,7 @@
 }
 
 .pps-logo-title {
-  font-size: 1.32rem;
+  font-size: 1.35rem;
   font-weight: 800;
   letter-spacing: -0.01em;
   text-transform: uppercase;
@@ -158,14 +139,14 @@
 /* Responsive Mobile Scaling */
 @media (max-width: 480px) {
   .pps-svg-container {
-    width: 220px;
-    height: 200px;
+    width: 230px;
+    height: 208px;
   }
   .pps-logo-title {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
   }
   .pps-tagline {
-    font-size: 0.62rem;
+    font-size: 0.64rem;
     letter-spacing: 0.22em;
   }
 }
