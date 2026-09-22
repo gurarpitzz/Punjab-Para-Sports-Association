@@ -69,7 +69,9 @@ class PunjabParaSportsPreloader {
     container.innerHTML = `
       <div class="pps-preloader-stage">
         <div class="pps-svg-container" id="pps-art-stage">
-          <svg class="pps-svg-main" viewBox="0 0 420 370" xmlns="http://www.w3.org/2000/svg">
+          
+          <!-- LAYER 1: PUNJAB STATE MAP (z-index: 1, base silhouette) -->
+          <svg class="pps-svg-main" viewBox="0 0 420 370" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 0; left: 0; z-index: 1;">
             <defs>
               <filter id="pps-pulse-glow" x="-30%" y="-30%" width="160%" height="160%">
                 <feGaussianBlur stdDeviation="8" result="blur" />
@@ -77,66 +79,6 @@ class PunjabParaSportsPreloader {
               </filter>
             </defs>
 
-            <!-- LAYER 1: 5 STAGGERED ATHLETIC MOTION LINES (Behind the Punjab Map) -->
-            <!-- Emerging from underneath the lower edge of Punjab, fanning outward with staggered race-start endpoints -->
-            <g id="pps-motion-lines-group">
-              <!-- Lane 1 (Lead lane, Primary Blue, reaches furthest north to apex) -->
-              <path id="pps-lane-1" class="pps-motion-lane"
-                d="M 122,245 A 132,132 0 0,1 215,58"
-                fill="none"
-                stroke="#0D47A1"
-                stroke-width="4.5"
-                stroke-dasharray="245"
-                stroke-dashoffset="${isReducedMotion ? '0' : '245'}"
-                opacity="${isReducedMotion ? '0.95' : '0'}"
-              />
-
-              <!-- Lane 2 (Secondary lane, Brand Yellow, staggered offset behind Lane 1) -->
-              <path id="pps-lane-2" class="pps-motion-lane"
-                d="M 108,258 A 144,144 0 0,1 198,75"
-                fill="none"
-                stroke="#FFC107"
-                stroke-width="3.8"
-                stroke-dasharray="235"
-                stroke-dashoffset="${isReducedMotion ? '0' : '235'}"
-                opacity="${isReducedMotion ? '0.9' : '0'}"
-              />
-
-              <!-- Lane 3 (Third lane, Primary Blue, staggered offset behind Lane 2) -->
-              <path id="pps-lane-3" class="pps-motion-lane"
-                d="M 94,272 A 156,156 0 0,1 180,95"
-                fill="none"
-                stroke="#0D47A1"
-                stroke-width="4.2"
-                stroke-dasharray="220"
-                stroke-dashoffset="${isReducedMotion ? '0' : '220'}"
-                opacity="${isReducedMotion ? '0.95' : '0'}"
-              />
-
-              <!-- Lane 4 (Fourth lane, Light Blue, staggered offset behind Lane 3) -->
-              <path id="pps-lane-4" class="pps-motion-lane"
-                d="M 80,285 A 168,168 0 0,1 160,118"
-                fill="none"
-                stroke="#4FC3F7"
-                stroke-width="3.2"
-                stroke-dasharray="200"
-                stroke-dashoffset="${isReducedMotion ? '0' : '200'}"
-                opacity="${isReducedMotion ? '0.85' : '0'}"
-              />
-
-              <!-- Lane 5 (Trailing speed lane, Brand Yellow, lower flank) -->
-              <path id="pps-lane-5" class="pps-motion-lane"
-                d="M 68,296 A 180,180 0 0,1 140,145"
-                fill="none"
-                stroke="#FFC107"
-                stroke-width="2.8"
-                stroke-dasharray="175"
-                stroke-dashoffset="${isReducedMotion ? '0' : '175'}"
-                opacity="${isReducedMotion ? '0.8' : '0'}"
-              />
-            </g>
-
-            <!-- LAYER 2: PUNJAB STATE MAP (Opaque Solid Yellow, Sits on Top of Lines) -->
             <g id="pps-punjab-map-group" transform="translate(195, 160) scale(2.82) translate(-297.4, -244.5)">
               <circle id="pps-map-pulse" cx="297.4" cy="244.5" r="9" fill="#FFC107" opacity="0" filter="url(#pps-pulse-glow)" />
               <path id="pps-punjab-map" 
@@ -151,9 +93,70 @@ class PunjabParaSportsPreloader {
                 stroke-dashoffset="${isReducedMotion ? '0' : '750'}"
               />
             </g>
+          </svg>
 
-            <!-- LAYER 3: WHEELCHAIR PARA-ATHLETE IN COMPETITIVE FORWARD-RACING POSTURE -->
-            <!-- Completely removed all ball and throwing mechanics -->
+          <!-- LAYER 2: 5 STAGGERED ATHLETIC MOTION LINES / RACING LANES (z-index: 2, IN FRONT OF MAP, NEVER HIDDEN) -->
+          <div class="pps-motion-curves-container">
+            <svg viewBox="0 0 420 370" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; overflow: visible;">
+              <!-- Lane 1: Yellow Outer Energy Wave (Outer flank on white background) -->
+              <path id="pps-lane-1" class="pps-motion-stroke"
+                d="M 105,260 A 148,148 0 0,1 190,52" 
+                fill="none" 
+                stroke="#FFC107" 
+                stroke-width="3.5" 
+                stroke-dasharray="260"
+                stroke-dashoffset="${isReducedMotion ? '0' : '260'}"
+                opacity="${isReducedMotion ? '0.95' : '0'}"
+              />
+
+              <!-- Lane 2: Primary Blue Main Athletic Lane (Bold lead lane sweeping across) -->
+              <path id="pps-lane-2" class="pps-motion-stroke"
+                d="M 116,248 A 136,136 0 0,1 198,68" 
+                fill="none" 
+                stroke="#0D47A1" 
+                stroke-width="4.2" 
+                stroke-dasharray="235"
+                stroke-dashoffset="${isReducedMotion ? '0' : '235'}"
+                opacity="${isReducedMotion ? '0.95' : '0'}"
+              />
+
+              <!-- Lane 3: Vibrant Royal Blue Racing Lane (Staggered offset) -->
+              <path id="pps-lane-3" class="pps-motion-stroke"
+                d="M 125,240 A 126,126 0 0,1 190,85" 
+                fill="none" 
+                stroke="#1976D2" 
+                stroke-width="3.8" 
+                stroke-dasharray="210"
+                stroke-dashoffset="${isReducedMotion ? '0' : '210'}"
+                opacity="${isReducedMotion ? '0.92' : '0'}"
+              />
+
+              <!-- Lane 4: Cyan/Light Blue Accent Lane (Speed vector closest to athlete) -->
+              <path id="pps-lane-4" class="pps-motion-stroke"
+                d="M 134,232 A 116,116 0 0,1 180,102" 
+                fill="none" 
+                stroke="#4FC3F7" 
+                stroke-width="3.2" 
+                stroke-dasharray="180"
+                stroke-dashoffset="${isReducedMotion ? '0' : '180'}"
+                opacity="${isReducedMotion ? '0.88' : '0'}"
+              />
+
+              <!-- Lane 5: Inner Speed Trajectory Lane -->
+              <path id="pps-lane-5" class="pps-motion-stroke"
+                d="M 142,226 A 106,106 0 0,1 172,118" 
+                fill="none" 
+                stroke="#0D47A1" 
+                stroke-width="2.8" 
+                stroke-dasharray="150"
+                stroke-dashoffset="${isReducedMotion ? '0' : '150'}"
+                opacity="${isReducedMotion ? '0.85' : '0'}"
+              />
+            </svg>
+          </div>
+
+          <!-- LAYER 3: REDRAWN WHEELCHAIR PARA-ATHLETE PICTOGRAM (z-index: 3, in front of motion lines) -->
+          <svg class="pps-svg-main" viewBox="0 0 420 370" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 0; left: 0; z-index: 3; pointer-events: none;">
             <g id="pps-athlete-group" opacity="${initOpacity}">
               
               <!-- Wheelchair Rear Wheel (Diameter 84px = 1.5x torso height) -->
@@ -296,7 +299,7 @@ class PunjabParaSportsPreloader {
     const punjabMap = document.getElementById('pps-punjab-map');
     const mapPulse = document.getElementById('pps-map-pulse');
 
-    // 5 Staggered Motion Lanes
+    // 5 Staggered Motion Lanes (Layer 2, in front of Punjab map)
     const l1 = document.getElementById('pps-lane-1');
     const l2 = document.getElementById('pps-lane-2');
     const l3 = document.getElementById('pps-lane-3');
@@ -320,12 +323,13 @@ class PunjabParaSportsPreloader {
     const artStage = document.getElementById('pps-art-stage');
     const brandText = document.getElementById('pps-brand-text');
 
-    // PHASE 1 & 2: Punjab map outline draws in and fills with yellow (0.00 – 0.65s)
+    // PHASE 1: Punjab map outline draws in (0.00 – 0.35s)
     punjabMap.animate([
       { strokeDashoffset: '750', stroke: '#CBD5E1', strokeWidth: '1.2' },
       { strokeDashoffset: '0', stroke: '#EAB308', strokeWidth: '1.8' }
     ], { duration: totalMs * 0.13, easing: 'ease-out', fill: 'forwards' });
 
+    // PHASE 2: Yellow fill spreads across Punjab map (0.30 – 0.70s)
     setTimeout(() => {
       if (this.isCompleted) return;
       mapPulse.animate([
@@ -341,52 +345,51 @@ class PunjabParaSportsPreloader {
       ], { duration: totalMs * 0.18, easing: 'ease-in-out', fill: 'forwards' });
     }, totalMs * 0.11);
 
-    // PHASE 3, 4, 5: 5 Staggered Motion Lanes emerge and fan outward (0.45 – 1.15s)
-    // Staggered race-start progression: Lane 1 -> +80ms Lane 2 -> +160ms Lane 3 -> +240ms Lane 4 -> +320ms Lane 5
+    // PHASE 3: 5 Staggered Athletic Motion Lines sweep across in FRONT of map (0.45 – 1.15s)
     setTimeout(() => {
       if (this.isCompleted) return;
 
-      // Lane 1: 0ms -> 600ms
+      // Lane 1: Outer Yellow Wave (0ms -> 550ms)
       l1.animate([
-        { strokeDashoffset: 245, opacity: 0 },
+        { strokeDashoffset: 260, opacity: 0 },
         { strokeDashoffset: 0, opacity: 0.95 }
-      ], { duration: 600, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
+      ], { duration: 550, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
 
-      // Lane 2: +80ms -> 600ms
+      // Lane 2: Primary Blue Main Lane (+70ms -> 520ms)
       setTimeout(() => {
         if (this.isCompleted) return;
         l2.animate([
           { strokeDashoffset: 235, opacity: 0 },
-          { strokeDashoffset: 0, opacity: 0.9 }
-        ], { duration: 600, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
-      }, 80);
+          { strokeDashoffset: 0, opacity: 0.95 }
+        ], { duration: 520, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
+      }, 70);
 
-      // Lane 3: +160ms -> 580ms
+      // Lane 3: Royal Blue Secondary Lane (+140ms -> 500ms)
       setTimeout(() => {
         if (this.isCompleted) return;
         l3.animate([
-          { strokeDashoffset: 220, opacity: 0 },
-          { strokeDashoffset: 0, opacity: 0.95 }
-        ], { duration: 580, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
-      }, 160);
+          { strokeDashoffset: 210, opacity: 0 },
+          { strokeDashoffset: 0, opacity: 0.92 }
+        ], { duration: 500, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
+      }, 140);
 
-      // Lane 4: +240ms -> 550ms
+      // Lane 4: Cyan Accent Lane (+210ms -> 480ms)
       setTimeout(() => {
         if (this.isCompleted) return;
         l4.animate([
-          { strokeDashoffset: 200, opacity: 0 },
-          { strokeDashoffset: 0, opacity: 0.85 }
-        ], { duration: 550, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
-      }, 240);
+          { strokeDashoffset: 180, opacity: 0 },
+          { strokeDashoffset: 0, opacity: 0.88 }
+        ], { duration: 480, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
+      }, 210);
 
-      // Lane 5: +320ms -> 520ms
+      // Lane 5: Inner Trajectory Lane (+280ms -> 450ms)
       setTimeout(() => {
         if (this.isCompleted) return;
         l5.animate([
-          { strokeDashoffset: 175, opacity: 0 },
-          { strokeDashoffset: 0, opacity: 0.8 }
-        ], { duration: 520, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
-      }, 320);
+          { strokeDashoffset: 150, opacity: 0 },
+          { strokeDashoffset: 0, opacity: 0.85 }
+        ], { duration: 450, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' });
+      }, 280);
     }, totalMs * 0.17);
 
     // PHASE 6: Wheelchair athlete assembles cleanly over Punjab map (0.70 – 1.25s)
