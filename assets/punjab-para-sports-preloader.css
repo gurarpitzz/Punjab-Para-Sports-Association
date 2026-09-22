@@ -1,12 +1,14 @@
 /* Punjab Para Sports Preloader - Staggered Athletic Racing Lanes Architecture */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
 :root {
   --pps-blue: #0D47A1;
   --pps-yellow: #FFC107;
   --pps-yellow-text: #D97706;
   --pps-light-blue: #4FC3F7;
   --pps-bg: #FFFFFF;
-  --pps-tagline-color: #334155;
-  --pps-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --pps-tagline-color: #475569;
+  --pps-font: 'Outfit', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Fullscreen Pure White Preloader Overlay */
@@ -99,6 +101,11 @@
 .pps-brand-text {
   text-align: center;
   margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.45s cubic-bezier(0.25, 1, 0.5, 1), transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
@@ -111,13 +118,15 @@
 }
 
 .pps-logo-title {
-  font-size: 1.35rem;
+  font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.42rem;
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   line-height: 1.2;
   margin: 0;
   white-space: nowrap;
+  text-align: center;
 }
 
 .pps-blue-text {
@@ -133,7 +142,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 6px;
+  margin-top: 7px;
 }
 
 .pps-tagline-line {
@@ -145,6 +154,7 @@
 }
 
 .pps-tagline {
+  font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;

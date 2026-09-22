@@ -71,7 +71,7 @@ class PunjabParaSportsPreloader {
         <div class="pps-svg-container" id="pps-art-stage">
           
           <!-- LAYER 1: PUNJAB STATE MAP (z-index: 1, base silhouette) -->
-          <svg class="pps-svg-main" viewBox="0 0 420 370" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 0; left: 0; z-index: 1;">
+          <svg class="pps-svg-main" viewBox="-27 0 420 370" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 0; left: 0; z-index: 1;">
             <defs>
               <filter id="pps-pulse-glow" x="-30%" y="-30%" width="160%" height="160%">
                 <feGaussianBlur stdDeviation="8" result="blur" />
@@ -97,7 +97,7 @@ class PunjabParaSportsPreloader {
 
           <!-- LAYER 2: 3 CONCENTRIC ATHLETIC RACING LANES (AROUND THE MAP ON WHITE CANVAS, NEVER ON THE MAP) -->
           <div class="pps-motion-curves-container">
-            <svg viewBox="0 0 420 370" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; overflow: visible;">
+            <svg viewBox="-27 0 420 370" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; overflow: visible;">
               <!-- Lane 1: Primary Blue Innermost Arc (Sweeps outside western/southern border, ~10px clearance) -->
               <path id="pps-lane-1" class="pps-motion-stroke"
                 d="M 205,310 C 45,322 5,200 128,68" 
@@ -134,7 +134,7 @@ class PunjabParaSportsPreloader {
           </div>
 
           <!-- LAYER 3: REDRAWN WHEELCHAIR PARA-ATHLETE PICTOGRAM (BOLD STROKES, HIGH CONTRAST) -->
-          <svg class="pps-svg-main" viewBox="0 0 420 370" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 0; left: 0; z-index: 3; pointer-events: none;">
+          <svg class="pps-svg-main" viewBox="-27 0 420 370" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 0; left: 0; z-index: 3; pointer-events: none;">
             <g id="pps-athlete-group" opacity="${initOpacity}">
               
               <!-- Wheelchair Rear Wheel (Bold Diameter 84px with 7px stroke) -->
