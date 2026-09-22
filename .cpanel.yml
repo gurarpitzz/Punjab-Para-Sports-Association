@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home1/tstpllmy/public_html/punjabparasports/
+    - /bin/cp -R index.html assets $DEPLOYPATH
