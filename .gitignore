@@ -1,0 +1,8 @@
+# Environment & Local Configuration
+config/local.php
+.env
+.env.local
+
+# Temp and logs
+scratch/
+*.log

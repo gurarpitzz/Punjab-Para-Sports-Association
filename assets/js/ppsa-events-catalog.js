@@ -1,6 +1,6 @@
 /**
  * Punjab Para Sports Association (PPSA) - State Games Event Catalog & Cascading Matrix
- * Source: Official Para State Games Notification (Venue: Ludhiana)
+ * Source: Official Para State Games Notification Ref. No. PPSA/26/180 (Venue: Ludhiana)
  */
 
 const PPSA_CATALOG = {
@@ -16,13 +16,15 @@ const PPSA_CATALOG = {
       "F-36": ["Shot Put"],
       "F-43": ["Javelin Throw"],
       "F-64": ["Discus Throw", "Shot Put", "Javelin Throw"],
-      "F-11, 12, 13, 20, 32, 33, 34, 37, 38, 44, 45, 46, 47": ["Discus Throw", "Shot Put", "Javelin Throw"],
-      "T-42": ["High Jump", "Long Jump", "100m"],
+      "F-11, 12, 13, 20, 32, 33, 34, 35, 36, 37, 38, 44, 45, 46, 47": ["Discus Throw", "Shot Put", "Javelin Throw"],
+      "T-42": ["100m", "High Jump", "Long Jump"],
       "T-53": ["100m", "200m", "400m", "800m", "1500m", "5000m"],
       "T-54": ["100m", "400m", "800m", "1500m", "5000m"],
       "T-63": ["100m", "Long Jump"],
       "T-64": ["100m", "200m", "Long Jump"],
-      "T-11, 12, 13, 20, 33, 34, 35, 36, 37, 38, 44, 46, 47": ["100m", "200m", "400m", "800m", "1500m", "5000m", "Long Jump", "High Jump"]
+      "T-11, 12, 13, 20, 33, 34, 35, 36, 37, 38, 44, 46, 47": [
+        "100m", "200m", "400m", "800m", "1500m", "5000m", "Long Jump", "High Jump"
+      ]
     }
   },
   "powerlifting": {
@@ -59,20 +61,42 @@ const PPSA_CATALOG = {
     "name": "Para Badminton",
     "venue": "Multipurpose Indoor Hall, Ludhiana",
     "categories": {
-      "WH-1 (Wheelchair User 1)": ["Men Single", "Men Double", "Mix Double", "Women Single", "Women Double"],
-      "WH-2 (Wheelchair User 2)": ["Men Single", "Men Double", "Mix Double", "Women Single", "Women Double"],
-      "SL-3 (Standing / Lower Limb Impairment Minor)": ["Men Single", "Men Double", "Mix Double", "Women Single", "Women Double"],
-      "SL-4 (Standing / Lower Limb Impairment Severe)": ["Men Single", "Men Double", "Mix Double", "Women Single", "Women Double"],
-      "SU-5 (Standing / Upper Limb Impairment)": ["Men Single", "Men Double", "Mix Double", "Women Single", "Women Double"],
-      "SS-6 (Standing / Short Stature)": ["Men Single", "Men Double", "Mix Double", "Women Single", "Women Double"]
+      "WH-1, 2 (Wheelchair)": [
+        "Men Single",
+        "Men Double",
+        "Mix Double",
+        "Women Single",
+        "Women Double"
+      ],
+      "SL-3, 4 (Standing Lower)": [
+        "Men Single",
+        "Men Double",
+        "Mix Double",
+        "Women Single",
+        "Women Double"
+      ],
+      "SU-5 (Standing Upper)": [
+        "Men Single",
+        "Men Double",
+        "Mix Double",
+        "Women Single",
+        "Women Double"
+      ],
+      "SS-6 (Short Stature)": [
+        "Men Single",
+        "Men Double",
+        "Mix Double",
+        "Women Single",
+        "Women Double"
+      ]
     }
   },
   "basketball": {
-    "name": "Wheel-Chair Basketball",
+    "name": "Wheel-Chair Basket Ball",
     "venue": "Indoor Basketball Complex, Ludhiana",
     "categories": {
-      "Male Division": ["Wheel-Chair Basketball State Tournament Entry"],
-      "Female Division": ["Wheel-Chair Basketball State Tournament Entry"]
+      "Male": ["State Championship Tournament Entry"],
+      "Female": ["State Championship Tournament Entry"]
     }
   }
 };

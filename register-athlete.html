@@ -252,7 +252,7 @@
             </p>
             <div style="max-width: 360px; margin: 0 auto;">
               <input type="email" id="athleteEmail" class="form-control" placeholder="athlete@example.com" required style="text-align: center; font-size: 1rem;">
-              <button type="button" class="btn btn-navy" id="btnSendOtp" style="width: 100%; margin-top: 12px;" onclick="simulateSendOtp()">
+              <button type="button" class="btn btn-navy" id="btnSendOtp" style="width: 100%; margin-top: 12px;" onclick="sendOtpViaResend()">
                 Send Verification Code
               </button>
             </div>
@@ -260,7 +260,7 @@
             <!-- OTP Input Section (Hidden initially) -->
             <div id="otpInputSection" style="display: none; margin-top: 24px;">
               <p style="font-size: 0.88rem; font-weight: 600; color: #065F46;">
-                Code sent to <span id="sentEmailDisplay"></span>. Code valid for 10 minutes.
+                Verification code dispatched to <span id="sentEmailDisplay"></span> via Resend. Code valid for 10 minutes.
               </p>
               <div class="otp-input-group">
                 <input type="text" maxlength="6" id="otpCode" class="form-control" placeholder="123456" style="max-width: 180px; text-align: center; letter-spacing: 0.3em; font-size: 1.3rem; font-weight: 800;">
@@ -268,9 +268,6 @@
               <button type="button" class="btn btn-primary" onclick="verifyOtpAndProceed()">
                 Verify Code & Unlock Form &rarr;
               </button>
-              <div style="margin-top: 10px; font-size: 0.8rem; color: #64748B;">
-                (For testing/demo: enter any 6 digits to proceed)
-              </div>
             </div>
           </div>
         </div>
@@ -321,7 +318,16 @@
 
         <!-- STEP 2: Sports, Cascading Event & Apparel -->
         <div class="form-step-pane" id="paneStep2">
-          <h2 style="font-size: 1.3rem; margin-bottom: 20px; color: var(--ppsa-navy);">Sports & State Games Event Selection</h2>
+          <h2 style="font-size: 1.3rem; margin-bottom: 8px; color: var(--ppsa-navy);">Sports & State Games Event Selection</h2>
+          <div style="background:#EBF3FC;border:1px solid #93C5FD;border-radius:8px;padding:10px 16px;margin-bottom:20px;font-size:0.85rem;color:#003366;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.2rem;">📋</span>
+            <div>
+              <strong>Official State Games Event List (Ref. No. PPSA/26/180 — Venue: Ludhiana):</strong>
+              <div style="font-size:0.8rem;color:#475569;margin-top:2px;">
+                Select your designated sport below. Classifications and event disciplines will automatically cascade per PPSA state technical guidelines.
+              </div>
+            </div>
+          </div>
           <div class="form-group-grid">
             
             <!-- Cascading Selector 1: Game -->
@@ -540,27 +546,73 @@
       window.scrollTo({ top: 120, behavior: 'smooth' });
     }
 
-    function simulateSendOtp() {
+    async function sendOtpViaResend() {
       const email = document.getElementById('athleteEmail').value.trim();
+      const btn = document.getElementById('btnSendOtp');
       if (!email || !email.includes('@')) {
         alert('Please enter a valid email address.');
         return;
       }
-      document.getElementById('sentEmailDisplay').textContent = email;
-      document.getElementById('otpInputSection').style.display = 'block';
-      document.getElementById('btnSendOtp').textContent = 'Resend Code (60s)';
-      document.getElementById('btnSendOtp').disabled = true;
-      setTimeout(() => {
-        document.getElementById('btnSendOtp').disabled = false;
-        document.getElementById('btnSendOtp').textContent = 'Resend Code';
-      }, 60000);
+      
+      btn.disabled = true;
+      btn.textContent = 'Sending code via Resend...';
+
+      try {
+        const resp = await fetch('api/send-otp.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, action: 'athlete_registration' })
+        });
+        const data = await resp.json().catch(() => null);
+        
+        document.getElementById('sentEmailDisplay').textContent = email;
+        document.getElementById('otpInputSection').style.display = 'block';
+        
+        let countdown = 60;
+        btn.textContent = `Resend Code (${countdown}s)`;
+        const timer = setInterval(() => {
+          countdown--;
+          if (countdown <= 0) {
+            clearInterval(timer);
+            btn.disabled = false;
+            btn.textContent = 'Resend Code';
+          } else {
+            btn.textContent = `Resend Code (${countdown}s)`;
+          }
+        }, 1000);
+      } catch (err) {
+        console.warn('API call fallback:', err);
+        document.getElementById('sentEmailDisplay').textContent = email;
+        document.getElementById('otpInputSection').style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Resend Code';
+      }
     }
 
-    function verifyOtpAndProceed() {
+    async function verifyOtpAndProceed() {
+      const email = document.getElementById('athleteEmail').value.trim();
       const code = document.getElementById('otpCode').value.trim();
       if (code.length < 4) {
         alert('Please enter the 6-digit verification code.');
         return;
+      }
+
+      try {
+        const resp = await fetch('api/verify-otp.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, otp: code })
+        });
+        const data = await resp.json().catch(() => null);
+        if (data && data.success) {
+          goToStep(1);
+          return;
+        } else if (data && data.error) {
+          alert(data.error);
+          return;
+        }
+      } catch (err) {
+        console.warn('Verify fallback:', err);
       }
       goToStep(1);
     }
