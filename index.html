@@ -3,258 +3,705 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Punjab Para Sports Association</title>
+  <title>Punjab Para Sports Association | PPSA</title>
+  <meta name="description" content="Punjab Para Sports Association — supporting para-athletes across Punjab through sport, competition, participation and opportunity.">
+  <meta name="keywords" content="Punjab Para Sports, PPSA, Para Athletes Punjab, Paralympic Committee India, Para Athletics, Para Badminton, Wheelchair Basketball, Powerlifting">
+  <meta name="theme-color" content="#003366">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23003366'/><circle cx='50' cy='50' r='40' fill='none' stroke='%23FFC400' stroke-width='4'/><text x='50%' y='56%' font-size='22' font-family='Arial,sans-serif' font-weight='900' fill='%23FFFFFF' text-anchor='middle'>PPSA</text></svg>">
 
   <!-- Google Fonts: Outfit & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Preload Priority First Hero Image -->
+  <link rel="preload" as="image" href="assets/photos/carousel/hero-slide-1.jpg">
 
   <!-- Preloader Stylesheet -->
   <link rel="stylesheet" href="assets/punjab-para-sports-preloader.css">
 
-  <style>
-    :root {
-      --primary-blue: #0D47A1;
-      --primary-yellow: #FFC107;
-      --light-bg: #FFFFFF;
-      --card-bg: #F8FAFC;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Outfit', 'Inter', system-ui, sans-serif;
-      background-color: var(--light-bg);
-      color: #0F172A;
-      overflow-x: hidden;
-    }
-
-    /* Discreet Developer / Testing Floating Bar */
-    .dev-controls-bar {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(15, 23, 42, 0.9);
-      backdrop-filter: blur(12px);
-      color: #FFFFFF;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      border-radius: 30px;
-      z-index: 1000000;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      font-size: 0.8rem;
-    }
-
-    .dev-btn {
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      color: #FFFFFF;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .dev-btn:hover {
-      background: #FFFFFF;
-      color: var(--primary-blue);
-    }
-
-    .dev-btn.yellow-btn {
-      background: var(--primary-yellow);
-      color: #000000;
-      border: none;
-    }
-
-    .dev-btn.yellow-btn:hover {
-      background: #FFD54F;
-    }
-
-    /* Main Website Hero (Revealed after preloader) */
-    .website-hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px 24px;
-      box-sizing: border-box;
-      background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
-    }
-
-    .hero-container {
-      max-width: 860px;
-    }
-
-    .hero-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2.8rem;
-      font-weight: 900;
-      color: var(--primary-blue);
-      margin: 0 0 10px;
-      letter-spacing: 0.01em;
-    }
-
-    .hero-tagline {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .hero-line {
-      width: 40px;
-      height: 2px;
-      background: #CBD5E1;
-    }
-
-    .hero-tagline-text {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      letter-spacing: 0.28em;
-      color: #475569;
-      text-transform: uppercase;
-    }
-
-    .hero-desc {
-      font-size: 1.15rem;
-      color: #475569;
-      line-height: 1.7;
-      max-width: 640px;
-      margin: 0 auto 36px;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 14px;
-      justify-content: center;
-    }
-
-    .hero-btn {
-      padding: 13px 28px;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-decoration: none;
-    }
-
-    .hero-btn-primary {
-      background: var(--primary-blue);
-      color: #FFFFFF;
-      border: none;
-      box-shadow: 0 4px 14px rgba(13, 71, 161, 0.25);
-    }
-
-    .hero-btn-primary:hover {
-      background: #1565C0;
-      transform: translateY(-1px);
-    }
-
-    .hero-btn-secondary {
-      background: #FFFFFF;
-      color: #0F172A;
-      border: 1px solid #CBD5E1;
-    }
-
-    .hero-btn-secondary:hover {
-      background: #F8FAFC;
-    }
-
-    /* Preloader root container */
-    #pps-preloader-root {
-      position: fixed;
-    }
-  </style>
+  <!-- Master PPSA Design System -->
+  <link rel="stylesheet" href="assets/css/ppsa-main.css">
 </head>
 <body>
 
-  <!-- Reusable Preloader DOM Element -->
-  <div id="pps-preloader-root"></div>
+  <!-- Accessible Skip Link -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
 
-  <!-- Main Website Content (Revealed after preloader completes) -->
-  <main class="website-hero">
-    <div class="hero-container">
-      <h1 class="hero-title">PUNJAB PARA SPORTS</h1>
-      <div class="hero-tagline">
-        <span class="hero-line"></span>
-        <span class="hero-tagline-text">STRONGER TOGETHER</span>
-        <span class="hero-line"></span>
+  <!-- Punjab Para Sports Animated Preloader DOM Root -->
+  <div id="pps-preloader-root" aria-hidden="true"></div>
+
+  <!-- TOP BAR: Affiliations & Helpline -->
+  <div class="ppsa-top-bar" role="complementary" aria-label="Official Affiliations and Contact Info">
+    <div class="ppsa-container ppsa-top-bar-inner">
+      <div class="top-bar-affiliation">
+        <span>Affiliated Member: <strong>Paralympic Committee of India (PCI)</strong></span>
+        <span class="desktop-only">•</span>
+        <span class="desktop-only">Recognised by: <strong>Punjab State Sports Council</strong></span>
       </div>
-      <p class="hero-desc">
-        Welcome to the official state portal of Punjab Para Sports Association. Empowering athletes of determination across Punjab through athletic opportunity, state-of-the-art training, and inclusive sports competition.
-      </p>
-
-      <div class="hero-actions">
-        <button class="hero-btn hero-btn-primary" onclick="triggerReplay()">Replay Preloader</button>
-        <button class="hero-btn hero-btn-secondary" onclick="toggleSpeed()">Adjust Speed (<span id="speed-label">2.7s</span>)</button>
+      <div class="top-bar-contact">
+        <a href="tel:+919803454949" title="Call PPSA Secretariat">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          +91 98034-54949
+        </a>
+        <a href="mailto:officeparapunjab@gmail.com" title="Email PPSA Office">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          officeparapunjab@gmail.com
+        </a>
       </div>
     </div>
+  </div>
+
+  <!-- MAIN SITE HEADER -->
+  <header class="ppsa-header" role="banner">
+    <div class="ppsa-container ppsa-header-inner">
+      <!-- Brand Identity / Logo -->
+      <a href="index.html" class="ppsa-brand-link" aria-label="Punjab Para Sports Association Home">
+        <div class="ppsa-brand-emblem" aria-hidden="true">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="46" fill="#003366" stroke="#FFC400" stroke-width="4"/>
+            <!-- Stylized Tri-color Flame / Athletic Rings Motif -->
+            <path d="M50 20 C42 34 38 48 42 60 C44 65 48 68 50 68 C52 68 56 65 58 60 C62 48 58 34 50 20 Z" fill="#FFC400"/>
+            <circle cx="50" cy="46" r="6" fill="#FFFFFF"/>
+            <path d="M30 68 Q50 78 70 68" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+            <text x="50%" y="86%" font-size="11" font-family="'Outfit', sans-serif" font-weight="900" fill="#FFC400" text-anchor="middle" letter-spacing="1">PUNJAB</text>
+          </svg>
+        </div>
+        <div class="ppsa-brand-text-block">
+          <span class="ppsa-brand-title">PUNJAB <span class="gold-word">PARA SPORTS</span></span>
+          <span class="ppsa-brand-sub">STRONGER TOGETHER</span>
+        </div>
+      </a>
+
+      <!-- Primary Navigation (Desktop Centered + Mobile Slide Drawer) -->
+      <nav class="ppsa-nav" id="ppsaNavDrawer" aria-label="Primary Navigation">
+        <ul class="ppsa-nav-list">
+          <li class="ppsa-nav-item">
+            <a href="index.html" class="ppsa-nav-link is-active" aria-current="page">Home</a>
+          </li>
+          <li class="ppsa-nav-item">
+            <button class="ppsa-nav-link" data-placeholder="About PPSA">About</button>
+          </li>
+          <li class="ppsa-nav-item">
+            <a href="#sports" class="ppsa-nav-link">Our Sports</a>
+          </li>
+          <li class="ppsa-nav-item">
+            <button class="ppsa-nav-link" data-placeholder="State Competitions">Competitions</button>
+          </li>
+          <li class="ppsa-nav-item">
+            <a href="#news" class="ppsa-nav-link">News & Media</a>
+          </li>
+          <li class="ppsa-nav-item">
+            <button class="ppsa-nav-link" data-placeholder="Selection Guidelines">Selection Guidelines</button>
+          </li>
+          <!-- FUNCTIONAL DROPDOWN: GET INVOLVED -->
+          <li class="ppsa-nav-item has-dropdown">
+            <button class="ppsa-nav-link" aria-haspopup="true" aria-expanded="false" id="getInvolvedDropdownBtn">
+              Get Involved
+              <svg class="caret" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <ul class="ppsa-dropdown-menu" aria-label="Get Involved Options">
+              <li>
+                <a href="register-athlete.html" class="ppsa-dropdown-link">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFC400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  Athlete Registration
+                  <span class="dropdown-badge" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;">Open</span>
+                </a>
+              </li>
+              <li>
+                <a href="register-official.html" class="ppsa-dropdown-link">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1455A3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                  Official Registration
+                  <span class="dropdown-badge">Staff</span>
+                </a>
+              </li>
+              <li>
+                <a href="#sports" class="ppsa-dropdown-link">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="12 8 8 12 12 16 12 8"></polygon></svg>
+                  Browse Event Catalog
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="ppsa-nav-item">
+            <a href="#footer-contact" class="ppsa-nav-link">Contact Us</a>
+          </li>
+          <li class="ppsa-nav-item mobile-only" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--ppsa-border);">
+            <a href="admin/login.html" class="btn btn-navy" style="width:100%;text-align:center;">LOGIN TO PORTAL</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Right Header Actions (LOGIN & Mobile Hamburger) -->
+      <div class="ppsa-header-actions">
+        <a href="admin/login.html" class="btn-header-login desktop-only" title="Authorized Official & Classifier Login">Login</a>
+        <button class="ppsa-mobile-toggle" id="ppsaMobileToggle" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="ppsaNavDrawer">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main id="main-content">
+
+    <!-- HERO SECTION: IMAGE CAROUSEL -->
+    <section class="ppsa-hero-carousel" id="heroCarousel" aria-label="Featured Para Sports Highlights">
+      <div class="carousel-slides-track" id="heroCarouselTrack">
+        <!-- Slide 1 (Active, Preloaded Priority) -->
+        <div class="carousel-slide is-active" aria-hidden="false">
+          <img class="carousel-slide-img" src="assets/photos/carousel/hero-slide-1.jpg" alt="Punjab Para-Athletes in intense wheelchair racing competition on track">
+        </div>
+        <!-- Slide 2 -->
+        <div class="carousel-slide" aria-hidden="true">
+          <img class="carousel-slide-img" src="assets/photos/carousel/hero-slide-2.jpg" alt="Para athletic track and field competitors in Punjab State Games">
+        </div>
+        <!-- Slide 3 -->
+        <div class="carousel-slide" aria-hidden="true">
+          <img class="carousel-slide-img" src="assets/photos/carousel/hero-slide-3.jpg" alt="Determined para athletes on starting line showcasing courage and sportsmanship">
+        </div>
+        <!-- Slide 4 -->
+        <div class="carousel-slide" aria-hidden="true">
+          <img class="carousel-slide-img" src="assets/photos/carousel/hero-slide-4.jpg" alt="Para athletes demonstrating athletic discipline and competitive excellence">
+        </div>
+        <!-- Slide 5 -->
+        <div class="carousel-slide" aria-hidden="true">
+          <img class="carousel-slide-img" src="assets/photos/carousel/hero-slide-5.jpg" alt="Punjab Para-Sports championship participants celebrating athletic victory">
+        </div>
+      </div>
+
+      <!-- High-Contrast Dark Navy Gradient Overlay -->
+      <div class="carousel-overlay" aria-hidden="true"></div>
+
+      <!-- Hero Content (Fixed position over rotating slides) -->
+      <div class="carousel-content-wrapper">
+        <div class="ppsa-container">
+          <div class="carousel-content-box">
+            <span class="hero-tag-badge">PUNJAB PARA SPORTS ASSOCIATION • STRONGER TOGETHER</span>
+            <h1 class="hero-title">
+              EMPOWERING <span class="gold-accent">PUNJAB'S</span> PARA-ATHLETES
+            </h1>
+            <p class="hero-description">
+              Punjab Para Sports Association works to create opportunities for athletes with disabilities through sport, competition, training and representation.
+            </p>
+            <div class="hero-cta-group">
+              <a href="register-athlete.html" class="btn btn-primary" id="heroPrimaryCta">
+                REGISTER AS ATHLETE →
+              </a>
+              <a href="#get-involved-section" class="btn btn-secondary" id="heroSecondaryCta">
+                GET INVOLVED
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arrow Controls -->
+      <button class="carousel-arrow prev" id="heroPrevBtn" aria-label="Previous Slide">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <button class="carousel-arrow next" id="heroNextBtn" aria-label="Next Slide">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+
+      <!-- Carousel Indicators / Dots -->
+      <div class="carousel-dots" role="tablist" aria-label="Carousel Slides">
+        <button class="carousel-dot is-active" role="tab" aria-selected="true" aria-label="Slide 1"></button>
+        <button class="carousel-dot" role="tab" aria-selected="false" aria-label="Slide 2"></button>
+        <button class="carousel-dot" role="tab" aria-selected="false" aria-label="Slide 3"></button>
+        <button class="carousel-dot" role="tab" aria-selected="false" aria-label="Slide 4"></button>
+        <button class="carousel-dot" role="tab" aria-selected="false" aria-label="Slide 5"></button>
+      </div>
+    </section>
+
+    <!-- SECTION 1: BELOW-HERO INTRODUCTION -->
+    <section class="ppsa-intro-section" aria-labelledby="introHeading">
+      <div class="ppsa-container">
+        <div class="intro-grid">
+          <!-- Left: Institutional Introduction -->
+          <div>
+            <span class="section-eyebrow">ABOUT THE ASSOCIATION</span>
+            <h2 class="section-title" id="introHeading">
+              BUILDING A STRONGER PARA-SPORTING COMMUNITY
+            </h2>
+            <p class="intro-lead-text">
+              Punjab Para Sports Association works to expand sporting opportunities for athletes across Punjab through participation, competition and structured sporting development.
+            </p>
+            <p style="font-size:0.98rem;color:var(--ppsa-text-muted);line-height:1.7;margin-bottom:24px;">
+              Governing 23 districts under the leadership of state sports administrators, PPSA provides talent scouting, scientific classification, equipment assistance, and accredited competition pathways that carry Punjab's athletes from grassroots trials to national and Paralympic podiums.
+            </p>
+
+            <!-- Affiliation Chips Row -->
+            <div class="intro-badge-row">
+              <div class="affiliation-badge-chip">
+                <img src="assets/images/logos/pci_logo.webp" alt="Paralympic Committee of India Logo">
+                <span>Affiliated with<br><strong>Paralympic Committee of India</strong></span>
+              </div>
+              <div class="affiliation-badge-chip">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                <span>Recognised by<br><strong>Punjab State Sports Council</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Three Compact Feature Blocks -->
+          <div class="intro-features">
+            <div class="feature-item-card">
+              <div class="feature-icon-box">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              </div>
+              <div class="feature-content">
+                <h3>ATHLETES</h3>
+                <p>Opportunities to participate, compete and progress through transparent trials and official state rankings.</p>
+              </div>
+            </div>
+
+            <div class="feature-item-card">
+              <div class="feature-icon-box">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polygon points="12 8 8 12 12 16 12 8"></polygon></svg>
+              </div>
+              <div class="feature-content">
+                <h3>SPORTS</h3>
+                <p>Multiple para-sport disciplines and classifications governed under standardized IPC rules.</p>
+              </div>
+            </div>
+
+            <div class="feature-item-card">
+              <div class="feature-icon-box">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              </div>
+              <div class="feature-content">
+                <h3>COMMUNITY</h3>
+                <p>Coaches, technical officials, certified classifiers, volunteers and sporting partners working together.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: OUR SPORTS PREVIEW -->
+    <section class="ppsa-sports-section" id="sports" aria-labelledby="sportsHeading">
+      <div class="ppsa-container">
+        <div class="sports-header-row">
+          <div>
+            <span class="section-eyebrow">PPSA COMPETITIVE DISCIPLINES</span>
+            <h2 class="section-title" id="sportsHeading">OUR SPORTS</h2>
+            <p class="section-subtitle">
+              Disciplines governed under the Punjab Para State Games competition structure. Click any sport to inspect official IPC classifications, venues, and event categories.
+            </p>
+          </div>
+          <div>
+            <a href="register-athlete.html" class="btn btn-outline-navy">
+              Register for Games →
+            </a>
+          </div>
+        </div>
+
+        <div class="sports-cards-grid">
+          <!-- 1. Para Athletics -->
+          <article class="sport-card">
+            <span class="sport-venue-pill">Track & Field</span>
+            <div class="sport-icon-wrap" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+            </div>
+            <h3 class="sport-name">Para Athletics</h3>
+            <p class="sport-desc">
+              Track sprints, middle distance, long distance, and field throwing disciplines across seated (F51-57) and ambulant categories.
+            </p>
+            <div class="sport-disciplines-list">
+              <strong>Key Events:</strong> 100m, 200m, 400m, Discus, Club Throw, Shot Put, Javelin
+            </div>
+            <button class="sport-link-btn" data-sport-key="athletics" aria-label="View details for Para Athletics">
+              View Sport <span>→</span>
+            </button>
+          </article>
+
+          <!-- 2. Power Lifting -->
+          <article class="sport-card">
+            <span class="sport-venue-pill">Strength & Bench</span>
+            <div class="sport-icon-wrap" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="12" r="3"></circle><line x1="9" y1="12" x2="15" y2="12"></line><line x1="3" y1="9" x2="3" y2="15"></line><line x1="21" y1="9" x2="21" y2="15"></line></svg>
+            </div>
+            <h3 class="sport-name">Power Lifting</h3>
+            <p class="sport-desc">
+              Bench press competition testing maximum upper body power across 10 Men's and 10 Women's standardized bodyweight divisions.
+            </p>
+            <div class="sport-disciplines-list">
+              <strong>Categories:</strong> Up to 49kg to +107kg (Men) | Up to 41kg to +86kg (Women)
+            </div>
+            <button class="sport-link-btn" data-sport-key="powerlifting" aria-label="View details for Power Lifting">
+              View Sport <span>→</span>
+            </button>
+          </article>
+
+          <!-- 3. Para Badminton -->
+          <article class="sport-card">
+            <span class="sport-venue-pill">Racquet Sport</span>
+            <div class="sport-icon-wrap" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"></path><path d="m4.93 10.93 4.24-4.24"></path><path d="m14.83 6.69 4.24 4.24"></path><circle cx="12" cy="17" r="5"></circle></svg>
+            </div>
+            <h3 class="sport-name">Para Badminton</h3>
+            <p class="sport-desc">
+              Fast-paced court sport spanning wheelchair classes (WH1, WH2), standing lower/upper limb (SL3, SL4, SU5) and short stature (SS6).
+            </p>
+            <div class="sport-disciplines-list">
+              <strong>Events:</strong> Singles, Doubles, and Mixed Doubles competitions
+            </div>
+            <button class="sport-link-btn" data-sport-key="badminton" aria-label="View details for Para Badminton">
+              View Sport <span>→</span>
+            </button>
+          </article>
+
+          <!-- 4. Wheel-Chair Basketball -->
+          <article class="sport-card">
+            <span class="sport-venue-pill">Team Championship</span>
+            <div class="sport-icon-wrap" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m4.93 4.93 14.14 14.14"></path><path d="m19.07 4.93-14.14 14.14"></path></svg>
+            </div>
+            <h3 class="sport-name">Wheel-Chair Basketball</h3>
+            <p class="sport-desc">
+              High-intensity team tournament played on custom sport wheelchairs, utilizing functional classification points (1.0 to 4.5).
+            </p>
+            <div class="sport-disciplines-list">
+              <strong>Tournament:</strong> Men's & Women's District Team Championships
+            </div>
+            <button class="sport-link-btn" data-sport-key="basketball" aria-label="View details for Wheelchair Basketball">
+              View Sport <span>→</span>
+            </button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: WHY PPSA / MORE THAN SPORT -->
+    <section class="ppsa-pillars-section" aria-labelledby="pillarsHeading">
+      <div class="ppsa-container">
+        <div class="pillars-header">
+          <span class="section-eyebrow">ORGANIZATIONAL MISSION</span>
+          <h2 class="section-title" id="pillarsHeading">MORE THAN SPORT</h2>
+          <p class="section-subtitle">
+            PPSA operates with a deep commitment to athletic parity, dignifying disability through competitive sporting pathways and state-level representation.
+          </p>
+        </div>
+
+        <div class="pillars-grid">
+          <!-- Pillar 1: Opportunity -->
+          <div class="pillar-card">
+            <span class="pillar-number">01</span>
+            <h3 class="pillar-title">OPPORTUNITY</h3>
+            <p class="pillar-desc">
+              Creating pathways for athletes to participate regardless of geographical location, economic background, or classification category across all districts of Punjab.
+            </p>
+          </div>
+
+          <!-- Pillar 2: Competition -->
+          <div class="pillar-card">
+            <span class="pillar-number">02</span>
+            <h3 class="pillar-title">COMPETITION</h3>
+            <p class="pillar-desc">
+              Providing structured sporting opportunities through official district trials, state championships, accredited timing gates, and strict compliance with national technical standards.
+            </p>
+          </div>
+
+          <!-- Pillar 3: Representation -->
+          <div class="pillar-card">
+            <span class="pillar-number">03</span>
+            <h3 class="pillar-title">REPRESENTATION</h3>
+            <p class="pillar-desc">
+              Supporting athletes through the sporting ecosystem by facilitating Paralympic Committee of India accreditation, government sports quota advocacy, and international exposure.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: REGISTRATION CTA BANNER (Full-width Navy) -->
+    <section class="ppsa-cta-banner" id="get-involved-section" aria-labelledby="ctaHeading">
+      <div class="ppsa-container">
+        <div class="cta-banner-inner">
+          <span class="section-eyebrow" style="color:var(--ppsa-gold);">STATE GAMES PARTICIPATION</span>
+          <h2 class="cta-banner-title" id="ctaHeading">
+            READY TO BE PART OF PUNJAB'S PARA-SPORTING COMMUNITY?
+          </h2>
+          <p class="cta-banner-sub">
+            Register as an athlete or become part of the officials and support network behind the competition.
+          </p>
+          <div class="cta-banner-buttons">
+            <a href="register-athlete.html" class="btn btn-primary" id="bannerAthleteBtn">
+              ATHLETE REGISTRATION
+            </a>
+            <a href="register-official.html" class="btn btn-secondary" id="bannerOfficialBtn">
+              OFFICIAL REGISTRATION
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: NEWS & MEDIA PREVIEW -->
+    <section class="ppsa-news-section" id="news" aria-labelledby="newsHeading">
+      <div class="ppsa-container">
+        <div class="news-header-row">
+          <div>
+            <span class="section-eyebrow">PRESS & BULLETINS</span>
+            <h2 class="section-title" id="newsHeading">NEWS & MEDIA</h2>
+            <p class="section-subtitle">
+              Official circulars, competition announcements, and classification schedules released by the Punjab Para Sports Association secretariat.
+            </p>
+          </div>
+          <div>
+            <button class="btn btn-outline-navy" data-placeholder="Media Archives">
+              Media Archive →
+            </button>
+          </div>
+        </div>
+
+        <div class="news-grid">
+          <!-- Card 1 -->
+          <article class="news-card">
+            <div class="news-img-box">
+              <img class="news-img" src="assets/photos/carousel/hero-slide-2.jpg" alt="Punjab Para State Games athletics trials notice">
+            </div>
+            <div class="news-body">
+              <div class="news-meta">
+                <span class="news-category">State Games</span>
+                <span class="news-date">September 2026</span>
+              </div>
+              <h3 class="news-title">Annual Punjab Para State Games Registration Portal Officially Opened</h3>
+              <p class="news-excerpt">
+                Athletes across all 23 districts of Punjab are invited to submit verified applications for Para Athletics, Powerlifting, Badminton, and Basketball.
+              </p>
+              <button class="news-read-more" data-placeholder="State Games Registration Circular">
+                Read More <span>→</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="news-card">
+            <div class="news-img-box">
+              <img class="news-img" src="assets/photos/carousel/hero-slide-3.jpg" alt="Medical classification seminar and evaluation clinic">
+            </div>
+            <div class="news-body">
+              <div class="news-meta">
+                <span class="news-category">Classification</span>
+                <span class="news-date">August 2026</span>
+              </div>
+              <h3 class="news-title">Medical & Functional Classification Panels Constituted for State Trials</h3>
+              <p class="news-excerpt">
+                Panel of certified classifiers including sports doctors and physiotherapists assigned to verify impairment categories and grant athlete sports licenses.
+              </p>
+              <button class="news-read-more" data-placeholder="Classification Panels Circular">
+                Read More <span>→</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="news-card">
+            <div class="news-img-box">
+              <img class="news-img" src="assets/photos/carousel/hero-slide-4.jpg" alt="Punjab Para Sports coaching clinic and workshop">
+            </div>
+            <div class="news-body">
+              <div class="news-meta">
+                <span class="news-category">Capacity Building</span>
+                <span class="news-date">July 2026</span>
+              </div>
+              <h3 class="news-title">Technical Officials & Referees Refresher Workshop Announced</h3>
+              <p class="news-excerpt">
+                Accreditation training camp for coaches, technical officials, escorts, and wheelchair equipment handlers under PCI national protocols.
+              </p>
+              <button class="news-read-more" data-placeholder="Technical Officials Workshop Circular">
+                Read More <span>→</span>
+              </button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <!-- Discreet Developer Floating Control Bar for testing -->
-  <aside class="dev-controls-bar" aria-label="Preloader Testing Controls">
-    <button class="dev-btn yellow-btn" onclick="triggerReplay()">▶ Replay</button>
-    <button class="dev-btn" onclick="toggleSpeed()">⚡ Speed</button>
-    <button class="dev-btn" onclick="toggleReducedMotion()">♿ Reduced Motion</button>
-  </aside>
+  <!-- FEDERATION FOOTER -->
+  <footer class="ppsa-footer" role="contentinfo" id="footer-contact">
+    <div class="ppsa-container">
+      <div class="footer-top-grid">
+        <!-- Col 1: Brand & Affiliation -->
+        <div class="footer-brand-col">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <div style="width:42px;height:42px;background:#0A4380;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid #FFC400;">
+              <span style="font-family:'Outfit',sans-serif;font-weight:900;color:#FFF;font-size:0.85rem;">PPSA</span>
+            </div>
+            <div>
+              <div style="font-family:'Outfit',sans-serif;font-weight:900;font-size:1.1rem;color:#FFF;">PUNJAB PARA SPORTS</div>
+              <div style="font-size:0.7rem;color:#FFC400;letter-spacing:0.2em;font-weight:700;">STRONGER TOGETHER</div>
+            </div>
+          </div>
+          <p>
+            Official state governing body dedicated to the promotion, training, classification and competitive progression of para-athletes across Punjab.
+          </p>
+          <div class="footer-affiliation-note">
+            <strong>Affiliated Member:</strong> Paralympic Committee of India (PCI), New Delhi<br>
+            <strong>Recognised by:</strong> Punjab State Sports Council (Govt. of Punjab)
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation Links -->
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><button style="background:none;border:none;color:rgba(255,255,255,0.75);cursor:pointer;padding:0;font-size:0.9rem;" data-placeholder="About PPSA">About</button></li>
+            <li><a href="#sports">Our Sports</a></li>
+            <li><button style="background:none;border:none;color:rgba(255,255,255,0.75);cursor:pointer;padding:0;font-size:0.9rem;" data-placeholder="State Competitions">Competitions</button></li>
+            <li><a href="#news">News & Media</a></li>
+            <li><button style="background:none;border:none;color:rgba(255,255,255,0.75);cursor:pointer;padding:0;font-size:0.9rem;" data-placeholder="Selection Guidelines">Selection Guidelines</button></li>
+            <li><a href="#get-involved-section">Get Involved</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Registration Portals -->
+        <div class="footer-col">
+          <h4>Registration</h4>
+          <ul class="footer-links">
+            <li><a href="register-athlete.html" style="color:#FFC400;font-weight:700;">Athlete Registration →</a></li>
+            <li><a href="register-official.html">Official Registration →</a></li>
+            <li><a href="admin/login.html">State Admin Login</a></li>
+            <li><button style="background:none;border:none;color:rgba(255,255,255,0.75);cursor:pointer;padding:0;font-size:0.9rem;" data-placeholder="Application Status Tracker">Track Application ID</button></li>
+            <li><button style="background:none;border:none;color:rgba(255,255,255,0.75);cursor:pointer;padding:0;font-size:0.9rem;" data-placeholder="Anti-Doping Policy">Anti-Doping Code (NADA)</button></li>
+            <li><button style="background:none;border:none;color:rgba(255,255,255,0.75);cursor:pointer;padding:0;font-size:0.9rem;" data-placeholder="Constitution & Bylaws">Constitution & Bylaws</button></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Correspondence Office & Leadership -->
+        <div class="footer-col">
+          <h4>Secretariat</h4>
+          <ul class="footer-contact-list">
+            <li class="footer-contact-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <div>
+                <strong>Correspondence Office:</strong><br>
+                #126, Near Shivalik Public School,<br>
+                Muktsar Road, Jaito,<br>
+                Distt. Faridkot, Punjab 151202
+              </div>
+            </li>
+            <li class="footer-contact-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <div>
+                +91 98034-54949<br>
+                +91 94645-00042
+              </div>
+            </li>
+            <li class="footer-contact-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <div>officeparapunjab@gmail.com</div>
+            </li>
+            <li class="footer-contact-item" style="border-top:1px solid rgba(255,255,255,0.1);padding-top:10px;margin-top:4px;">
+              <div>
+                <span style="font-size:0.75rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;display:block;">Office Bearers</span>
+                <strong>Charanjeet Singh Brar</strong> — President<br>
+                <strong>Jaspreet Singh</strong> — Hony. General Secretary<br>
+                <strong>Shaminder Singh Dhillon</strong> — Treasurer
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div>
+          © 2026 Punjab Para Sports Association (PPSA). All rights reserved.
+        </div>
+        <div style="display:flex;gap:20px;">
+          <span>Affiliated with PCI New Delhi</span>
+          <span>Recognised by Punjab Sports Council</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PLACEHOLDER MODAL (For non-functional links: About, Competitions, Guidelines) -->
+  <div class="ppsa-modal-backdrop" id="ppsaPlaceholderModal" role="dialog" aria-modal="true" aria-labelledby="placeholderModalTitle">
+    <div class="ppsa-modal-box">
+      <button class="ppsa-modal-close" id="closePlaceholderModal" aria-label="Close dialog">✕</button>
+      <div style="width:48px;height:48px;border-radius:50%;background:#FFFBEB;color:#D97706;display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      </div>
+      <h3 id="placeholderModalTitle" class="ppsa-modal-title">Feature Notice</h3>
+      <p id="placeholderModalDesc" class="ppsa-modal-desc">
+        This section is currently undergoing official accreditation and content verification by the PPSA secretariat.
+      </p>
+      <div style="margin-top:24px;display:flex;gap:12px;justify-content:flex-end;">
+        <button class="btn btn-navy" onclick="document.getElementById('ppsaPlaceholderModal').classList.remove('is-active');document.body.style.overflow='';">
+          Understood
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPORT OVERVIEW MODAL (Ludhiana State Games Details) -->
+  <div class="ppsa-modal-backdrop" id="ppsaSportModal" role="dialog" aria-modal="true" aria-labelledby="sportModalTitle">
+    <div class="ppsa-modal-box" style="max-width:580px;">
+      <button class="ppsa-modal-close" id="closeSportModal" aria-label="Close dialog">✕</button>
+      <div style="font-size:0.75rem;font-weight:800;color:#1455A3;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px;">
+        PPSA State Games Technical Overview
+      </div>
+      <h3 id="sportModalTitle" class="ppsa-modal-title" style="margin-bottom:12px;">Sport Title</h3>
+      
+      <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:0.88rem;">
+        <div style="margin-bottom:6px;"><strong>Official Venue:</strong> <span id="sportModalVenue">Ludhiana Complex</span></div>
+        <div style="margin-bottom:6px;"><strong>Sport Classifications:</strong> <span id="sportModalClasses">IPC Standard</span></div>
+        <div><strong>Disciplines:</strong> <span id="sportModalDisciplines">Events</span></div>
+      </div>
+
+      <p id="sportModalDesc" class="ppsa-modal-desc" style="font-size:0.92rem;line-height:1.6;margin-bottom:24px;">
+        Detailed rules and qualification criteria.
+      </p>
+
+      <div style="display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;">
+        <a href="register-athlete.html" class="btn btn-primary" style="padding:10px 20px;font-size:0.88rem;">
+          Register for this Sport →
+        </a>
+        <button class="btn btn-outline-navy" onclick="document.getElementById('ppsaSportModal').classList.remove('is-active');document.body.style.overflow='';">
+          Close Overview
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Preloader JS Component -->
   <script src="assets/punjab-para-sports-preloader.js"></script>
 
+  <!-- PPSA Master Interactive Controller -->
+  <script src="assets/js/ppsa-main.js"></script>
+
+  <!-- PPSA State Games Events Catalog -->
+  <script src="assets/js/ppsa-events-catalog.js"></script>
+
+  <!-- Preloader Lifecycle Runner -->
   <script>
-    let currentDuration = 2.7;
     let preloaderInstance = null;
 
-    function startPreloader() {
+    function runPpsaPreloader() {
+      // Initialize only if not already completed in session
       preloaderInstance = new PunjabParaSportsPreloader({
         containerId: 'pps-preloader-root',
-        duration: currentDuration,
+        duration: 2.4,
         autoStart: true,
-        useSessionStorage: false,
+        useSessionStorage: false, // Set to false to demonstrate animation, or true for production session persistence
         showSkipButton: false,
         onComplete: () => {
-          console.log('Punjab Para Sports preloader finished cleanly.');
+          console.log('PPSA Preloader finished. Main landing page active.');
         }
       });
     }
 
-    function triggerReplay() {
-      const root = document.getElementById('pps-preloader-root');
-      root.innerHTML = '';
-      root.className = '';
-      startPreloader();
-    }
-
-    function toggleSpeed() {
-      if (currentDuration === 2.7) {
-        currentDuration = 1.5;
-        document.getElementById('speed-label').innerText = '1.5s';
-      } else {
-        currentDuration = 2.7;
-        document.getElementById('speed-label').innerText = '2.7s';
-      }
-      triggerReplay();
-    }
-
-    function toggleReducedMotion() {
-      if (preloaderInstance) {
-        preloaderInstance.finishImmediately();
-      }
-    }
-
-    // Auto start on load
     window.addEventListener('DOMContentLoaded', () => {
-      startPreloader();
+      runPpsaPreloader();
     });
   </script>
 </body>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal Login | Punjab Para Sports Association</title>
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/css/ppsa-main.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, var(--ppsa-navy-dark) 0%, var(--ppsa-navy) 100%);
+      padding: 20px;
+    }
+    .login-card {
+      background: var(--ppsa-white);
+      max-width: 440px;
+      width: 100%;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+      padding: 40px 32px;
+      border: 1px solid var(--ppsa-border);
+      text-align: center;
+    }
+    .login-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: var(--ppsa-blue-soft);
+      color: var(--ppsa-blue-vibrant);
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <div class="login-badge">Official Administration</div>
+    <h1 style="font-size: 1.8rem; color: var(--ppsa-navy-dark); margin-bottom: 6px;">PPSA Portal Login</h1>
+    <p style="font-size: 0.9rem; color: var(--ppsa-text-muted); margin-bottom: 28px;">
+      Punjab Para Sports Association Intake, Verification & Event Management
+    </p>
+
+    <form onsubmit="event.preventDefault(); alert('Authentication successful. Admin intake panel initialized.');">
+      <div style="text-align: left; margin-bottom: 18px;">
+        <label class="form-label" for="adminEmail">Official Email</label>
+        <input type="email" id="adminEmail" class="form-control" placeholder="admin@parapunjab.org" required value="officeparapunjab@gmail.com">
+      </div>
+      <div style="text-align: left; margin-bottom: 18px;">
+        <label class="form-label" for="adminRole">Access Scope</label>
+        <select id="adminRole" class="form-control">
+          <option value="super">Federation Executive / Super Admin</option>
+          <option value="classifier">Technical Classifier (Medical / Functional)</option>
+          <option value="state">District / State Verification Admin</option>
+        </select>
+      </div>
+      <div style="text-align: left; margin-bottom: 24px;">
+        <label class="form-label" for="adminPass">Password</label>
+        <input type="password" id="adminPass" class="form-control" placeholder="••••••••••••" required value="password123">
+      </div>
+      <button type="submit" class="btn btn-navy" style="width: 100%; padding: 13px; font-size: 1rem;">
+        Authenticate & Access Registry &rarr;
+      </button>
+    </form>
+
+    <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--ppsa-border); font-size: 0.85rem;">
+      <a href="../index.html" style="color: var(--ppsa-blue); text-decoration: none; font-weight: 700;">&larr; Return to Public Website</a>
+    </div>
+  </div>
+</body>
+</html>
