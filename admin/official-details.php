@@ -419,7 +419,7 @@ $sb = $statusMap[$app['status']] ?? ['label' => ucfirst($app['status']), 'bg' =>
 
       <!-- Action 1: APPROVE -->
       <?php if ($app['status'] !== 'approved'): ?>
-        <form method="POST" action="official-details.php" onsubmit="return confirm('Are you sure you want to APPROVE this official? This will issue an official PPSA accreditation ID.');" style="margin-bottom:14px;">
+        <form method="POST" action="" onsubmit="return confirm('Are you sure you want to APPROVE this official? This will issue an official PPSA accreditation ID.');" style="margin-bottom:14px;">
           <input type="hidden" name="csrf_token" value="<?php echo generatePpsaCsrf(); ?>">
           <input type="hidden" name="id" value="<?php echo $appId; ?>">
           <input type="hidden" name="review_action" value="approve">
@@ -441,7 +441,7 @@ $sb = $statusMap[$app['status']] ?? ['label' => ucfirst($app['status']), 'bg' =>
           Request Correction &darr;
         </summary>
         <div style="padding:12px 14px;border-top:1px solid var(--border);">
-          <form method="POST" action="official-details.php">
+          <form method="POST" action="">
             <input type="hidden" name="csrf_token" value="<?php echo generatePpsaCsrf(); ?>">
             <input type="hidden" name="id" value="<?php echo $appId; ?>">
             <input type="hidden" name="review_action" value="request_correction">
@@ -463,7 +463,7 @@ $sb = $statusMap[$app['status']] ?? ['label' => ucfirst($app['status']), 'bg' =>
             Reject Application &darr;
           </summary>
           <div style="padding:12px 14px;border-top:1px solid #FECACA;">
-            <form method="POST" action="official-details.php" onsubmit="return confirm('Are you sure you want to REJECT this official application?');">
+            <form method="POST" action="" onsubmit="return confirm('Are you sure you want to REJECT this official application?');">
               <input type="hidden" name="csrf_token" value="<?php echo generatePpsaCsrf(); ?>">
               <input type="hidden" name="id" value="<?php echo $appId; ?>">
               <input type="hidden" name="review_action" value="reject">
