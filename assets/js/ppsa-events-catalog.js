@@ -89,7 +89,11 @@ const PPSA_CATALOG = {
     "name": "Wheelchair Basketball",
     "venue": "Indoor Basketball Complex, Ludhiana",
     "form_type": "gender_event",
-    "genders": ["male", "female"],
-    "event_name": "Wheelchair Basketball Tournament Entry"
+    "categories": ["Male Division", "Female Division", "Other Category"],
+    "events": [
+      "Wheelchair Basketball Tournament Entry",
+      "3x3 Wheelchair Basketball",
+      "5x5 Wheelchair Basketball"
+    ]
   }
 };

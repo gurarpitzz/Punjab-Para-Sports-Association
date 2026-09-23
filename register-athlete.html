@@ -748,8 +748,17 @@
           eventSelect.appendChild(opt);
         });
       } else if (gameKey === 'wheelchair_basketball') {
-        catSelect.innerHTML = `<option value="${gender === 'female' ? 'Female' : 'Male'}" selected>${gender === 'female' ? 'Female Division' : 'Male Division'}</option>`;
-        eventSelect.innerHTML = `<option value="${item.event_name}" selected>${item.event_name}</option>`;
+        const normGen = (gender || '').toLowerCase();
+        catSelect.innerHTML = `
+          <option value="Male Division" ${normGen === 'male' || (!normGen && normGen !== 'female' && normGen !== 'other') ? 'selected' : ''}>Male Division</option>
+          <option value="Female Division" ${normGen === 'female' ? 'selected' : ''}>Female Division</option>
+          <option value="Other Category" ${normGen === 'other' ? 'selected' : ''}>Other Category</option>
+        `;
+        eventSelect.innerHTML = `
+          <option value="Wheelchair Basketball Tournament Entry" selected>Wheelchair Basketball Tournament Entry</option>
+          <option value="3x3 Wheelchair Basketball">3x3 Wheelchair Basketball</option>
+          <option value="5x5 Wheelchair Basketball">5x5 Wheelchair Basketball</option>
+        `;
       }
     }
 
@@ -958,7 +967,13 @@
         formData.append('weightCategory', catVal);
         formData.append('eventDiscipline', 'Bench Press');
       } else if (gameKey === 'wheelchair_basketball') {
-        formData.append('eventDiscipline', 'Wheelchair Basketball Tournament Entry');
+        let finalCat = catVal;
+        if (catVal.includes('Other')) {
+          const customVal = document.getElementById('customClassification') ? document.getElementById('customClassification').value.trim() : '';
+          finalCat = customVal ? ('Other: ' + customVal) : catVal;
+        }
+        formData.append('classification', finalCat);
+        formData.append('eventDiscipline', evVal || 'Wheelchair Basketball Tournament Entry');
       } else {
         let finalCat = catVal;
         if (catVal.includes('Other')) {

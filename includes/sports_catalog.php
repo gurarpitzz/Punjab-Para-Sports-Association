@@ -78,9 +78,13 @@ function getPpsaSportsCatalog(): array {
         'wheelchair_basketball' => [
             'name'       => 'Wheelchair Basketball',
             'venue'      => 'Ludhiana',
-            'form_type'  => 'gender_event', // Game -> Gender -> Event
-            'genders'    => ['male', 'female'],
-            'event_name' => 'Wheelchair Basketball Tournament Entry'
+            'form_type'  => 'gender_event', // Game -> Category -> Event
+            'categories' => ['Male Division', 'Female Division', 'Other Category'],
+            'events'     => [
+                'Wheelchair Basketball Tournament Entry',
+                '3x3 Wheelchair Basketball',
+                '5x5 Wheelchair Basketball'
+            ]
         ]
     ];
 }
@@ -143,10 +147,7 @@ function validatePpsaSportSelection(string $sport, ?string $classification, ?str
             return ['valid' => true];
 
         case 'wheelchair_basketball':
-            $normGender = strtolower($gender);
-            if (!in_array($normGender, ['male', 'female'], true)) {
-                return ['valid' => false, 'error' => 'Valid gender is required for wheelchair basketball.'];
-            }
+            // Allows Male Division, Female Division, or Other Category
             return ['valid' => true];
 
         default:
