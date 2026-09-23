@@ -616,10 +616,10 @@ $sb = $statusMap[$app['status']] ?? ['label' => ucfirst($app['status']), 'bg' =>
                           <input type="hidden" name="action" value="toggle_event_status">
                           <input type="hidden" name="event_id" value="<?php echo $ev['id']; ?>">
                           <?php if ($ev['status'] !== 'approved'): ?>
-                            <button type="submit" name="event_status" value="approved" title="Approve this event" style="background:#16A34A;color:#fff;border:none;border-radius:3px;padding:2px 5px;font-size:0.7rem;cursor:pointer;line-height:1;">✓</button>
+                            <button type="submit" name="event_status" value="approved" title="Approve this event" style="background:#16A34A;color:#fff;border:none;border-radius:3px;padding:3px 6px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
                           <?php endif; ?>
                           <?php if ($ev['status'] !== 'rejected'): ?>
-                            <button type="submit" name="event_status" value="rejected" title="Reject this event" style="background:#DC2626;color:#fff;border:none;border-radius:3px;padding:2px 5px;font-size:0.7rem;cursor:pointer;line-height:1;">✕</button>
+                            <button type="submit" name="event_status" value="rejected" title="Reject this event" style="background:#DC2626;color:#fff;border:none;border-radius:3px;padding:3px 6px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
                           <?php endif; ?>
                         </form>
                       <?php endif; ?>
