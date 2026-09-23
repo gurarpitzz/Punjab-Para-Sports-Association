@@ -349,6 +349,10 @@
               <select id="selectCategory" class="form-control" required onchange="onCategoryChange()">
                 <option value="">-- Select Game First --</option>
               </select>
+              <div id="otherClassificationWrap" style="display: none; margin-top: 10px; background: #F8FAFC; border: 1.5px dashed #93C5FD; border-radius: 8px; padding: 12px 14px;">
+                <label class="form-label" for="customClassification" style="margin-bottom: 4px; color: #003366;">Specify Custom Classification Category *</label>
+                <input type="text" id="customClassification" class="form-control" placeholder="e.g. T-42, F-43, etc.">
+              </div>
             </div>
 
             <!-- Cascading Selector 3: Specific Event -->
@@ -692,12 +696,26 @@
       const item = PPSA_CATALOG[gameKey];
 
       if (gameKey === 'para_athletics') {
-        Object.keys(item.categories).forEach(cat => {
-          const opt = document.createElement('option');
-          opt.value = cat;
-          opt.textContent = cat;
-          catSelect.appendChild(opt);
-        });
+        if (item.verticals) {
+          for (const [groupName, groupCategories] of Object.entries(item.verticals)) {
+            const grp = document.createElement('optgroup');
+            grp.label = groupName;
+            Object.keys(groupCategories).forEach(cat => {
+              const opt = document.createElement('option');
+              opt.value = cat;
+              opt.textContent = cat;
+              grp.appendChild(opt);
+            });
+            catSelect.appendChild(grp);
+          }
+        } else if (item.categories) {
+          Object.keys(item.categories).forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = cat;
+            catSelect.appendChild(opt);
+          });
+        }
       } else if (gameKey === 'powerlifting') {
         const weights = item.weights[gender] || item.weights['male'];
         weights.forEach(w => {
@@ -732,17 +750,44 @@
       const gameKey = document.getElementById('selectGame').value;
       const catKey = document.getElementById('selectCategory').value;
       const eventSelect = document.getElementById('selectEvent');
+      const otherWrap = document.getElementById('otherClassificationWrap');
+
+      // Toggle custom specification if "Other" is chosen
+      if (otherWrap) {
+        if (catKey.includes('Other')) {
+          otherWrap.style.display = 'block';
+          const custInput = document.getElementById('customClassification');
+          if (custInput) custInput.focus();
+        } else {
+          otherWrap.style.display = 'none';
+        }
+      }
 
       if (gameKey === 'para_athletics') {
         eventSelect.innerHTML = '<option value="">-- Choose Specific Event --</option>';
-        if (!catKey || !PPSA_CATALOG[gameKey] || !PPSA_CATALOG[gameKey].categories[catKey]) return;
-        const events = PPSA_CATALOG[gameKey].categories[catKey];
-        events.forEach(ev => {
-          const opt = document.createElement('option');
-          opt.value = ev;
-          opt.textContent = ev;
-          eventSelect.appendChild(opt);
-        });
+        if (!catKey || !PPSA_CATALOG[gameKey]) return;
+
+        let events = null;
+        if (PPSA_CATALOG[gameKey].verticals) {
+          for (const grp of Object.values(PPSA_CATALOG[gameKey].verticals)) {
+            if (grp[catKey]) {
+              events = grp[catKey];
+              break;
+            }
+          }
+        }
+        if (!events && PPSA_CATALOG[gameKey].categories) {
+          events = PPSA_CATALOG[gameKey].categories[catKey];
+        }
+
+        if (events) {
+          events.forEach(ev => {
+            const opt = document.createElement('option');
+            opt.value = ev;
+            opt.textContent = ev;
+            eventSelect.appendChild(opt);
+          });
+        }
       }
     }
 
@@ -768,6 +813,14 @@
       if (!game || !cat || !ev || !imp) {
         alert('Please complete the sport, classification, and event discipline selection.');
         return;
+      }
+      if (cat.includes('Other')) {
+        const custom = document.getElementById('customClassification') ? document.getElementById('customClassification').value.trim() : '';
+        if (!custom) {
+          alert('Please enter your specific classification in the provided text field.');
+          document.getElementById('customClassification').focus();
+          return;
+        }
       }
       goToStep(3);
     }
@@ -833,7 +886,12 @@
       } else if (gameKey === 'wheelchair_basketball') {
         formData.append('eventDiscipline', 'Wheelchair Basketball Tournament Entry');
       } else {
-        formData.append('classification', catVal);
+        let finalCat = catVal;
+        if (catVal.includes('Other')) {
+          const customVal = document.getElementById('customClassification') ? document.getElementById('customClassification').value.trim() : '';
+          finalCat = customVal ? ('Other: ' + customVal) : catVal;
+        }
+        formData.append('classification', finalCat);
         formData.append('eventDiscipline', evVal);
       }
 
