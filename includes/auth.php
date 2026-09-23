@@ -19,7 +19,7 @@ if (session_status() === PHP_SESSION_NONE) {
  * Check if an admin user is currently logged in
  */
 function isPpsaLoggedIn(): bool {
-    return !empty($_SESSION['ppsa_user_id']) && !empty($_SESSION['ppsa_user_email']);
+    return !empty($_SESSION['ppsa_user_id']);
 }
 
 /**
@@ -29,7 +29,8 @@ function currentPpsaUser(): ?array {
     if (!isPpsaLoggedIn()) return null;
     return [
         'id'        => (int)$_SESSION['ppsa_user_id'],
-        'email'     => $_SESSION['ppsa_user_email'],
+        'username'  => $_SESSION['ppsa_username'] ?? '',
+        'email'     => $_SESSION['ppsa_user_email'] ?? '',
         'full_name' => $_SESSION['ppsa_user_name'] ?? 'PPSA Staff',
         'role'      => $_SESSION['ppsa_user_role'] ?? 'reviewer'
     ];

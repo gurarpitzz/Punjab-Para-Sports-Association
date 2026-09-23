@@ -11,28 +11,30 @@ if (isPpsaLoggedIn()) {
 
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = strtolower(trim($_POST['email'] ?? ''));
-    $pass  = $_POST['password'] ?? '';
-    $token = $_POST['csrf_token'] ?? '';
+    $loginInput = trim($_POST['username'] ?? $_POST['email'] ?? '');
+    $pass       = $_POST['password'] ?? '';
+    $token      = $_POST['csrf_token'] ?? '';
 
     if (!validateCsrfToken($token)) {
-        $error = "Session expired or invalid token. Please try again.";
-    } elseif (empty($email) || empty($pass)) {
-        $error = "Please enter both email and password.";
+        $error = "Session expired or invalid security token. Please try again.";
+    } elseif (empty($loginInput) || empty($pass)) {
+        $error = "Please enter both username and password.";
     } else {
         $db = getPpsaDb();
         if (!$db) {
             $error = "Database offline. Please check your DB environment variables.";
         } else {
-            $stmt = $db->prepare("SELECT * FROM ppsa_users WHERE LOWER(email) = ? AND is_active = 1 LIMIT 1");
-            $stmt->execute([$email]);
+            $stmt = $db->prepare("SELECT * FROM ppsa_users WHERE (LOWER(username) = ? OR LOWER(email) = ?) AND is_active = 1 LIMIT 1");
+            $lowerLogin = strtolower($loginInput);
+            $stmt->execute([$lowerLogin, $lowerLogin]);
             $user = $stmt->fetch();
 
             if ($user && password_verify($pass, $user['password_hash'])) {
                 // Successful login
                 session_regenerate_id(true);
                 $_SESSION['ppsa_user_id']    = $user['id'];
-                $_SESSION['ppsa_user_email'] = $user['email'];
+                $_SESSION['ppsa_username']   = $user['username'] ?? $loginInput;
+                $_SESSION['ppsa_user_email'] = $user['email'] ?? '';
                 $_SESSION['ppsa_user_name']  = $user['full_name'];
                 $_SESSION['ppsa_user_role']  = $user['role'];
 
@@ -40,12 +42,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $upStmt = $db->prepare("UPDATE ppsa_users SET last_login_at = NOW() WHERE id = ?");
                 $upStmt->execute([$user['id']]);
 
-                ppsaAuditLog($user['id'], 'admin_login', 'ppsa_users', $user['id'], ['email' => $email]);
+                ppsaAuditLog($user['id'], 'admin_login', 'ppsa_users', $user['id'], ['username' => $user['username'] ?? $loginInput]);
 
                 header("Location: dashboard.php");
                 exit();
             } else {
-                $error = "Invalid administrator credentials or account disabled.";
+                $error = "Invalid administrator username or password.";
             }
         }
     }
@@ -192,8 +194,8 @@ $csrf = getCsrfToken();
     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf); ?>">
 
     <div class="form-group">
-      <label class="form-label" for="email">Official Email Address</label>
-      <input type="email" id="email" name="email" class="form-input" required autocomplete="email" placeholder="admin@punjabparasports.org">
+      <label class="form-label" for="username">Username</label>
+      <input type="text" id="username" name="username" class="form-input" required autocomplete="username" placeholder="Enter administrative username" autofocus>
     </div>
 
     <div class="form-group">

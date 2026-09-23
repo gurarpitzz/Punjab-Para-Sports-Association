@@ -9,7 +9,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- 1. Administrative Users & RBAC
 CREATE TABLE IF NOT EXISTS `ppsa_users` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `email` VARCHAR(120) NOT NULL UNIQUE,
+    `username` VARCHAR(60) NOT NULL UNIQUE,
+    `email` VARCHAR(120) NOT NULL,
     `password_hash` VARCHAR(255) NOT NULL,
     `full_name` VARCHAR(100) NOT NULL,
     `role` ENUM('admin', 'reviewer', 'classifier') NOT NULL DEFAULT 'reviewer',
@@ -17,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `ppsa_users` (
     `last_login_at` DATETIME NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_ppsa_user_username` (`username`),
     INDEX `idx_ppsa_user_role` (`role`, `is_active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

@@ -54,25 +54,20 @@
       Punjab Para Sports Association Intake, Verification & Event Management
     </p>
 
-    <form onsubmit="event.preventDefault(); alert('Authentication successful. Admin intake panel initialized.');">
+    <!-- Administrative Username and Password Authentication -->
+    <form method="POST" action="login.php">
       <div style="text-align: left; margin-bottom: 18px;">
-        <label class="form-label" for="adminEmail">Official Email</label>
-        <input type="email" id="adminEmail" class="form-control" placeholder="admin@parapunjab.org" required value="officeparapunjab@gmail.com">
+        <label class="form-label" for="username">Username</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Enter administrative username" required autocomplete="username" autofocus>
       </div>
-      <div style="text-align: left; margin-bottom: 18px;">
-        <label class="form-label" for="adminRole">Access Scope</label>
-        <select id="adminRole" class="form-control">
-          <option value="super">Federation Executive / Super Admin</option>
-          <option value="classifier">Technical Classifier (Medical / Functional)</option>
-          <option value="state">District / State Verification Admin</option>
-        </select>
-      </div>
+
       <div style="text-align: left; margin-bottom: 24px;">
-        <label class="form-label" for="adminPass">Password</label>
-        <input type="password" id="adminPass" class="form-control" placeholder="••••••••••••" required value="password123">
+        <label class="form-label" for="password">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="••••••••••••" required autocomplete="current-password">
       </div>
-      <button type="submit" class="btn btn-navy" style="width: 100%; padding: 13px; font-size: 1rem;">
-        Authenticate & Access Registry &rarr;
+
+      <button type="submit" class="btn btn-navy" style="width: 100%; padding: 13px; font-size: 1rem; cursor: pointer;">
+        Sign In to Admin Portal &rarr;
       </button>
     </form>
 

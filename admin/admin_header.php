@@ -232,7 +232,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
   <div class="admin-user-block">
     <div class="user-info">
-      <span class="user-name"><?php echo htmlspecialchars($currentUser['full_name']); ?></span>
+      <span class="user-name"><?php echo htmlspecialchars($currentUser['full_name']); ?><?php if (!empty($currentUser['username'])): ?> <span style="font-weight:400;opacity:0.8;font-size:0.8rem;">(@<?php echo htmlspecialchars($currentUser['username']); ?>)</span><?php endif; ?></span>
       <span class="user-role"><?php echo htmlspecialchars($currentUser['role']); ?></span>
     </div>
     <a href="logout.php" class="btn-logout">Sign Out</a>

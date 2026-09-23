@@ -15,8 +15,9 @@ if (!$db) {
     exit(1);
 }
 
-$adminEmail = ppsa_config('PPSA_ADMIN_EMAIL', 'admin@punjabparasports.org');
-$adminPass  = ppsa_config('PPSA_ADMIN_PASSWORD', '');
+$adminUsername = ppsa_config('PPSA_ADMIN_USERNAME', 'admin');
+$adminEmail    = ppsa_config('PPSA_ADMIN_EMAIL', 'admin@punjabparasports.org');
+$adminPass     = ppsa_config('PPSA_ADMIN_PASSWORD', '');
 
 $generated = false;
 if (empty($adminPass)) {
@@ -27,28 +28,28 @@ if (empty($adminPass)) {
 
 $hash = password_hash($adminPass, PASSWORD_BCRYPT, ['cost' => 12]);
 
-// Check if user exists
-$stmt = $db->prepare("SELECT id FROM ppsa_users WHERE email = ?");
-$stmt->execute([$adminEmail]);
+// Check if user exists by username or email
+$stmt = $db->prepare("SELECT id FROM ppsa_users WHERE username = ? OR email = ?");
+$stmt->execute([$adminUsername, $adminEmail]);
 $existing = $stmt->fetch();
 
 if ($existing) {
-    $upStmt = $db->prepare("UPDATE ppsa_users SET password_hash = ?, is_active = 1, role = 'admin' WHERE id = ?");
-    $upStmt->execute([$hash, $existing['id']]);
-    echo "[SUCCESS] Updated existing administrator account: {$adminEmail}\n";
+    $upStmt = $db->prepare("UPDATE ppsa_users SET username = ?, password_hash = ?, is_active = 1, role = 'admin' WHERE id = ?");
+    $upStmt->execute([$adminUsername, $hash, $existing['id']]);
+    echo "[SUCCESS] Updated existing administrator account: {$adminUsername}\n";
 } else {
-    $insStmt = $db->prepare("INSERT INTO ppsa_users (email, password_hash, full_name, role, is_active) VALUES (?, ?, 'PPSA Administrator', 'admin', 1)");
-    $insStmt->execute([$adminEmail, $hash]);
-    echo "[SUCCESS] Created new superadmin account: {$adminEmail}\n";
+    $insStmt = $db->prepare("INSERT INTO ppsa_users (username, email, password_hash, full_name, role, is_active) VALUES (?, ?, ?, 'PPSA Administrator', 'admin', 1)");
+    $insStmt->execute([$adminUsername, $adminEmail, $hash]);
+    echo "[SUCCESS] Created new administrator account: {$adminUsername}\n";
 }
 
+echo "====================================================================\n";
+echo "ADMINISTRATIVE ACCESS CREDENTIALS\n";
+echo "Username: {$adminUsername}\n";
 if ($generated) {
-    echo "====================================================================\n";
-    echo "SECURITY NOTICE: Generated random temporary password:\n";
-    echo "Email:    {$adminEmail}\n";
-    echo "Password: {$adminPass}\n";
-    echo "Please copy this password now and change it immediately upon login!\n";
-    echo "====================================================================\n";
+    echo "Password: {$adminPass} (Auto-generated temporary password)\n";
+    echo "Please copy this password now and change it upon first login!\n";
 } else {
-    echo "[SUCCESS] Password set from PPSA_ADMIN_PASSWORD environment variable.\n";
+    echo "Password: (Set from environment variable PPSA_ADMIN_PASSWORD)\n";
 }
+echo "====================================================================\n";

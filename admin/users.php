@@ -17,13 +17,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && $db) {
     if (!verifyPpsaCsrf($csrf)) {
         $errorMsg = "Invalid security token.";
     } elseif ($action === 'create_user') {
+        $username = strtolower(trim($_POST['username'] ?? ''));
         $fullName = trim($_POST['full_name'] ?? '');
         $email    = strtolower(trim($_POST['email'] ?? ''));
         $password = $_POST['password'] ?? '';
         $role     = $_POST['role'] ?? 'reviewer';
 
-        if (empty($fullName) || empty($email) || empty($password)) {
-            $errorMsg = "All fields are required.";
+        if (empty($username) || empty($fullName) || empty($email) || empty($password)) {
+            $errorMsg = "All fields including username are required.";
+        } elseif (!preg_match('/^[a-z0-9_]{3,30}$/', $username)) {
+            $errorMsg = "Username must be 3-30 characters containing only letters, numbers, and underscores.";
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errorMsg = "Invalid email address format.";
         } elseif (strlen($password) < 8) {
@@ -34,21 +37,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && $db) {
             try {
                 $hash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
                 $stmt = $db->prepare("
-                    INSERT INTO ppsa_users (full_name, email, password_hash, role, is_active, created_at)
-                    VALUES (?, ?, ?, ?, 1, NOW())
+                    INSERT INTO ppsa_users (username, full_name, email, password_hash, role, is_active, created_at)
+                    VALUES (?, ?, ?, ?, ?, 1, NOW())
                 ");
-                $stmt->execute([$fullName, $email, $hash, $role]);
+                $stmt->execute([$username, $fullName, $email, $hash, $role]);
                 $newId = (int)$db->lastInsertId();
 
                 ppsaAuditLog($currentUser['id'], 'create_user', 'ppsa_users', $newId, [
-                    'email' => $email,
-                    'role'  => $role
+                    'username' => $username,
+                    'email'    => $email,
+                    'role'     => $role
                 ]);
 
-                $successMsg = "Staff account for <strong>" . htmlspecialchars($fullName) . "</strong> created successfully!";
+                $successMsg = "Staff account for <strong>" . htmlspecialchars($fullName) . "</strong> (Username: <code>" . htmlspecialchars($username) . "</code>) created successfully!";
             } catch (\PDOException $e) {
                 if ($e->getCode() == 23000) {
-                    $errorMsg = "A user with this email address already exists.";
+                    $errorMsg = "A user with this username or email address already exists.";
                 } else {
                     $errorMsg = "Error creating account: " . $e->getMessage();
                 }
@@ -60,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin && $db) {
 $users = [];
 if ($db) {
     try {
-        $users = $db->query("SELECT id, email, full_name, role, is_active, last_login_at, created_at FROM ppsa_users ORDER BY id ASC")->fetchAll();
+        $users = $db->query("SELECT id, username, email, full_name, role, is_active, last_login_at, created_at FROM ppsa_users ORDER BY id ASC")->fetchAll();
     } catch (\Throwable $e) {
         $errorMsg = "Error fetching users: " . $e->getMessage();
     }
@@ -100,6 +104,7 @@ if ($db) {
       <thead>
         <tr style="background:#F8FAFC;border-bottom:2px solid var(--border);color:var(--navy);font-weight:700;text-transform:uppercase;font-size:0.75rem;letter-spacing:0.04em;">
           <th style="padding:14px 16px;">Staff Member</th>
+          <th style="padding:14px 16px;">Username</th>
           <th style="padding:14px 16px;">Email</th>
           <th style="padding:14px 16px;">Role</th>
           <th style="padding:14px 16px;">Account Status</th>
@@ -110,7 +115,7 @@ if ($db) {
       <tbody>
         <?php if (empty($users)): ?>
           <tr>
-            <td colspan="6" style="padding:40px;text-align:center;color:var(--text-muted);">No staff records found.</td>
+            <td colspan="7" style="padding:40px;text-align:center;color:var(--text-muted);">No staff records found.</td>
           </tr>
         <?php else: ?>
           <?php foreach ($users as $u): ?>
@@ -120,6 +125,9 @@ if ($db) {
                 <?php if ($u['id'] == $currentUser['id']): ?>
                   <span style="font-size:0.7rem;color:#00B074;font-weight:700;">(Your Active Session)</span>
                 <?php endif; ?>
+              </td>
+              <td style="padding:14px 16px;font-family:monospace;font-size:0.85rem;color:var(--navy);font-weight:700;">
+                <?php echo htmlspecialchars($u['username'] ?? '—'); ?>
               </td>
               <td style="padding:14px 16px;font-family:monospace;font-size:0.85rem;color:var(--text);"><?php echo htmlspecialchars($u['email']); ?></td>
               <td style="padding:14px 16px;">
@@ -170,17 +178,22 @@ if ($db) {
       <input type="hidden" name="action" value="create_user">
 
       <div style="margin-bottom:14px;">
-        <label style="display:block;font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:6px;">Full Name</label>
+        <label style="display:block;font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:6px;">Username *</label>
+        <input type="text" name="username" required pattern="[a-zA-Z0-9_]{3,30}" placeholder="e.g. admin or jsingh" style="width:100%;height:40px;padding:0 12px;border:1.5px solid var(--border);border-radius:6px;font-size:0.88rem;">
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <label style="display:block;font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:6px;">Full Name *</label>
         <input type="text" name="full_name" required placeholder="e.g. Jaswinder Singh" style="width:100%;height:40px;padding:0 12px;border:1.5px solid var(--border);border-radius:6px;font-size:0.88rem;">
       </div>
 
       <div style="margin-bottom:14px;">
-        <label style="display:block;font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:6px;">Official Email</label>
+        <label style="display:block;font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:6px;">Official Email *</label>
         <input type="email" name="email" required placeholder="official@punjabparasports.org" style="width:100%;height:40px;padding:0 12px;border:1.5px solid var(--border);border-radius:6px;font-size:0.88rem;">
       </div>
 
       <div style="margin-bottom:14px;">
-        <label style="display:block;font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:6px;">Temporary Password (min. 8 characters)</label>
+        <label style="display:block;font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:6px;">Password (min. 8 characters) *</label>
         <input type="password" name="password" required minlength="8" placeholder="••••••••" style="width:100%;height:40px;padding:0 12px;border:1.5px solid var(--border);border-radius:6px;font-size:0.88rem;">
       </div>
 
