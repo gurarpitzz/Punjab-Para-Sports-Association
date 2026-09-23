@@ -348,39 +348,66 @@
           <h2 style="font-size: 1.3rem; margin-bottom: 20px; color: var(--ppsa-navy);">Address & Identity Documents</h2>
           <div class="form-group-grid">
             <div class="form-group-full">
-              <label class="form-label">12-Digit Aadhaar Number *</label>
-              <input type="text" class="form-control" placeholder="XXXX XXXX XXXX" maxlength="14" required>
+              <label class="form-label" for="offAadhaar">12-Digit Aadhaar Number *</label>
+              <input type="text" id="offAadhaar" class="form-control" placeholder="XXXX XXXX XXXX" maxlength="14" required oninput="formatAadhaar(this)">
             </div>
             <div class="form-group-full">
-              <label class="form-label">Permanent Residential Address *</label>
-              <textarea class="form-control" rows="2" placeholder="Full address" required></textarea>
+              <label class="form-label" for="offAddress">Permanent Residential Address *</label>
+              <textarea id="offAddress" class="form-control" rows="2" placeholder="Full address" required></textarea>
             </div>
             <div>
-              <label class="form-label">District (Punjab) *</label>
-              <select class="form-control" required>
+              <label class="form-label" for="offDistrict">District (Punjab) *</label>
+              <select id="offDistrict" class="form-control" required>
                 <option value="Ludhiana">Ludhiana</option>
                 <option value="Amritsar">Amritsar</option>
-                <option value="Jalandhar">Jalandhar</option>
-                <option value="Patiala">Patiala</option>
+                <option value="Barnala">Barnala</option>
                 <option value="Bathinda">Bathinda</option>
                 <option value="Faridkot">Faridkot</option>
-                <option value="Other">Other District</option>
+                <option value="Fatehgarh Sahib">Fatehgarh Sahib</option>
+                <option value="Fazilka">Fazilka</option>
+                <option value="Ferozepur">Ferozepur</option>
+                <option value="Gurdaspur">Gurdaspur</option>
+                <option value="Hoshiarpur">Hoshiarpur</option>
+                <option value="Jalandhar">Jalandhar</option>
+                <option value="Kapurthala">Kapurthala</option>
+                <option value="Mansa">Mansa</option>
+                <option value="Moga">Moga</option>
+                <option value="Muktsar">Muktsar</option>
+                <option value="Pathankot">Pathankot</option>
+                <option value="Patiala">Patiala</option>
+                <option value="Rupnagar">Rupnagar</option>
+                <option value="Sangrur">Sangrur</option>
+                <option value="SAS Nagar">SAS Nagar (Mohali)</option>
+                <option value="SBS Nagar">SBS Nagar</option>
+                <option value="Tarn Taran">Tarn Taran</option>
               </select>
             </div>
             <div>
-              <label class="form-label">Pin Code *</label>
-              <input type="text" class="form-control" placeholder="141001" maxlength="6" required>
+              <label class="form-label" for="offPincode">Pin Code *</label>
+              <input type="text" id="offPincode" class="form-control" placeholder="141001" maxlength="6" required>
             </div>
 
             <div class="form-group-full" style="padding: 16px; background: var(--ppsa-surface); border-radius: var(--radius-sm); border: 1px dashed var(--ppsa-border);">
-              <label class="form-label">Photograph (JPG/PNG) *</label>
-              <input type="file" class="form-control" accept="image/*" required>
+              <label class="form-label" for="fileOffPhoto">Photograph (JPG/PNG) *</label>
+              <input type="file" id="fileOffPhoto" class="form-control" accept="image/jpeg,image/png" required>
             </div>
             <div class="form-group-full" style="padding: 16px; background: var(--ppsa-surface); border-radius: var(--radius-sm); border: 1px dashed var(--ppsa-border);">
-              <label class="form-label">Govt ID Proof / Aadhaar Copy (PDF/JPG) *</label>
-              <input type="file" class="form-control" accept="image/*,application/pdf" required>
+              <label class="form-label" for="fileOffId">Govt ID Proof / Aadhaar Copy (PDF/JPG) *</label>
+              <input type="file" id="fileOffId" class="form-control" accept="image/jpeg,image/png,application/pdf" required>
+            </div>
+            <div class="form-group-full" style="padding: 16px; background: var(--ppsa-surface); border-radius: var(--radius-sm); border: 1px dashed var(--ppsa-border);">
+              <label class="form-label" for="fileOffCert">Technical Qualification / Certificate Scan (Optional PDF/JPG)</label>
+              <input type="file" id="fileOffCert" class="form-control" accept="image/jpeg,image/png,application/pdf">
             </div>
           </div>
+
+          <div style="margin-top: 18px;">
+            <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.88rem; color: var(--ppsa-text-muted);">
+              <input type="checkbox" id="offLegalDeclaration" required style="margin-top: 3px;">
+              <span>I hereby certify that all information submitted is accurate and true. I agree to abide by the code of ethics and conduct of the Punjab Para Sports Association and Paralympic Committee of India.</span>
+            </label>
+          </div>
+
           <div class="step-actions-row">
             <button type="button" class="btn btn-outline-navy" onclick="goToStep(2)">&larr; Back</button>
             <button type="button" class="btn btn-primary" onclick="submitOfficial()">Submit Application &rarr;</button>
@@ -395,15 +422,21 @@
             </div>
             <h2 style="font-size: 1.8rem; color: var(--ppsa-navy-dark); margin-bottom: 12px;">Official Registration Submitted!</h2>
             <p style="color: var(--ppsa-text-muted); font-size: 1.05rem; max-width: 540px; margin: 0 auto 24px;">
-              Your application for official appointment with the Punjab Para Sports Association has been recorded.
+              Your application for official appointment with the Punjab Para Sports Association has been recorded into the administrative review queue.
             </p>
             <div style="background: var(--ppsa-surface); border: 2px dashed var(--ppsa-border-strong); border-radius: var(--radius-md); padding: 20px; max-width: 480px; margin: 0 auto 30px; text-align: left;">
               <div style="font-size: 0.8rem; color: var(--ppsa-text-light); text-transform: uppercase; font-weight: 700;">Reference Tracking ID</div>
               <div id="offTrackingId" style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 900; color: var(--ppsa-navy); margin: 4px 0 14px;">
                 PPSA-OFF-2026-402915
               </div>
-              <div style="font-size: 0.9rem; color: var(--ppsa-text-main);">
+              <div style="font-size: 0.9rem; color: var(--ppsa-text-main); margin-bottom: 6px;">
+                <strong>Official Name:</strong> <span id="offNameDisplay"></span>
+              </div>
+              <div style="font-size: 0.9rem; color: var(--ppsa-text-main); margin-bottom: 6px;">
                 <strong>Role:</strong> <span id="offRoleDisplay"></span>
+              </div>
+              <div style="font-size: 0.9rem; color: var(--ppsa-text-main);">
+                <strong>Status:</strong> <span style="display: inline-block; padding: 2px 8px; background: #FEF3C7; color: #B45309; border-radius: 4px; font-weight: 700; font-size: 0.8rem;">Pending Review</span>
               </div>
             </div>
             <div style="display: flex; gap: 14px; justify-content: center;">
@@ -427,6 +460,16 @@
       });
       currentStep = idx;
       window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+
+    function formatAadhaar(el) {
+      let val = el.value.replace(/\D/g, '');
+      let formatted = '';
+      for (let i = 0; i < val.length && i < 12; i++) {
+        if (i > 0 && i % 4 === 0) formatted += ' ';
+        formatted += val[i];
+      }
+      el.value = formatted;
     }
 
     async function simulateOfficialOtp() {
@@ -499,14 +542,111 @@
     function toggleClassifierFields() {
       const cat = document.getElementById('officialCategory').value;
       const sub = document.getElementById('classifierSubGroup');
-      sub.style.display = (cat === 'Classifier') ? 'block' : 'none';
+      sub.style.display = (cat === 'Classifier' || cat === 'classifier') ? 'block' : 'none';
     }
 
-    function submitOfficial() {
-      const num = Math.floor(100000 + Math.random() * 900000);
-      document.getElementById('offTrackingId').textContent = `PPSA-OFF-2026-${num}`;
-      document.getElementById('offRoleDisplay').textContent = document.getElementById('officialCategory').value || 'Technical Official';
-      goToStep(4);
+    async function submitOfficial() {
+      const name = document.getElementById('offFullName').value.trim();
+      const phone = document.getElementById('offMobile').value.trim();
+      const email = document.getElementById('officialEmail').value.trim();
+      const aadhaar = document.getElementById('offAadhaar').value.trim().replace(/\s/g, '');
+      const address = document.getElementById('offAddress').value.trim();
+      const district = document.getElementById('offDistrict').value;
+      const category = document.getElementById('officialCategory').value;
+      const agreed = document.getElementById('offLegalDeclaration').checked;
+
+      if (!name || !phone || !email || !category) {
+        alert('Please complete all mandatory personal and role details.');
+        return;
+      }
+      if (!aadhaar || aadhaar.length !== 12) {
+        alert('Please enter a valid 12-digit Aadhaar number.');
+        return;
+      }
+      if (!address || !district) {
+        alert('Please enter permanent address and Punjab district.');
+        return;
+      }
+      if (!agreed) {
+        alert('Please check the code of conduct declaration to proceed.');
+        return;
+      }
+
+      const photoFile = document.getElementById('fileOffPhoto').files[0];
+      const idFile    = document.getElementById('fileOffId').files[0];
+      const certFile  = document.getElementById('fileOffCert').files[0];
+
+      if (!photoFile) {
+        alert('Please select your official photograph to upload.');
+        return;
+      }
+
+      // Role category mapping
+      let categorySlug = 'technical_official';
+      const cLower = category.toLowerCase();
+      if (cLower.includes('coach')) categorySlug = 'coach';
+      else if (cLower.includes('referee') || cLower.includes('technical')) categorySlug = 'referee';
+      else if (cLower.includes('classifier')) categorySlug = 'classifier';
+      else if (cLower.includes('volunteer')) categorySlug = 'volunteer';
+      else if (cLower.includes('ramp')) categorySlug = 'ramp_operator';
+      else if (cLower.includes('escort')) categorySlug = 'escort';
+
+      const formData = new FormData();
+      formData.append('fullName', name);
+      formData.append('gender', document.getElementById('offGender').value.toLowerCase());
+      formData.append('dob', document.getElementById('offDob').value);
+      formData.append('mobilePhone', phone);
+      formData.append('email', email);
+      formData.append('aadhaarNumber', aadhaar);
+      formData.append('fullAddress', address);
+      formData.append('district', district);
+      formData.append('state', 'Punjab');
+      formData.append('officialCategory', categorySlug);
+      formData.append('qualifications', document.getElementById('offQualification').value.trim() + ' | Experience: ' + document.getElementById('offExperience').value.trim());
+      formData.append('experienceYears', '1');
+      formData.append('legalDeclaration', '1');
+
+      if (categorySlug === 'classifier') {
+        formData.append('classifierType', document.getElementById('classifierSubtype').value.toLowerCase());
+      }
+
+      if (photoFile) formData.append('passportPhoto', photoFile);
+      if (idFile) formData.append('identityProofDoc', idFile);
+      if (certFile) formData.append('certificateDoc', certFile);
+
+      const submitBtn = event ? event.target : document.querySelector('#paneStep3 button.btn-primary');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting Official Application...';
+      }
+
+      try {
+        const resp = await fetch('api/submit-official.php', {
+          method: 'POST',
+          body: formData
+        });
+        const result = await resp.json();
+
+        if (result.success) {
+          document.getElementById('offTrackingId').textContent = result.reference_id;
+          document.getElementById('offNameDisplay').textContent = result.full_name;
+          document.getElementById('offRoleDisplay').textContent = result.category;
+          goToStep(4);
+        } else {
+          alert('Submission Error: ' + (result.error || 'Unable to submit application.'));
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Application →';
+          }
+        }
+      } catch (err) {
+        console.error('Submission failed:', err);
+        alert('Network or server error during submission. Please try again.');
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Application →';
+        }
+      }
     }
   </script>
 </body>

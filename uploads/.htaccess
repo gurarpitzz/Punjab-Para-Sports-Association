@@ -1,0 +1,25 @@
+# Secure Upload Directory Protection - Punjab Para Sports Association
+# Strictly deny PHP execution, script interpretation, and directory listing
+
+Options -Indexes -ExecCGI
+
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php8.c>
+    php_flag engine off
+</IfModule>
+
+<FilesMatch "(?i)\.(php|phtml|php3|php4|php5|php7|php8|phps|cgi|pl|py|sh|bash|exe|bat|cmd)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Only allow legitimate image and document MIME extensions
+<FilesMatch "(?i)\.(jpg|jpeg|png|webp|pdf)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>

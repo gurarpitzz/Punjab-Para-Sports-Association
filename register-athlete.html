@@ -335,10 +335,10 @@
               <label class="form-label" for="selectGame">Designated Para-Sport (Ludhiana State Games) *</label>
               <select id="selectGame" class="form-control" required onchange="onGameChange()">
                 <option value="">-- Choose Game / Discipline --</option>
-                <option value="athletics">Para Athletics (Track & Field)</option>
+                <option value="para_athletics">Para Athletics (Track & Field)</option>
                 <option value="powerlifting">Power Lifting</option>
-                <option value="badminton">Para Badminton</option>
-                <option value="basketball">Wheel-Chair Basketball</option>
+                <option value="para_badminton">Para Badminton</option>
+                <option value="wheelchair_basketball">Wheelchair Basketball</option>
               </select>
             </div>
 
@@ -644,19 +644,50 @@
       const gameKey = document.getElementById('selectGame').value;
       const catSelect = document.getElementById('selectCategory');
       const eventSelect = document.getElementById('selectEvent');
+      const gender = (document.getElementById('gender').value || 'male').toLowerCase();
 
       catSelect.innerHTML = '<option value="">-- Choose Category / Classification --</option>';
       eventSelect.innerHTML = '<option value="">-- Select Category First --</option>';
 
       if (!gameKey || !PPSA_CATALOG[gameKey]) return;
 
-      const cats = PPSA_CATALOG[gameKey].categories;
-      Object.keys(cats).forEach(cat => {
-        const opt = document.createElement('option');
-        opt.value = cat;
-        opt.textContent = cat;
-        catSelect.appendChild(opt);
-      });
+      const item = PPSA_CATALOG[gameKey];
+
+      if (gameKey === 'para_athletics') {
+        Object.keys(item.categories).forEach(cat => {
+          const opt = document.createElement('option');
+          opt.value = cat;
+          opt.textContent = cat;
+          catSelect.appendChild(opt);
+        });
+      } else if (gameKey === 'powerlifting') {
+        const weights = item.weights[gender] || item.weights['male'];
+        weights.forEach(w => {
+          const opt = document.createElement('option');
+          opt.value = w;
+          opt.textContent = w + ' Division';
+          catSelect.appendChild(opt);
+        });
+        // Powerlifting event is bench press
+        eventSelect.innerHTML = '<option value="Bench Press" selected>Bench Press</option>';
+      } else if (gameKey === 'para_badminton') {
+        item.classifications.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c;
+          opt.textContent = c;
+          catSelect.appendChild(opt);
+        });
+        eventSelect.innerHTML = '<option value="">-- Choose Badminton Event --</option>';
+        item.events.forEach(ev => {
+          const opt = document.createElement('option');
+          opt.value = ev;
+          opt.textContent = ev;
+          eventSelect.appendChild(opt);
+        });
+      } else if (gameKey === 'wheelchair_basketball') {
+        catSelect.innerHTML = `<option value="${gender === 'female' ? 'Female' : 'Male'}" selected>${gender === 'female' ? 'Female Division' : 'Male Division'}</option>`;
+        eventSelect.innerHTML = `<option value="${item.event_name}" selected>${item.event_name}</option>`;
+      }
     }
 
     function onCategoryChange() {
@@ -664,16 +695,17 @@
       const catKey = document.getElementById('selectCategory').value;
       const eventSelect = document.getElementById('selectEvent');
 
-      eventSelect.innerHTML = '<option value="">-- Choose Specific Event --</option>';
-      if (!gameKey || !catKey || !PPSA_CATALOG[gameKey] || !PPSA_CATALOG[gameKey].categories[catKey]) return;
-
-      const events = PPSA_CATALOG[gameKey].categories[catKey];
-      events.forEach(ev => {
-        const opt = document.createElement('option');
-        opt.value = ev;
-        opt.textContent = ev;
-        eventSelect.appendChild(opt);
-      });
+      if (gameKey === 'para_athletics') {
+        eventSelect.innerHTML = '<option value="">-- Choose Specific Event --</option>';
+        if (!catKey || !PPSA_CATALOG[gameKey] || !PPSA_CATALOG[gameKey].categories[catKey]) return;
+        const events = PPSA_CATALOG[gameKey].categories[catKey];
+        events.forEach(ev => {
+          const opt = document.createElement('option');
+          opt.value = ev;
+          opt.textContent = ev;
+          eventSelect.appendChild(opt);
+        });
+      }
     }
 
     function validateStep1AndNext() {
@@ -681,10 +713,12 @@
       const gender = document.getElementById('gender').value;
       const dob = document.getElementById('dob').value;
       const phone = document.getElementById('mobilePhone').value.trim();
-      if (!name || !gender || !dob || !phone) {
-        alert('Please fill in all mandatory personal details.');
+      const email = document.getElementById('athleteEmail').value.trim();
+      if (!name || !gender || !dob || !phone || !email) {
+        alert('Please fill in all mandatory personal details (Name, Gender, DOB, Mobile, Email).');
         return;
       }
+      onGameChange(); // re-evaluates gender-dependent categories like powerlifting
       goToStep(2);
     }
 
@@ -700,14 +734,19 @@
       goToStep(3);
     }
 
-    function submitRegistration() {
-      const aadhaar = document.getElementById('aadhaarNumber').value.trim();
+    async function submitRegistration() {
+      const aadhaar = document.getElementById('aadhaarNumber').value.trim().replace(/\s/g, '');
       const address = document.getElementById('fullAddress').value.trim();
       const district = document.getElementById('district').value;
+      const pincode = document.getElementById('pincode').value.trim();
       const agreed = document.getElementById('legalDeclaration').checked;
 
-      if (!aadhaar || !address || !district) {
-        alert('Please enter Aadhaar number, permanent address, and district.');
+      if (!aadhaar || aadhaar.length !== 12) {
+        alert('Please enter a valid 12-digit Aadhaar number.');
+        return;
+      }
+      if (!address || !district) {
+        alert('Please enter your permanent residential address and Punjab district.');
         return;
       }
       if (!agreed) {
@@ -715,14 +754,85 @@
         return;
       }
 
-      // Generate Reference Tracking ID
-      const randomNum = Math.floor(100000 + Math.random() * 900000);
-      const trackingId = `PPSA-ATH-2026-${randomNum}`;
-      document.getElementById('receiptTrackingId').textContent = trackingId;
-      document.getElementById('receiptAthleteName').textContent = document.getElementById('fullName').value;
-      document.getElementById('receiptSportEvent').textContent = `${document.getElementById('selectGame').value.toUpperCase()} - ${document.getElementById('selectEvent').value}`;
+      // Check required files
+      const photoFile = document.getElementById('filePhoto').files[0];
+      const idFile    = document.getElementById('fileGovtId').files[0];
+      const certFile  = document.getElementById('fileDisabilityCert').files[0];
 
-      goToStep(4);
+      if (!photoFile) {
+        alert('Please select your passport-size photograph to upload.');
+        return;
+      }
+
+      const submitBtn = event ? event.target : document.querySelector('#paneStep3 button.btn-primary');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting Application & Uploading Files...';
+      }
+
+      const formData = new FormData();
+      formData.append('fullName', document.getElementById('fullName').value.trim());
+      formData.append('gender', document.getElementById('gender').value);
+      formData.append('dob', document.getElementById('dob').value);
+      formData.append('fatherName', document.getElementById('fatherName').value.trim());
+      formData.append('motherName', document.getElementById('motherName').value.trim());
+      formData.append('mobilePhone', document.getElementById('mobilePhone').value.trim());
+      formData.append('email', document.getElementById('athleteEmail').value.trim());
+      formData.append('aadhaarNumber', aadhaar);
+      formData.append('fullAddress', address);
+      formData.append('district', district);
+      formData.append('pincode', pincode);
+      formData.append('state', 'Punjab');
+
+      const gameKey = document.getElementById('selectGame').value;
+      const catVal  = document.getElementById('selectCategory').value;
+      const evVal   = document.getElementById('selectEvent').value;
+
+      formData.append('sportGame', gameKey);
+      if (gameKey === 'powerlifting') {
+        formData.append('weightCategory', catVal);
+        formData.append('eventDiscipline', 'Bench Press');
+      } else if (gameKey === 'wheelchair_basketball') {
+        formData.append('eventDiscipline', 'Wheelchair Basketball Tournament Entry');
+      } else {
+        formData.append('classification', catVal);
+        formData.append('eventDiscipline', evVal);
+      }
+
+      formData.append('impairmentType', document.getElementById('impairmentType').value);
+      formData.append('legalDeclaration', '1');
+
+      if (photoFile) formData.append('passportPhoto', photoFile);
+      if (idFile) formData.append('identityProofDoc', idFile);
+      if (certFile) formData.append('disabilityCertDoc', certFile);
+
+      try {
+        const resp = await fetch('api/submit-athlete.php', {
+          method: 'POST',
+          body: formData
+        });
+        const result = await resp.json();
+
+        if (result.success) {
+          document.getElementById('receiptTrackingId').textContent = result.reference_id;
+          document.getElementById('receiptAthleteName').textContent = result.full_name;
+          document.getElementById('receiptSportEvent').textContent = `${result.sport_game} — ${result.event_discipline} (${result.classification})`;
+          goToStep(4);
+        } else {
+          alert('Submission Error: ' + (result.error || 'Unable to submit application.'));
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Registration →';
+          }
+        }
+      } catch (err) {
+        console.error('Submission failed:', err);
+        alert('Network or server error during submission. Please try again.');
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Registration →';
+        }
+      }
     }
   </script>
 </body>
