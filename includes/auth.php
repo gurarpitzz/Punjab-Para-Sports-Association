@@ -84,3 +84,15 @@ function validateCsrfToken(?string $token): bool {
     }
     return hash_equals($_SESSION['ppsa_csrf_token'], $token);
 }
+
+/**
+ * PPSA CSRF token aliases for admin forms
+ */
+function generatePpsaCsrf(): string {
+    return getCsrfToken();
+}
+
+function verifyPpsaCsrf(?string $token): bool {
+    return validateCsrfToken($token);
+}
+
