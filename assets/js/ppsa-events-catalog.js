@@ -4,7 +4,7 @@
  * Single Source of Truth matching includes/sports_catalog.php
  */
 
-const PPSA_CATALOG = {
+window.PPSA_CATALOG = {
   "para_athletics": {
     "name": "Para Athletics",
     "venue": "Guru Nanak Stadium, Ludhiana",
@@ -25,6 +25,10 @@ const PPSA_CATALOG = {
         "T-45": ["100m", "200m", "400m", "800m", "1500m"],
         "T-46": ["100m", "200m", "400m", "800m", "1500m", "Long Jump", "High Jump"],
         "T-47": ["100m", "200m", "400m", "Long Jump", "High Jump"],
+        "T-51": ["100m", "200m", "400m"],
+        "T-52": ["100m", "200m", "400m", "800m", "1500m"],
+        "T-53": ["100m", "200m", "400m", "800m"],
+        "T-54": ["100m", "200m", "400m", "800m", "1500m", "5000m"],
         "T-62": ["100m", "200m", "400m"],
         "T-63": ["100m", "200m", "Long Jump", "High Jump"],
         "T-64": ["100m", "200m", "Long Jump", "High Jump"],
@@ -97,3 +101,4 @@ const PPSA_CATALOG = {
     ]
   }
 };
+var PPSA_CATALOG = window.PPSA_CATALOG;
