@@ -224,7 +224,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
           <?php if ($pendingOfficials > 0): ?><span class="badge-count"><?php echo $pendingOfficials; ?></span><?php endif; ?>
         </a>
       </li>
-      <li><a href="athletes.php" class="admin-menu-link <?php echo $currentPage === 'athletes.php' ? 'active' : ''; ?>">Master Registry</a></li>
+      <li><a href="athletes.php" class="admin-menu-link <?php echo in_array($currentPage, ['athletes.php', 'master-officials.php', 'master_officials.php']) ? 'active' : ''; ?>">Master Registry</a></li>
       <li><a href="audit-logs.php" class="admin-menu-link <?php echo $currentPage === 'audit-logs.php' ? 'active' : ''; ?>">Audit Logs</a></li>
       <li><a href="users.php" class="admin-menu-link <?php echo $currentPage === 'users.php' ? 'active' : ''; ?>">Staff Accounts</a></li>
     </ul>

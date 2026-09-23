@@ -118,6 +118,12 @@ if ($db) {
 }
 
 $totalPages = ceil($totalRows / $limit);
+$totalOfficialsCount = 0;
+if ($db) {
+    try {
+        $totalOfficialsCount = (int)$db->query("SELECT COUNT(*) FROM ppsa_officials")->fetchColumn();
+    } catch (\Throwable $e) {}
+}
 ?>
 
 <div class="admin-page-header">
@@ -131,6 +137,16 @@ $totalPages = ceil($totalRows / $limit);
     </a>
     <span style="font-weight:700;font-size:0.9rem;color:var(--text-muted);">Total Accredited: <strong><?php echo $totalRows; ?></strong></span>
   </div>
+</div>
+
+<!-- Switcher Tabs Between Athletes and Officials Master Registries -->
+<div style="display:flex;gap:10px;margin-bottom:20px;">
+  <a href="athletes.php" style="padding:9px 20px;border-radius:8px;font-weight:700;font-size:0.88rem;text-decoration:none;background:var(--navy);color:#fff;border:1.5px solid var(--navy);display:inline-flex;align-items:center;gap:8px;box-shadow:0 2px 8px rgba(14,31,75,0.25);">
+    <span>🏃</span> Athletes Registry <span style="background:#FFC400;color:var(--navy);font-size:0.75rem;padding:2px 8px;border-radius:12px;font-weight:800;"><?php echo $totalRows; ?></span>
+  </a>
+  <a href="master-officials.php" style="padding:9px 20px;border-radius:8px;font-weight:700;font-size:0.88rem;text-decoration:none;background:#fff;color:var(--navy);border:1.5px solid var(--border);display:inline-flex;align-items:center;gap:8px;">
+    <span>👔</span> Officials Registry <span style="background:#E2E8F0;color:var(--navy);font-size:0.75rem;padding:2px 8px;border-radius:12px;font-weight:800;"><?php echo $totalOfficialsCount; ?></span>
+  </a>
 </div>
 
 <!-- Filters Bar -->
