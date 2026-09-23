@@ -125,6 +125,42 @@ CREATE TABLE IF NOT EXISTS `ppsa_athletes` (
     FOREIGN KEY (`approved_by_user_id`) REFERENCES `ppsa_users`(`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 4a. Athlete Sports Participations (One Athlete -> Multiple Sports)
+CREATE TABLE IF NOT EXISTS `ppsa_athlete_sports` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `athlete_id` INT NULL,                         -- Identity Anchor (points to ppsa_athletes.id once approved)
+    `application_id` INT NOT NULL,                 -- Originating Request Container
+    `sport_game` VARCHAR(60) NOT NULL,
+    `classification` VARCHAR(60) NULL,
+    `weight_category` VARCHAR(60) NULL,
+    `status` ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'pending',
+    `review_notes` TEXT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_sport_athlete` (`athlete_id`),
+    INDEX `idx_sport_app` (`application_id`),
+    INDEX `idx_sport_status` (`status`),
+    INDEX `idx_sport_game` (`sport_game`),
+    UNIQUE KEY `uk_app_sport_class` (`application_id`, `sport_game`, `classification`),
+    FOREIGN KEY (`athlete_id`) REFERENCES `ppsa_athletes`(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`application_id`) REFERENCES `ppsa_athlete_applications`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 4b. Athlete Events Participations (One Sport -> Multiple Permitted Events)
+CREATE TABLE IF NOT EXISTS `ppsa_athlete_events` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `athlete_sport_id` INT NOT NULL,
+    `event_discipline` VARCHAR(120) NOT NULL,
+    `status` ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'pending',
+    `review_notes` TEXT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_ev_sport` (`athlete_sport_id`),
+    INDEX `idx_ev_status` (`status`),
+    UNIQUE KEY `uk_sport_event` (`athlete_sport_id`, `event_discipline`),
+    FOREIGN KEY (`athlete_sport_id`) REFERENCES `ppsa_athlete_sports`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- 5. Official Applications Intake Queue
 CREATE TABLE IF NOT EXISTS `ppsa_official_applications` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,

@@ -112,6 +112,27 @@ if ($db) {
         ");
         $stmt->execute($params);
         $athletes = $stmt->fetchAll();
+
+        // Fetch all approved sports and events grouped by athlete_id
+        $athleteSportsMap = [];
+        if (!empty($athletes)) {
+            try {
+                $athIds = array_column($athletes, 'id');
+                $inClause = implode(',', array_fill(0, count($athIds), '?'));
+                $sQuery = $db->prepare("
+                    SELECT s.athlete_id, s.sport_game, s.classification, s.weight_category,
+                           GROUP_CONCAT(e.event_discipline SEPARATOR ', ') as events_list
+                    FROM ppsa_athlete_sports s
+                    LEFT JOIN ppsa_athlete_events e ON e.athlete_sport_id = s.id AND e.status = 'approved'
+                    WHERE s.athlete_id IN ({$inClause}) AND s.status = 'approved'
+                    GROUP BY s.id
+                ");
+                $sQuery->execute($athIds);
+                while ($spRow = $sQuery->fetch(PDO::FETCH_ASSOC)) {
+                    $athleteSportsMap[$spRow['athlete_id']][] = $spRow;
+                }
+            } catch (\Throwable $e) {}
+        }
     } catch (\Throwable $e) {
         error_log("Athletes Query Error: " . $e->getMessage());
     }
@@ -231,12 +252,32 @@ if ($db) {
                 </div>
               </td>
 
-              <!-- Sport & Event -->
+              <!-- Sport & Event Disciplines -->
               <td style="padding:14px 16px;">
-                <span style="display:inline-block;background:#F1F5F9;color:var(--navy);font-weight:700;font-size:0.75rem;padding:2px 8px;border-radius:4px;margin-bottom:2px;">
-                  <?php echo htmlspecialchars(ucwords(str_replace('_', ' ', $ath['sport_game']))); ?>
-                </span>
-                <div style="font-weight:600;font-size:0.85rem;color:var(--text);"><?php echo htmlspecialchars($ath['event_discipline']); ?></div>
+                <?php if (!empty($athleteSportsMap[$ath['id']])): ?>
+                  <div style="display:flex;flex-direction:column;gap:6px;">
+                    <?php foreach ($athleteSportsMap[$ath['id']] as $spItem): ?>
+                      <div>
+                        <span style="display:inline-block;background:#F1F5F9;color:var(--navy);font-weight:700;font-size:0.75rem;padding:2px 8px;border-radius:4px;margin-bottom:2px;">
+                          <?php echo htmlspecialchars(ucwords(str_replace('_', ' ', $spItem['sport_game']))); ?>
+                        </span>
+                        <?php if (!empty($spItem['classification'])): ?>
+                          <span style="font-weight:700;color:#00B074;font-size:0.75rem;background:#E6FBF2;padding:1px 6px;border-radius:3px;">
+                            <?php echo htmlspecialchars($spItem['classification']); ?>
+                          </span>
+                        <?php endif; ?>
+                        <div style="font-weight:600;font-size:0.83rem;color:var(--text);margin-top:2px;">
+                          <?php echo htmlspecialchars($spItem['events_list'] ?: 'Event Entry'); ?>
+                        </div>
+                      </div>
+                    <?php endforeach; ?>
+                  </div>
+                <?php else: ?>
+                  <span style="display:inline-block;background:#F1F5F9;color:var(--navy);font-weight:700;font-size:0.75rem;padding:2px 8px;border-radius:4px;margin-bottom:2px;">
+                    <?php echo htmlspecialchars(ucwords(str_replace('_', ' ', $ath['sport_game']))); ?>
+                  </span>
+                  <div style="font-weight:600;font-size:0.85rem;color:var(--text);"><?php echo htmlspecialchars($ath['event_discipline']); ?></div>
+                <?php endif; ?>
               </td>
 
               <!-- Classification / Weight -->

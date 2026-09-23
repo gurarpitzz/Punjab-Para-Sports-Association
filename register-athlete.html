@@ -190,6 +190,187 @@
       border: 2px solid #93C5FD;
       background: #FFF;
     }
+
+    /* Camera & Upload Dual-Action Controls */
+    .upload-dual-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .btn-camera-capture {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #003366;
+      color: #FFF;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 9px 16px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-camera-capture:hover {
+      background: #002244;
+      box-shadow: 0 2px 6px rgba(0,51,102,0.25);
+    }
+    .btn-file-select {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFF;
+      color: #003366;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 1.5px solid #93C5FD;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-file-select:hover {
+      background: #EFF6FF;
+      border-color: #3B82F6;
+    }
+    .file-status-badge {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      padding: 10px 14px;
+      background: #F0FDF4;
+      border: 1px solid #86EFAC;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #166534;
+    }
+    .file-status-badge.is-active {
+      display: flex;
+    }
+    .file-remove-btn {
+      background: none;
+      border: none;
+      color: #DC2626;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    .file-remove-btn:hover {
+      background: #FEE2E2;
+    }
+
+    /* Multi-Sport & Multi-Event Builder Styles */
+    .sport-card {
+      background: #FFF;
+      border: 1.5px solid #BFDBFE;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+      position: relative;
+    }
+    .sport-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .sport-badge-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #003366;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-remove-sport {
+      background: #FEE2E2;
+      color: #DC2626;
+      border: 1px solid #FCA5A5;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-remove-sport:hover {
+      background: #FCA5A5;
+      color: #991B1B;
+    }
+    .events-checkbox-container {
+      margin-top: 14px;
+      padding: 14px;
+      background: #F8FAFC;
+      border: 1px dashed #CBD5E1;
+      border-radius: 8px;
+    }
+    .events-checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .event-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: #FFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #1E293B;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+    .event-checkbox-label:hover {
+      border-color: #93C5FD;
+      background: #F0F9FF;
+    }
+    .event-checkbox-label input[type="checkbox"]:checked + span {
+      font-weight: 700;
+      color: #003366;
+    }
+    .btn-add-sport {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #EFF6FF;
+      color: #003366;
+      border: 1.5px dashed #3B82F6;
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 24px;
+      transition: all 0.2s ease;
+    }
+    .btn-add-sport:hover {
+      background: #DBEAFE;
+      border-color: #1D4ED8;
+    }
+    .sports-summary-card {
+      background: #F0FDF4;
+      border: 1.5px solid #86EFAC;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-size: 0.86rem;
+      color: #166534;
+    }
   </style>
 </head>
 <body class="registration-page-wrap">
@@ -317,7 +498,7 @@
           </div>
         </div>
 
-        <!-- STEP 2: Sports, Cascading Event & Apparel -->
+        <!-- STEP 2: Sports & Events Participation Builder -->
         <div class="form-step-pane" id="paneStep2">
           <h2 style="font-size: 1.3rem; margin-bottom: 8px; color: var(--ppsa-navy);">Sports & State Games Event Selection</h2>
           <div style="background:#EBF3FC;border:1px solid #93C5FD;border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:0.85rem;color:#003366;display:flex;align-items:flex-start;gap:12px;">
@@ -327,44 +508,23 @@
             <div>
               <strong>Official State Games Event List (Ref. No. PPSA/26/180 — Venue: Ludhiana):</strong>
               <div style="font-size:0.8rem;color:#475569;margin-top:2px;">
-                Select your designated sport below. Classifications and event disciplines will automatically cascade per PPSA state technical guidelines.
+                You can register for multiple sports and select multiple permitted events per classification. Permitted events automatically cascade per official PPSA guidelines.
               </div>
             </div>
           </div>
-          <div class="form-group-grid">
-            
-            <!-- Cascading Selector 1: Game -->
-            <div class="form-group-full">
-              <label class="form-label" for="selectGame">Designated Para-Sport (Ludhiana State Games) *</label>
-              <select id="selectGame" class="form-control" required onchange="onGameChange()">
-                <option value="">-- Choose Game / Discipline --</option>
-                <option value="para_athletics">Para Athletics (Track & Field)</option>
-                <option value="powerlifting">Power Lifting</option>
-                <option value="para_badminton">Para Badminton</option>
-                <option value="wheelchair_basketball">Wheelchair Basketball</option>
-              </select>
-            </div>
 
-            <!-- Cascading Selector 2: Classification / Weight Category -->
-            <div class="form-group-full">
-              <label class="form-label" for="selectCategory">Sport Classification / Category *</label>
-              <select id="selectCategory" class="form-control" required onchange="onCategoryChange()">
-                <option value="">-- Select Game First --</option>
-              </select>
-              <div id="otherClassificationWrap" style="display: none; margin-top: 10px; background: #F8FAFC; border: 1.5px dashed #93C5FD; border-radius: 8px; padding: 12px 14px;">
-                <label class="form-label" for="customClassification" style="margin-bottom: 4px; color: #003366;">Specify Custom Classification Category *</label>
-                <input type="text" id="customClassification" class="form-control" placeholder="e.g. T-42, F-43, etc.">
-              </div>
-            </div>
+          <!-- Dynamic Multi-Sport Container -->
+          <div id="sportsCardsContainer"></div>
 
-            <!-- Cascading Selector 3: Specific Event -->
-            <div class="form-group-full">
-              <label class="form-label" for="selectEvent">Specific Event Discipline *</label>
-              <select id="selectEvent" class="form-control" required>
-                <option value="">-- Select Category First --</option>
-              </select>
-            </div>
+          <button type="button" class="btn-add-sport" id="btnAddSportCard" onclick="addNewSportCard()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            + Add Another Sport / Discipline
+          </button>
 
+          <!-- Live Enrollment Summary Card -->
+          <div id="sportsSummaryCard" class="sports-summary-card" style="display:none;"></div>
+
+          <div class="form-group-grid" style="margin-top: 10px; padding-top: 20px; border-top: 1px solid var(--ppsa-border);">
             <div>
               <label class="form-label" for="impairmentType">Primary Impairment Type *</label>
               <select id="impairmentType" class="form-control" required>
@@ -411,15 +571,15 @@
                 <option value="11">UK 11</option>
               </select>
             </div>
-
           </div>
+
           <div class="step-actions-row">
             <button type="button" class="btn btn-outline-navy" onclick="goToStep(1)">&larr; Back</button>
             <button type="button" class="btn btn-navy" onclick="validateStep2AndNext()">Next: Documents & Uploads &rarr;</button>
           </div>
         </div>
 
-        <!-- STEP 3: Identity & Document Uploads -->
+        <!-- STEP 3: Identity & Document Uploads (Camera-First & File Picker) -->
         <div class="form-step-pane" id="paneStep3">
           <h2 style="font-size: 1.3rem; margin-bottom: 20px; color: var(--ppsa-navy);">Identity Proof & Official Verification Uploads</h2>
           <div class="form-group-grid">
@@ -469,20 +629,82 @@
               <input type="text" id="pincode" class="form-control" placeholder="141001" maxlength="6" required>
             </div>
 
-            <!-- Uploads -->
+            <!-- Upload 1: Passport Photo (Camera Selfie / File Picker) -->
             <div class="form-group-full" style="padding: 16px; background: var(--ppsa-surface); border-radius: var(--radius-sm); border: 1px dashed var(--ppsa-border);">
-              <label class="form-label">1. Passport Size Color Photograph (JPG/PNG, Max 2MB) *</label>
-              <input type="file" id="filePhoto" class="form-control" accept="image/jpeg,image/png" required>
+              <label class="form-label" style="margin-bottom: 4px;">1. Passport Size Color Photograph *</label>
+              <p style="font-size: 0.8rem; color: var(--ppsa-text-muted); margin: 0 0 10px;">Clear facial photo. Tap Take Photo to open selfie camera or Upload File from your device.</p>
+              
+              <div class="upload-dual-actions">
+                <button type="button" class="btn-camera-capture" onclick="triggerPick('photo', true)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  📷 Take Photo (Selfie)
+                </button>
+                <button type="button" class="btn-file-select" onclick="triggerPick('photo', false)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  📁 Upload File
+                </button>
+              </div>
+
+              <!-- Hidden Native Inputs -->
+              <input type="file" id="inputCamPhoto" accept="image/*" capture="user" style="display:none;" onchange="onFileChosen('photo', this.files[0])">
+              <input type="file" id="inputFilePhoto" accept="image/jpeg,image/png,image/webp" style="display:none;" onchange="onFileChosen('photo', this.files[0])">
+
+              <div id="badge-photo" class="file-status-badge">
+                <span id="label-photo" style="display:inline-flex;align-items:center;gap:6px;">✓ Photo Selected</span>
+                <button type="button" class="file-remove-btn" onclick="removeDoc('photo')">✕ Remove</button>
+              </div>
             </div>
 
+            <!-- Upload 2: Identity Proof (Camera Rear Document / File Picker) -->
             <div class="form-group-full" style="padding: 16px; background: var(--ppsa-surface); border-radius: var(--radius-sm); border: 1px dashed var(--ppsa-border);">
-              <label class="form-label">2. Government ID Proof / Aadhaar Card Scan (PDF/JPG) *</label>
-              <input type="file" id="fileGovtId" class="form-control" accept="image/jpeg,image/png,application/pdf" required>
+              <label class="form-label" style="margin-bottom: 4px;">2. Government ID Proof / Aadhaar Card Scan *</label>
+              <p style="font-size: 0.8rem; color: var(--ppsa-text-muted); margin: 0 0 10px;">Tap Take Photo to snap Aadhaar with rear camera, or Upload Document (PDF/JPG).</p>
+
+              <div class="upload-dual-actions">
+                <button type="button" class="btn-camera-capture" onclick="triggerPick('govtId', true)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  📷 Take Photo (Document)
+                </button>
+                <button type="button" class="btn-file-select" onclick="triggerPick('govtId', false)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  📁 Upload Document
+                </button>
+              </div>
+
+              <!-- Hidden Native Inputs -->
+              <input type="file" id="inputCamGovtId" accept="image/*" capture="environment" style="display:none;" onchange="onFileChosen('govtId', this.files[0])">
+              <input type="file" id="inputFileGovtId" accept="image/jpeg,image/png,image/webp,application/pdf" style="display:none;" onchange="onFileChosen('govtId', this.files[0])">
+
+              <div id="badge-govtId" class="file-status-badge">
+                <span id="label-govtId" style="display:inline-flex;align-items:center;gap:6px;">✓ Document Selected</span>
+                <button type="button" class="file-remove-btn" onclick="removeDoc('govtId')">✕ Remove</button>
+              </div>
             </div>
 
+            <!-- Upload 3: Medical Certificate (Camera Rear Document / File Picker) -->
             <div class="form-group-full" style="padding: 16px; background: var(--ppsa-surface); border-radius: var(--radius-sm); border: 1px dashed var(--ppsa-border);">
-              <label class="form-label">3. Medical / Disability Certificate (PDF/JPG, Max 3MB) *</label>
-              <input type="file" id="fileDisabilityCert" class="form-control" accept="image/jpeg,image/png,application/pdf" required>
+              <label class="form-label" style="margin-bottom: 4px;">3. Medical / Disability Certificate *</label>
+              <p style="font-size: 0.8rem; color: var(--ppsa-text-muted); margin: 0 0 10px;">Tap Take Photo to snap certificate with camera or Upload Certificate (PDF/JPG).</p>
+
+              <div class="upload-dual-actions">
+                <button type="button" class="btn-camera-capture" onclick="triggerPick('disabilityCert', true)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  📷 Take Photo (Certificate)
+                </button>
+                <button type="button" class="btn-file-select" onclick="triggerPick('disabilityCert', false)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  📁 Upload Document
+                </button>
+              </div>
+
+              <!-- Hidden Native Inputs -->
+              <input type="file" id="inputCamCert" accept="image/*" capture="environment" style="display:none;" onchange="onFileChosen('disabilityCert', this.files[0])">
+              <input type="file" id="inputFileCert" accept="image/jpeg,image/png,image/webp,application/pdf" style="display:none;" onchange="onFileChosen('disabilityCert', this.files[0])">
+
+              <div id="badge-disabilityCert" class="file-status-badge">
+                <span id="label-disabilityCert" style="display:inline-flex;align-items:center;gap:6px;">✓ Certificate Selected</span>
+                <button type="button" class="file-remove-btn" onclick="removeDoc('disabilityCert')">✕ Remove</button>
+              </div>
             </div>
 
           </div>
@@ -688,18 +910,186 @@
       el.value = formatted;
     }
 
-    // Cascading Select Logic using PPSA_CATALOG
-    function onGameChange() {
-      const gameKey = document.getElementById('selectGame').value;
-      const catSelect = document.getElementById('selectCategory');
-      const eventSelect = document.getElementById('selectEvent');
-      const gender = (document.getElementById('gender').value || 'male').toLowerCase();
+    // Document Upload Management (Camera & File Picker)
+    const selectedDocs = {
+      photo: null,
+      govtId: null,
+      disabilityCert: null
+    };
 
+    function triggerPick(docKey, isCamera) {
+      const idMap = {
+        photo: isCamera ? 'inputCamPhoto' : 'inputFilePhoto',
+        govtId: isCamera ? 'inputCamGovtId' : 'inputFileGovtId',
+        disabilityCert: isCamera ? 'inputCamCert' : 'inputFileCert'
+      };
+      const el = document.getElementById(idMap[docKey]);
+      if (el) {
+        el.value = '';
+        el.click();
+      }
+    }
+
+    function onFileChosen(docKey, file) {
+      if (!file) return;
+      selectedDocs[docKey] = file;
+      const badge = document.getElementById('badge-' + docKey);
+      const label = document.getElementById('label-' + docKey);
+      if (badge && label) {
+        const sizeStr = (file.size / 1024).toFixed(1) + ' KB';
+        label.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:#16A34A;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <strong>${file.name}</strong> <span style="color:#64748B;font-size:0.78rem;">(${sizeStr})</span>
+        `;
+        badge.classList.add('is-active');
+      }
+    }
+
+    function removeDoc(docKey) {
+      selectedDocs[docKey] = null;
+      const badge = document.getElementById('badge-' + docKey);
+      if (badge) badge.classList.remove('is-active');
+      const camInput = document.getElementById({ photo: 'inputCamPhoto', govtId: 'inputCamGovtId', disabilityCert: 'inputCamCert' }[docKey]);
+      const fileInput = document.getElementById({ photo: 'inputFilePhoto', govtId: 'inputFileGovtId', disabilityCert: 'inputFileCert' }[docKey]);
+      if (camInput) camInput.value = '';
+      if (fileInput) fileInput.value = '';
+    }
+
+    // =========================================================================
+    // DYNAMIC MULTI-SPORT & MULTI-EVENT BUILDER ENGINE
+    // =========================================================================
+    let sportCardCounter = 0;
+    const sportCards = []; // [{ id, gameKey, catVal, weightVal, events: [], customClass: '' }]
+
+    function addNewSportCard() {
+      sportCardCounter++;
+      const cardId = sportCardCounter;
+      const cardObj = {
+        id: cardId,
+        gameKey: '',
+        catVal: '',
+        weightVal: '',
+        events: [],
+        customClass: ''
+      };
+      sportCards.push(cardObj);
+      renderAllSportCards();
+    }
+
+    function removeSportCard(cardId) {
+      if (sportCards.length <= 1) {
+        alert('At least one sport participation is required.');
+        return;
+      }
+      const idx = sportCards.findIndex(c => c.id === cardId);
+      if (idx !== -1) {
+        sportCards.splice(idx, 1);
+        renderAllSportCards();
+        updateSportsSummary();
+      }
+    }
+
+    function renderAllSportCards() {
+      const container = document.getElementById('sportsCardsContainer');
+      if (!container) return;
+
+      container.innerHTML = '';
+      sportCards.forEach((card, index) => {
+        const cardEl = document.createElement('div');
+        cardEl.className = 'sport-card';
+        cardEl.id = 'sportCard-' + card.id;
+
+        const isOnlyCard = sportCards.length === 1;
+
+        cardEl.innerHTML = `
+          <div class="sport-card-header">
+            <span class="sport-badge-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+              Sport Participation #${index + 1}
+            </span>
+            ${!isOnlyCard ? `
+              <button type="button" class="btn-remove-sport" onclick="removeSportCard(${card.id})">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                Remove Sport
+              </button>
+            ` : ''}
+          </div>
+
+          <div class="form-group-grid">
+            <div class="form-group-full">
+              <label class="form-label">Designated Para-Sport *</label>
+              <select class="form-control" onchange="onCardGameChange(${card.id}, this.value)" required>
+                <option value="">-- Choose Game / Discipline --</option>
+                <option value="para_athletics" ${card.gameKey === 'para_athletics' ? 'selected' : ''}>Para Athletics (Track & Field)</option>
+                <option value="powerlifting" ${card.gameKey === 'powerlifting' ? 'selected' : ''}>Power Lifting</option>
+                <option value="para_badminton" ${card.gameKey === 'para_badminton' ? 'selected' : ''}>Para Badminton</option>
+                <option value="wheelchair_basketball" ${card.gameKey === 'wheelchair_basketball' ? 'selected' : ''}>Wheelchair Basketball</option>
+              </select>
+            </div>
+
+            <div class="form-group-full">
+              <label class="form-label">Sport Classification / Category *</label>
+              <select class="form-control" id="catSelect-${card.id}" onchange="onCardCategoryChange(${card.id}, this.value)" required>
+                <option value="">-- Select Game First --</option>
+              </select>
+              <div id="otherWrap-${card.id}" style="display: none; margin-top: 10px; background: #F8FAFC; border: 1.5px dashed #93C5FD; border-radius: 8px; padding: 12px 14px;">
+                <label class="form-label" style="margin-bottom: 4px; color: #003366;">Specify Custom Classification Category *</label>
+                <input type="text" class="form-control" id="customInput-${card.id}" placeholder="e.g. T-42, F-43, etc." oninput="onCardCustomClassInput(${card.id}, this.value)">
+              </div>
+            </div>
+          </div>
+
+          <div id="eventsContainer-${card.id}" class="events-checkbox-container" style="display: none;">
+            <label class="form-label" style="margin-bottom: 4px; color: #003366;">
+              Select Permitted Event Disciplines *
+              <span style="font-size:0.78rem;font-weight:normal;color:#64748B;">(Check all that you are competing in)</span>
+            </label>
+            <div class="events-checkbox-grid" id="eventsGrid-${card.id}"></div>
+          </div>
+        `;
+
+        container.appendChild(cardEl);
+
+        // If card already had data, populate dropdowns & events
+        if (card.gameKey) {
+          populateCardCategories(card.id, card.gameKey, card.catVal);
+          if (card.catVal) {
+            renderCardEvents(card.id, card.gameKey, card.catVal);
+          }
+        }
+      });
+
+      // Limit max 4 sport cards
+      const addBtn = document.getElementById('btnAddSportCard');
+      if (addBtn) {
+        addBtn.style.display = sportCards.length >= 4 ? 'none' : 'inline-flex';
+      }
+    }
+
+    function onCardGameChange(cardId, newGameKey) {
+      const card = sportCards.find(c => c.id === cardId);
+      if (!card) return;
+      card.gameKey = newGameKey;
+      card.catVal = '';
+      card.weightVal = '';
+      card.events = [];
+      card.customClass = '';
+
+      populateCardCategories(cardId, newGameKey, '');
+      const evContainer = document.getElementById('eventsContainer-' + cardId);
+      if (evContainer) evContainer.style.display = 'none';
+
+      updateSportsSummary();
+    }
+
+    function populateCardCategories(cardId, gameKey, selectedCat) {
+      const catSelect = document.getElementById('catSelect-' + cardId);
+      if (!catSelect) return;
+
+      const gender = (document.getElementById('gender').value || 'male').toLowerCase();
       catSelect.innerHTML = '<option value="">-- Choose Category / Classification --</option>';
-      eventSelect.innerHTML = '<option value="">-- Select Category First --</option>';
 
       if (!gameKey || !PPSA_CATALOG[gameKey]) return;
-
       const item = PPSA_CATALOG[gameKey];
 
       if (gameKey === 'para_athletics') {
@@ -711,17 +1101,11 @@
               const opt = document.createElement('option');
               opt.value = cat;
               opt.textContent = cat;
+              if (cat === selectedCat) opt.selected = true;
               grp.appendChild(opt);
             });
             catSelect.appendChild(grp);
           }
-        } else if (item.categories) {
-          Object.keys(item.categories).forEach(cat => {
-            const opt = document.createElement('option');
-            opt.value = cat;
-            opt.textContent = cat;
-            catSelect.appendChild(opt);
-          });
         }
       } else if (gameKey === 'powerlifting') {
         const weights = item.weights[gender] || item.weights['male'];
@@ -729,82 +1113,146 @@
           const opt = document.createElement('option');
           opt.value = w;
           opt.textContent = w + ' Division';
+          if (w === selectedCat) opt.selected = true;
           catSelect.appendChild(opt);
         });
-        // Powerlifting event is bench press
-        eventSelect.innerHTML = '<option value="Bench Press" selected>Bench Press</option>';
       } else if (gameKey === 'para_badminton') {
         item.classifications.forEach(c => {
           const opt = document.createElement('option');
           opt.value = c;
           opt.textContent = c;
+          if (c === selectedCat) opt.selected = true;
           catSelect.appendChild(opt);
         });
-        eventSelect.innerHTML = '<option value="">-- Choose Badminton Event --</option>';
-        item.events.forEach(ev => {
-          const opt = document.createElement('option');
-          opt.value = ev;
-          opt.textContent = ev;
-          eventSelect.appendChild(opt);
-        });
       } else if (gameKey === 'wheelchair_basketball') {
-        const normGen = (gender || '').toLowerCase();
-        catSelect.innerHTML = `
-          <option value="Male Division" ${normGen === 'male' || (!normGen && normGen !== 'female' && normGen !== 'other') ? 'selected' : ''}>Male Division</option>
-          <option value="Female Division" ${normGen === 'female' ? 'selected' : ''}>Female Division</option>
-          <option value="Other Category" ${normGen === 'other' ? 'selected' : ''}>Other Category</option>
-        `;
-        eventSelect.innerHTML = `
-          <option value="Wheelchair Basketball Tournament Entry" selected>Wheelchair Basketball Tournament Entry</option>
-          <option value="3x3 Wheelchair Basketball">3x3 Wheelchair Basketball</option>
-          <option value="5x5 Wheelchair Basketball">5x5 Wheelchair Basketball</option>
-        `;
+        item.categories.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c;
+          opt.textContent = c;
+          if (c === selectedCat) opt.selected = true;
+          catSelect.appendChild(opt);
+        });
       }
     }
 
-    function onCategoryChange() {
-      const gameKey = document.getElementById('selectGame').value;
-      const catKey = document.getElementById('selectCategory').value;
-      const eventSelect = document.getElementById('selectEvent');
-      const otherWrap = document.getElementById('otherClassificationWrap');
+    function onCardCategoryChange(cardId, catVal) {
+      const card = sportCards.find(c => c.id === cardId);
+      if (!card) return;
+      card.catVal = catVal;
+      card.events = [];
 
-      // Toggle custom specification if "Other" is chosen
+      const otherWrap = document.getElementById('otherWrap-' + cardId);
       if (otherWrap) {
-        if (catKey.includes('Other')) {
+        if (catVal.includes('Other')) {
           otherWrap.style.display = 'block';
-          const custInput = document.getElementById('customClassification');
-          if (custInput) custInput.focus();
         } else {
           otherWrap.style.display = 'none';
         }
       }
 
-      if (gameKey === 'para_athletics') {
-        eventSelect.innerHTML = '<option value="">-- Choose Specific Event --</option>';
-        if (!catKey || !PPSA_CATALOG[gameKey]) return;
+      renderCardEvents(cardId, card.gameKey, catVal);
+      updateSportsSummary();
+    }
 
-        let events = null;
-        if (PPSA_CATALOG[gameKey].verticals) {
-          for (const grp of Object.values(PPSA_CATALOG[gameKey].verticals)) {
-            if (grp[catKey]) {
-              events = grp[catKey];
+    function onCardCustomClassInput(cardId, val) {
+      const card = sportCards.find(c => c.id === cardId);
+      if (card) {
+        card.customClass = val.trim();
+        updateSportsSummary();
+      }
+    }
+
+    function renderCardEvents(cardId, gameKey, catVal) {
+      const card = sportCards.find(c => c.id === cardId);
+      const evContainer = document.getElementById('eventsContainer-' + cardId);
+      const evGrid = document.getElementById('eventsGrid-' + cardId);
+      if (!evContainer || !evGrid || !gameKey || !catVal) {
+        if (evContainer) evContainer.style.display = 'none';
+        return;
+      }
+
+      let permittedEvents = [];
+      const item = PPSA_CATALOG[gameKey];
+
+      if (gameKey === 'para_athletics') {
+        if (item.verticals) {
+          for (const grp of Object.values(item.verticals)) {
+            if (grp[catVal]) {
+              permittedEvents = grp[catVal];
               break;
             }
           }
         }
-        if (!events && PPSA_CATALOG[gameKey].categories) {
-          events = PPSA_CATALOG[gameKey].categories[catKey];
-        }
-
-        if (events) {
-          events.forEach(ev => {
-            const opt = document.createElement('option');
-            opt.value = ev;
-            opt.textContent = ev;
-            eventSelect.appendChild(opt);
-          });
-        }
+      } else if (gameKey === 'powerlifting') {
+        permittedEvents = ['Bench Press'];
+      } else if (gameKey === 'para_badminton') {
+        permittedEvents = item.events || [];
+      } else if (gameKey === 'wheelchair_basketball') {
+        permittedEvents = item.events || [];
       }
+
+      if (permittedEvents.length === 0) {
+        evContainer.style.display = 'none';
+        return;
+      }
+
+      evContainer.style.display = 'block';
+      evGrid.innerHTML = '';
+
+      permittedEvents.forEach(evName => {
+        const isChecked = card && card.events.includes(evName);
+        const label = document.createElement('label');
+        label.className = 'event-checkbox-label';
+        label.innerHTML = `
+          <input type="checkbox" value="${evName}" ${isChecked ? 'checked' : ''} onchange="onCardEventCheck(${cardId}, '${evName}', this.checked)">
+          <span>${evName}</span>
+        `;
+        evGrid.appendChild(label);
+      });
+
+      // Default powerlifting bench press
+      if (gameKey === 'powerlifting' && card.events.length === 0) {
+        card.events = ['Bench Press'];
+        const chk = evGrid.querySelector('input[type="checkbox"]');
+        if (chk) chk.checked = true;
+      }
+    }
+
+    function onCardEventCheck(cardId, evName, isChecked) {
+      const card = sportCards.find(c => c.id === cardId);
+      if (!card) return;
+      if (isChecked) {
+        if (!card.events.includes(evName)) card.events.push(evName);
+      } else {
+        card.events = card.events.filter(e => e !== evName);
+      }
+      updateSportsSummary();
+    }
+
+    function updateSportsSummary() {
+      const summaryCard = document.getElementById('sportsSummaryCard');
+      if (!summaryCard) return;
+
+      const validSports = sportCards.filter(c => c.gameKey && c.catVal && c.events.length > 0);
+      if (validSports.length === 0) {
+        summaryCard.style.display = 'none';
+        summaryCard.innerHTML = '';
+        return;
+      }
+
+      summaryCard.style.display = 'block';
+      let html = '<div style="font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;">';
+      html += '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+      html += 'Enrolled Sports & Events Summary:</div><ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;">';
+
+      validSports.forEach(c => {
+        const sportName = PPSA_CATALOG[c.gameKey] ? PPSA_CATALOG[c.gameKey].name : c.gameKey;
+        const classLabel = c.catVal.includes('Other') && c.customClass ? `Other: ${c.customClass}` : c.catVal;
+        html += `<li><strong>${sportName}</strong> (${classLabel}) &rarr; <span style="color:#003366;">${c.events.join(', ')}</span></li>`;
+      });
+
+      html += '</ul>';
+      summaryCard.innerHTML = html;
     }
 
     function validateStep1AndNext() {
@@ -817,27 +1265,48 @@
         alert('Please fill in all mandatory personal details (Name, Gender, DOB, Mobile, Email).');
         return;
       }
-      onGameChange(); // re-evaluates gender-dependent categories like powerlifting
+
+      // Initialize first sport card if empty
+      if (sportCards.length === 0) {
+        addNewSportCard();
+      } else {
+        renderAllSportCards();
+      }
       goToStep(2);
     }
 
     function validateStep2AndNext() {
-      const game = document.getElementById('selectGame').value;
-      const cat = document.getElementById('selectCategory').value;
-      const ev = document.getElementById('selectEvent').value;
-      const imp = document.getElementById('impairmentType').value;
-      if (!game || !cat || !ev || !imp) {
-        alert('Please complete the sport, classification, and event discipline selection.');
+      if (sportCards.length === 0) {
+        alert('Please add at least one sport participation.');
         return;
       }
-      if (cat.includes('Other')) {
-        const custom = document.getElementById('customClassification') ? document.getElementById('customClassification').value.trim() : '';
-        if (!custom) {
-          alert('Please enter your specific classification in the provided text field.');
-          document.getElementById('customClassification').focus();
+
+      for (let i = 0; i < sportCards.length; i++) {
+        const card = sportCards[i];
+        if (!card.gameKey) {
+          alert(`Sport Participation #${i + 1}: Please select a designated para-sport.`);
+          return;
+        }
+        if (!card.catVal) {
+          alert(`Sport Participation #${i + 1}: Please select a sport classification or category.`);
+          return;
+        }
+        if (card.catVal.includes('Other') && !card.customClass) {
+          alert(`Sport Participation #${i + 1}: Please specify your custom classification category.`);
+          return;
+        }
+        if (!card.events || card.events.length === 0) {
+          alert(`Sport Participation #${i + 1}: Please check at least one permitted event discipline.`);
           return;
         }
       }
+
+      const imp = document.getElementById('impairmentType').value;
+      if (!imp) {
+        alert('Please select your primary impairment type.');
+        return;
+      }
+
       goToStep(3);
     }
 
@@ -917,13 +1386,9 @@
         return;
       }
 
-      // Check required files
-      const photoFile = document.getElementById('filePhoto').files[0];
-      const idFile    = document.getElementById('fileGovtId').files[0];
-      const certFile  = document.getElementById('fileDisabilityCert').files[0];
-
-      if (!photoFile) {
-        alert('Please select your passport-size photograph to upload.');
+      // Check required files from selectedDocs
+      if (!selectedDocs.photo) {
+        alert('Please take or upload your passport-size photograph.');
         return;
       }
 
@@ -935,9 +1400,9 @@
 
       // Client-side image optimization to reduce network load & server storage
       const [optPhoto, optId, optCert] = await Promise.all([
-        compressImageFile(photoFile, 800, 0.85),
-        compressImageFile(idFile, 1600, 0.82),
-        compressImageFile(certFile, 1600, 0.82)
+        compressImageFile(selectedDocs.photo, 800, 0.85),
+        compressImageFile(selectedDocs.govtId, 1600, 0.82),
+        compressImageFile(selectedDocs.disabilityCert, 1600, 0.82)
       ]);
 
       if (submitBtn) {
@@ -958,33 +1423,34 @@
       formData.append('pincode', pincode);
       formData.append('state', 'Punjab');
 
-      const gameKey = document.getElementById('selectGame').value;
-      const catVal  = document.getElementById('selectCategory').value;
-      const evVal   = document.getElementById('selectEvent').value;
+      // Structured Sports Data Payload (Hierarchical Multi-Sport / Multi-Event)
+      const formattedSports = sportCards.map(c => {
+        let finalCat = c.catVal;
+        if (c.catVal.includes('Other') && c.customClass) {
+          finalCat = 'Other: ' + c.customClass;
+        }
+        return {
+          sport: c.gameKey,
+          classification: c.gameKey !== 'powerlifting' ? finalCat : null,
+          weight_category: c.gameKey === 'powerlifting' ? c.catVal : null,
+          events: c.events
+        };
+      });
 
-      formData.append('sportGame', gameKey);
-      if (gameKey === 'powerlifting') {
-        formData.append('weightCategory', catVal);
-        formData.append('eventDiscipline', 'Bench Press');
-      } else if (gameKey === 'wheelchair_basketball') {
-        let finalCat = catVal;
-        if (catVal.includes('Other')) {
-          const customVal = document.getElementById('customClassification') ? document.getElementById('customClassification').value.trim() : '';
-          finalCat = customVal ? ('Other: ' + customVal) : catVal;
-        }
-        formData.append('classification', finalCat);
-        formData.append('eventDiscipline', evVal || 'Wheelchair Basketball Tournament Entry');
-      } else {
-        let finalCat = catVal;
-        if (catVal.includes('Other')) {
-          const customVal = document.getElementById('customClassification') ? document.getElementById('customClassification').value.trim() : '';
-          finalCat = customVal ? ('Other: ' + customVal) : catVal;
-        }
-        formData.append('classification', finalCat);
-        formData.append('eventDiscipline', evVal);
+      formData.append('sportsData', JSON.stringify(formattedSports));
+
+      // Legacy fallback fields for backward compatibility
+      if (formattedSports.length > 0) {
+        formData.append('sportGame', formattedSports[0].sport);
+        formData.append('classification', formattedSports[0].classification || '');
+        formData.append('weightCategory', formattedSports[0].weight_category || '');
+        formData.append('eventDiscipline', formattedSports[0].events.join(', '));
       }
 
       formData.append('impairmentType', document.getElementById('impairmentType').value);
+      formData.append('wheelchairStatus', document.getElementById('wheelchairStatus').value);
+      formData.append('tshirtSize', document.getElementById('tshirtSize').value);
+      formData.append('shoeSize', document.getElementById('shoeSize').value);
       formData.append('legalDeclaration', '1');
 
       if (optPhoto) formData.append('passportPhoto', optPhoto);
@@ -1001,7 +1467,7 @@
         if (result.success) {
           document.getElementById('receiptTrackingId').textContent = result.reference_id;
           document.getElementById('receiptAthleteName').textContent = result.full_name;
-          document.getElementById('receiptSportEvent').textContent = `${result.sport_game} — ${result.event_discipline} (${result.classification})`;
+          document.getElementById('receiptSportEvent').textContent = result.sport_summary || `${result.sport_game} — ${result.event_discipline}`;
           goToStep(4);
         } else {
           alert('Submission Error: ' + (result.error || 'Unable to submit application.'));

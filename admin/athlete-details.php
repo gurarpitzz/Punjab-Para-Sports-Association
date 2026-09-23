@@ -40,8 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $db) {
                         $db->rollBack();
                         $errorMsg = "This application has already been approved.";
                     } else {
-                        // Generate Concurrency-Safe Atomic State Registration Sequence Number
-                        $permanentRegNo = generatePpsaSequenceNo($db, 'athlete', 2026);
+                        // Reuse existing permanent State Registration Number if already assigned; otherwise mint new
+                        $permanentRegNo = !empty($currentApp['permanent_registration_no']) ? $currentApp['permanent_registration_no'] : null;
+                        if (!$permanentRegNo) {
+                            $permanentRegNo = generatePpsaSequenceNo($db, 'athlete', 2026);
+                        }
 
                         // Update Application Status
                         $upStmt = $db->prepare("
@@ -85,11 +88,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $db) {
                             $currentUser['id']
                         ]);
 
+                        // Retrieve the master athlete id
+                        $getAthId = $db->prepare("SELECT id FROM ppsa_athletes WHERE registration_no = ? LIMIT 1");
+                        $getAthId->execute([$permanentRegNo]);
+                        $masterAthleteId = (int)$getAthId->fetchColumn();
+
+                        // Link and approve all sports and non-rejected events for this application
+                        if ($masterAthleteId) {
+                            $upSports = $db->prepare("
+                                UPDATE ppsa_athlete_sports 
+                                SET athlete_id = ?, status = 'approved' 
+                                WHERE application_id = ?
+                            ");
+                            $upSports->execute([$masterAthleteId, $appId]);
+
+                            $upEvents = $db->prepare("
+                                UPDATE ppsa_athlete_events e
+                                JOIN ppsa_athlete_sports s ON s.id = e.athlete_sport_id
+                                SET e.status = 'approved'
+                                WHERE s.application_id = ? AND e.status != 'rejected'
+                            ");
+                            $upEvents->execute([$appId]);
+                        }
+
                         // Record in Status Transition History
                         $histStmt = $db->prepare("
                             INSERT INTO ppsa_athlete_status_history 
                             (application_id, from_status, to_status, changed_by_user_id, reason_notes, created_at)
-                            VALUES (?, ?, 'approved', ?, 'Application approved and permanent PPSA state registration number issued.', NOW())
+                            VALUES (?, ?, 'approved', ?, 'Application approved and permanent PPSA state registration number issued/confirmed.', NOW())
                         ");
                         $histStmt->execute([$appId, $previousStatus, $currentUser['id']]);
 
@@ -112,7 +138,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $db) {
                             $currentApp['event_discipline']
                         );
 
-                        $successMsg = "Application approved successfully! Permanent State Registration Number <strong>" . htmlspecialchars($permanentRegNo) . "</strong> has been issued and confirmation email sent.";
+                        $successMsg = "Application approved successfully! Permanent State Registration Number <strong>" . htmlspecialchars($permanentRegNo) . "</strong> is confirmed.";
+                    }
+
+                } elseif ($action === 'toggle_event_status') {
+                    $targetEventId = (int)($_POST['event_id'] ?? 0);
+                    $newEventStatus = ($_POST['event_status'] ?? '') === 'approved' ? 'approved' : 'rejected';
+                    
+                    if ($targetEventId > 0) {
+                        $evUpStmt = $db->prepare("UPDATE ppsa_athlete_events SET status = ? WHERE id = ?");
+                        $evUpStmt->execute([$newEventStatus, $targetEventId]);
+                        $db->commit();
+                        $successMsg = "Event discipline status updated to <strong>" . strtoupper($newEventStatus) . "</strong>.";
+                    } else {
+                        $db->rollBack();
+                        $errorMsg = "Invalid event ID for status update.";
                     }
 
                 } elseif ($action === 'request_correction') {
@@ -249,6 +289,34 @@ if ($db) {
             ");
             $histStmt->execute([$appId]);
             $statusHistory = $histStmt->fetchAll();
+
+            // Fetch Hierarchical Sports & Events
+            $sportsWithEvents = [];
+            try {
+                $spStmt = $db->prepare("
+                    SELECT s.* 
+                    FROM ppsa_athlete_sports s
+                    WHERE s.application_id = ? 
+                       OR (s.athlete_id IS NOT NULL AND s.athlete_id = (SELECT id FROM ppsa_athletes WHERE application_id = ?))
+                    ORDER BY s.id ASC
+                ");
+                $spStmt->execute([$appId, $appId]);
+                $rawSports = $spStmt->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach ($rawSports as $rs) {
+                    $evStmt = $db->prepare("
+                        SELECT * FROM ppsa_athlete_events 
+                        WHERE athlete_sport_id = ? 
+                        ORDER BY id ASC
+                    ");
+                    $evStmt->execute([$rs['id']]);
+                    $rs['events'] = $evStmt->fetchAll(PDO::FETCH_ASSOC);
+                    $sportsWithEvents[] = $rs;
+                }
+            } catch (\Throwable $e) {
+                // Table may be pending migration; graceful fallback to application columns
+                $sportsWithEvents = [];
+            }
         }
     } catch (\Throwable $e) {
         $errorMsg = "Error retrieving application: " . $e->getMessage();
@@ -484,49 +552,121 @@ $sb = $statusMap[$app['status']] ?? ['label' => ucfirst($app['status']), 'bg' =>
       </div>
     </div>
 
-    <!-- 2. Sport Discipline & Classification Details -->
+    <!-- 2. Sport Discipline & Classification Matrix (Multi-Sport & Multi-Event) -->
     <div class="admin-card">
       <h2 style="font-size:1.15rem;font-weight:800;color:var(--navy);margin-bottom:18px;display:flex;align-items:center;gap:8px;">
         <span style="display:inline-block;width:8px;height:18px;background:#00B074;border-radius:2px;"></span>
         Competition Discipline & Classification Matrix
       </h2>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;font-size:0.9rem;">
-        <div>
-          <span style="color:var(--text-muted);display:block;font-size:0.78rem;font-weight:700;text-transform:uppercase;">Sport Game</span>
-          <span style="display:inline-block;background:var(--navy);color:#fff;font-weight:800;font-size:0.85rem;padding:4px 12px;border-radius:6px;margin-top:4px;">
-            <?php echo htmlspecialchars(ucwords(str_replace('_', ' ', $app['sport_game']))); ?>
-          </span>
+      <?php if (!empty($sportsWithEvents)): ?>
+        <div style="display:flex;flex-direction:column;gap:18px;">
+          <?php foreach ($sportsWithEvents as $sIdx => $sData): 
+            $sportStatusBadge = [
+              'approved' => ['bg' => '#DCFCE7', 'color' => '#16A34A', 'label' => 'Approved'],
+              'rejected' => ['bg' => '#FEE2E2', 'color' => '#DC2626', 'label' => 'Rejected'],
+              'pending'  => ['bg' => '#FEF3C7', 'color' => '#D97706', 'label' => 'Pending']
+            ][$sData['status'] ?? 'pending'] ?? ['bg' => '#F1F5F9', 'color' => '#475569', 'label' => 'Pending'];
+          ?>
+            <div style="border:1.5px solid #E2E8F0;border-radius:8px;padding:16px 18px;background:#FFF;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #F1F5F9;">
+                <div>
+                  <span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;">Sport #<?php echo $sIdx + 1; ?></span>
+                  <h3 style="font-size:1.1rem;font-weight:800;color:var(--navy);margin:2px 0 0;">
+                    <?php echo htmlspecialchars(ucwords(str_replace('_', ' ', $sData['sport_game']))); ?>
+                  </h3>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <?php if (!empty($sData['classification'])): ?>
+                    <span style="font-size:0.85rem;font-weight:700;color:#00B074;background:#E6FBF2;border:1px solid #A7F3D0;padding:4px 10px;border-radius:6px;">
+                      Class: <?php echo htmlspecialchars($sData['classification']); ?>
+                    </span>
+                  <?php endif; ?>
+                  <?php if (!empty($sData['weight_category'])): ?>
+                    <span style="font-size:0.85rem;font-weight:700;color:var(--navy);background:#EFF6FF;border:1px solid #BFDBFE;padding:4px 10px;border-radius:6px;">
+                      Weight: <?php echo htmlspecialchars($sData['weight_category']); ?>
+                    </span>
+                  <?php endif; ?>
+                  <span style="font-size:0.78rem;font-weight:800;background:<?php echo $sportStatusBadge['bg']; ?>;color:<?php echo $sportStatusBadge['color']; ?>;padding:4px 10px;border-radius:6px;text-transform:uppercase;">
+                    <?php echo $sportStatusBadge['label']; ?>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Events Under This Sport -->
+              <div>
+                <span style="color:var(--text-muted);display:block;font-size:0.78rem;font-weight:700;text-transform:uppercase;margin-bottom:8px;">
+                  Registered Event Disciplines (<?php echo count($sData['events']); ?>):
+                </span>
+                <div style="display:flex;flex-wrap:wrap;gap:10px;">
+                  <?php foreach ($sData['events'] as $ev): 
+                    $evBg = $ev['status'] === 'approved' ? '#DCFCE7' : ($ev['status'] === 'rejected' ? '#FEE2E2' : '#FEF3C7');
+                    $evColor = $ev['status'] === 'approved' ? '#166534' : ($ev['status'] === 'rejected' ? '#991B1B' : '#92400E');
+                  ?>
+                    <div style="display:inline-flex;align-items:center;gap:8px;background:<?php echo $evBg; ?>;color:<?php echo $evColor; ?>;border:1px solid rgba(0,0,0,0.08);padding:6px 12px;border-radius:6px;font-size:0.85rem;font-weight:700;">
+                      <span><?php echo htmlspecialchars($ev['event_discipline']); ?></span>
+                      <span style="font-size:0.72rem;text-transform:uppercase;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,0.7);">
+                        <?php echo htmlspecialchars($ev['status']); ?>
+                      </span>
+
+                      <!-- Inline Event Status Quick Toggles -->
+                      <?php if ($canReview): ?>
+                        <form method="POST" style="display:inline-flex;gap:3px;margin:0;">
+                          <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
+                          <input type="hidden" name="action" value="toggle_event_status">
+                          <input type="hidden" name="event_id" value="<?php echo $ev['id']; ?>">
+                          <?php if ($ev['status'] !== 'approved'): ?>
+                            <button type="submit" name="event_status" value="approved" title="Approve this event" style="background:#16A34A;color:#fff;border:none;border-radius:3px;padding:2px 5px;font-size:0.7rem;cursor:pointer;line-height:1;">✓</button>
+                          <?php endif; ?>
+                          <?php if ($ev['status'] !== 'rejected'): ?>
+                            <button type="submit" name="event_status" value="rejected" title="Reject this event" style="background:#DC2626;color:#fff;border:none;border-radius:3px;padding:2px 5px;font-size:0.7rem;cursor:pointer;line-height:1;">✕</button>
+                          <?php endif; ?>
+                        </form>
+                      <?php endif; ?>
+                    </div>
+                  <?php endforeach; ?>
+                </div>
+              </div>
+            </div>
+          <?php endforeach; ?>
         </div>
-
-        <div>
-          <span style="color:var(--text-muted);display:block;font-size:0.78rem;font-weight:700;text-transform:uppercase;">Specific Event Discipline</span>
-          <strong style="color:var(--navy);font-size:1.05rem;display:block;margin-top:4px;"><?php echo htmlspecialchars($app['event_discipline']); ?></strong>
+      <?php else: ?>
+        <!-- Legacy Fallback View -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;font-size:0.9rem;">
+          <div>
+            <span style="color:var(--text-muted);display:block;font-size:0.78rem;font-weight:700;text-transform:uppercase;">Sport Game</span>
+            <span style="display:inline-block;background:var(--navy);color:#fff;font-weight:800;font-size:0.85rem;padding:4px 12px;border-radius:6px;margin-top:4px;">
+              <?php echo htmlspecialchars(ucwords(str_replace('_', ' ', $app['sport_game']))); ?>
+            </span>
+          </div>
+          <div>
+            <span style="color:var(--text-muted);display:block;font-size:0.78rem;font-weight:700;text-transform:uppercase;">Specific Event Discipline</span>
+            <strong style="color:var(--navy);font-size:1.05rem;display:block;margin-top:4px;"><?php echo htmlspecialchars($app['event_discipline']); ?></strong>
+          </div>
+          <?php if (!empty($app['classification'])): ?>
+            <div>
+              <span style="color:var(--text-muted);display:block;font-size:0.78rem;font-weight:700;text-transform:uppercase;">Para Classification</span>
+              <strong style="color:#00B074;font-size:1rem;background:#E6FBF2;padding:3px 10px;border-radius:4px;border:1px solid #A7F3D0;display:inline-block;margin-top:4px;">
+                <?php echo htmlspecialchars($app['classification']); ?>
+              </strong>
+            </div>
+          <?php endif; ?>
+          <?php if (!empty($app['weight_category'])): ?>
+            <div>
+              <span style="color:var(--text-muted);display:block;font-size:0.78rem;font-weight:700;text-transform:uppercase;">Weight Category</span>
+              <strong style="color:var(--navy);font-size:1rem;background:#F1F5F9;padding:3px 10px;border-radius:4px;display:inline-block;margin-top:4px;">
+                <?php echo htmlspecialchars($app['weight_category']); ?>
+              </strong>
+            </div>
+          <?php endif; ?>
         </div>
+      <?php endif; ?>
 
-        <?php if (!empty($app['classification'])): ?>
-          <div>
-            <span style="color:var(--text-muted);display:block;font-size:0.78rem;font-weight:700;text-transform:uppercase;">Para Classification</span>
-            <strong style="color:#00B074;font-size:1rem;background:#E6FBF2;padding:3px 10px;border-radius:4px;border:1px solid #A7F3D0;display:inline-block;margin-top:4px;">
-              <?php echo htmlspecialchars($app['classification']); ?>
-            </strong>
-          </div>
-        <?php endif; ?>
-
-        <?php if (!empty($app['weight_category'])): ?>
-          <div>
-            <span style="color:var(--text-muted);display:block;font-size:0.78rem;font-weight:700;text-transform:uppercase;">Weight Category</span>
-            <strong style="color:var(--navy);font-size:1rem;background:#F1F5F9;padding:3px 10px;border-radius:4px;display:inline-block;margin-top:4px;">
-              <?php echo htmlspecialchars($app['weight_category']); ?>
-            </strong>
-          </div>
-        <?php endif; ?>
-
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;font-size:0.9rem;margin-top:18px;padding-top:16px;border-top:1px solid var(--border);">
         <div>
           <span style="color:var(--text-muted);display:block;font-size:0.78rem;font-weight:700;text-transform:uppercase;">Impairment / Disability Type</span>
           <strong style="color:var(--text);display:block;margin-top:4px;"><?php echo htmlspecialchars($app['impairment_type'] ?: 'Not Specified'); ?></strong>
         </div>
-
         <div>
           <span style="color:var(--text-muted);display:block;font-size:0.78rem;font-weight:700;text-transform:uppercase;">Competition Venue</span>
           <strong style="color:var(--text);display:block;margin-top:4px;">Ludhiana State Games</strong>

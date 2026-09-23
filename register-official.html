@@ -173,6 +173,77 @@
       margin-bottom: 24px;
       text-align: center;
     }
+    /* Camera & Upload Dual-Action Controls */
+    .upload-dual-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .btn-camera-capture {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #003366;
+      color: #FFF;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 9px 16px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-camera-capture:hover {
+      background: #002244;
+      box-shadow: 0 2px 6px rgba(0,51,102,0.25);
+    }
+    .btn-file-select {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFF;
+      color: #003366;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 1.5px solid #93C5FD;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-file-select:hover {
+      background: #EFF6FF;
+      border-color: #3B82F6;
+    }
+    .file-status-badge {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      padding: 10px 14px;
+      background: #F0FDF4;
+      border: 1px solid #86EFAC;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #166534;
+    }
+    .file-status-badge.is-active {
+      display: flex;
+    }
+    .file-remove-btn {
+      background: none;
+      border: none;
+      color: #DC2626;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    .file-remove-btn:hover {
+      background: #FEE2E2;
+    }
   </style>
 </head>
 <body class="registration-page-wrap">
@@ -393,17 +464,79 @@
               <input type="text" id="offPincode" class="form-control" placeholder="141001" maxlength="6" required>
             </div>
 
+            <!-- Upload 1: Official Photograph (Camera Selfie / File Picker) -->
             <div class="form-group-full" style="padding: 16px; background: var(--ppsa-surface); border-radius: var(--radius-sm); border: 1px dashed var(--ppsa-border);">
-              <label class="form-label" for="fileOffPhoto">Photograph (JPG/PNG) *</label>
-              <input type="file" id="fileOffPhoto" class="form-control" accept="image/jpeg,image/png" required>
+              <label class="form-label" style="margin-bottom: 4px;">1. Official Passport Photograph (JPG/PNG) *</label>
+              <p style="font-size: 0.8rem; color: var(--ppsa-text-muted); margin: 0 0 10px;">Tap Take Photo to open selfie camera or Upload File from device.</p>
+              
+              <div class="upload-dual-actions">
+                <button type="button" class="btn-camera-capture" onclick="triggerOffPick('photo', true)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  📷 Take Photo (Selfie)
+                </button>
+                <button type="button" class="btn-file-select" onclick="triggerOffPick('photo', false)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  📁 Upload File
+                </button>
+              </div>
+
+              <input type="file" id="inputOffCamPhoto" accept="image/*" capture="user" style="display:none;" onchange="onOffFileChosen('photo', this.files[0])">
+              <input type="file" id="inputOffFilePhoto" accept="image/jpeg,image/png,image/webp" style="display:none;" onchange="onOffFileChosen('photo', this.files[0])">
+
+              <div id="badge-off-photo" class="file-status-badge">
+                <span id="label-off-photo" style="display:inline-flex;align-items:center;gap:6px;">✓ Photo Selected</span>
+                <button type="button" class="file-remove-btn" onclick="removeOffDoc('photo')">✕ Remove</button>
+              </div>
             </div>
+
+            <!-- Upload 2: Govt ID / Aadhaar Copy (Camera Document / File Picker) -->
             <div class="form-group-full" style="padding: 16px; background: var(--ppsa-surface); border-radius: var(--radius-sm); border: 1px dashed var(--ppsa-border);">
-              <label class="form-label" for="fileOffId">Govt ID Proof / Aadhaar Copy (PDF/JPG) *</label>
-              <input type="file" id="fileOffId" class="form-control" accept="image/jpeg,image/png,application/pdf" required>
+              <label class="form-label" style="margin-bottom: 4px;">2. Govt ID Proof / Aadhaar Copy (PDF/JPG) *</label>
+              <p style="font-size: 0.8rem; color: var(--ppsa-text-muted); margin: 0 0 10px;">Tap Take Photo to snap Aadhaar with rear camera, or Upload Document (PDF/JPG).</p>
+
+              <div class="upload-dual-actions">
+                <button type="button" class="btn-camera-capture" onclick="triggerOffPick('govtId', true)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  📷 Take Photo (Document)
+                </button>
+                <button type="button" class="btn-file-select" onclick="triggerOffPick('govtId', false)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  📁 Upload Document
+                </button>
+              </div>
+
+              <input type="file" id="inputOffCamGovtId" accept="image/*" capture="environment" style="display:none;" onchange="onOffFileChosen('govtId', this.files[0])">
+              <input type="file" id="inputOffFileGovtId" accept="image/jpeg,image/png,image/webp,application/pdf" style="display:none;" onchange="onOffFileChosen('govtId', this.files[0])">
+
+              <div id="badge-off-govtId" class="file-status-badge">
+                <span id="label-off-govtId" style="display:inline-flex;align-items:center;gap:6px;">✓ Document Selected</span>
+                <button type="button" class="file-remove-btn" onclick="removeOffDoc('govtId')">✕ Remove</button>
+              </div>
             </div>
+
+            <!-- Upload 3: Technical Certificate (Camera Document / File Picker) -->
             <div class="form-group-full" style="padding: 16px; background: var(--ppsa-surface); border-radius: var(--radius-sm); border: 1px dashed var(--ppsa-border);">
-              <label class="form-label" for="fileOffCert">Technical Qualification / Certificate Scan (Optional PDF/JPG)</label>
-              <input type="file" id="fileOffCert" class="form-control" accept="image/jpeg,image/png,application/pdf">
+              <label class="form-label" style="margin-bottom: 4px;">3. Technical Qualification / Certificate Scan (Optional PDF/JPG)</label>
+              <p style="font-size: 0.8rem; color: var(--ppsa-text-muted); margin: 0 0 10px;">Tap Take Photo or Upload Certificate.</p>
+
+              <div class="upload-dual-actions">
+                <button type="button" class="btn-camera-capture" onclick="triggerOffPick('cert', true)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  📷 Take Photo (Certificate)
+                </button>
+                <button type="button" class="btn-file-select" onclick="triggerOffPick('cert', false)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  📁 Upload Document
+                </button>
+              </div>
+
+              <input type="file" id="inputOffCamCert" accept="image/*" capture="environment" style="display:none;" onchange="onOffFileChosen('cert', this.files[0])">
+              <input type="file" id="inputOffFileCert" accept="image/jpeg,image/png,image/webp,application/pdf" style="display:none;" onchange="onOffFileChosen('cert', this.files[0])">
+
+              <div id="badge-off-cert" class="file-status-badge">
+                <span id="label-off-cert" style="display:inline-flex;align-items:center;gap:6px;">✓ Certificate Selected</span>
+                <button type="button" class="file-remove-btn" onclick="removeOffDoc('cert')">✕ Remove</button>
+              </div>
             </div>
           </div>
 
@@ -671,17 +804,72 @@
         alert('Please enter permanent address and Punjab district.');
         return;
       }
+    const selectedOffDocs = { photo: null, govtId: null, cert: null };
+
+    function triggerOffPick(docKey, isCamera) {
+      const idMap = {
+        photo: isCamera ? 'inputOffCamPhoto' : 'inputOffFilePhoto',
+        govtId: isCamera ? 'inputOffCamGovtId' : 'inputOffFileGovtId',
+        cert: isCamera ? 'inputOffCamCert' : 'inputOffFileCert'
+      };
+      const el = document.getElementById(idMap[docKey]);
+      if (el) { el.value = ''; el.click(); }
+    }
+
+    function onOffFileChosen(docKey, file) {
+      if (!file) return;
+      selectedOffDocs[docKey] = file;
+      const badge = document.getElementById('badge-off-' + docKey);
+      const label = document.getElementById('label-off-' + docKey);
+      if (badge && label) {
+        const sizeStr = (file.size / 1024).toFixed(1) + ' KB';
+        label.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:#16A34A;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <strong>${file.name}</strong> <span style="color:#64748B;font-size:0.78rem;">(${sizeStr})</span>
+        `;
+        badge.classList.add('is-active');
+      }
+    }
+
+    function removeOffDoc(docKey) {
+      selectedOffDocs[docKey] = null;
+      const badge = document.getElementById('badge-off-' + docKey);
+      if (badge) badge.classList.remove('is-active');
+      const camInput = document.getElementById({ photo: 'inputOffCamPhoto', govtId: 'inputOffCamGovtId', cert: 'inputOffCamCert' }[docKey]);
+      const fileInput = document.getElementById({ photo: 'inputOffFilePhoto', govtId: 'inputOffFileGovtId', cert: 'inputOffFileCert' }[docKey]);
+      if (camInput) camInput.value = '';
+      if (fileInput) fileInput.value = '';
+    }
+
+    async function submitOfficial() {
+      const name = document.getElementById('offFullName').value.trim();
+      const phone = document.getElementById('offPhone').value.trim();
+      const email = document.getElementById('offEmail').value.trim();
+      const aadhaar = document.getElementById('offAadhaar').value.trim().replace(/\s/g, '');
+      const category = document.getElementById('offCategory').value;
+      const address = document.getElementById('offAddress').value.trim();
+      const district = document.getElementById('offDistrict').value;
+      const agreed = document.getElementById('offLegalDeclaration').checked;
+
+      if (!name || !phone || !email || !category) {
+        alert('Please complete all mandatory details.');
+        return;
+      }
+      if (!aadhaar || aadhaar.length !== 12) {
+        alert('Please enter a valid 12-digit Aadhaar number.');
+        return;
+      }
+      if (!address || !district) {
+        alert('Please enter permanent address and Punjab district.');
+        return;
+      }
       if (!agreed) {
         alert('Please check the code of conduct declaration to proceed.');
         return;
       }
 
-      const photoFile = document.getElementById('fileOffPhoto').files[0];
-      const idFile    = document.getElementById('fileOffId').files[0];
-      const certFile  = document.getElementById('fileOffCert').files[0];
-
-      if (!photoFile) {
-        alert('Please select your official photograph to upload.');
+      if (!selectedOffDocs.photo) {
+        alert('Please take or upload your official photograph.');
         return;
       }
 
@@ -693,9 +881,9 @@
 
       // Optimize and compress images before upload
       const [optPhoto, optId, optCert] = await Promise.all([
-        compressImageFile(photoFile, 800, 0.85),
-        compressImageFile(idFile, 1600, 0.82),
-        compressImageFile(certFile, 1600, 0.82)
+        compressImageFile(selectedOffDocs.photo, 800, 0.85),
+        compressImageFile(selectedOffDocs.govtId, 1600, 0.82),
+        compressImageFile(selectedOffDocs.cert, 1600, 0.82)
       ]);
 
       if (submitBtn) {
