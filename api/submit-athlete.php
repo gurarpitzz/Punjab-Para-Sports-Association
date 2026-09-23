@@ -20,6 +20,7 @@ require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/sports_catalog.php';
 require_once __DIR__ . '/../includes/duplicate_detector.php';
 require_once __DIR__ . '/../includes/mailer.php';
+require_once __DIR__ . '/../includes/uploads.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -107,12 +108,16 @@ $allowedMimes = [
 $maxBytes = 5 * 1024 * 1024; // 5 MB
 
 $fileInputs = [
-    'passportPhoto'      => 'photo',
-    'identityProofDoc'   => 'id_proof',
-    'disabilityCertDoc'  => 'medical_cert'
+    'passportPhoto'      => ['key' => 'photo',        'maxDim' => 800,  'quality' => 85],
+    'identityProofDoc'   => ['key' => 'id_proof',     'maxDim' => 1600, 'quality' => 82],
+    'disabilityCertDoc'  => ['key' => 'medical_cert', 'maxDim' => 1600, 'quality' => 82]
 ];
 
-foreach ($fileInputs as $inputKey => $storageKey) {
+foreach ($fileInputs as $inputKey => $meta) {
+    $storageKey = $meta['key'];
+    $maxDim     = $meta['maxDim'];
+    $quality    = $meta['quality'];
+
     if (isset($_FILES[$inputKey]) && $_FILES[$inputKey]['error'] === UPLOAD_ERR_OK) {
         $fileTmp  = $_FILES[$inputKey]['tmp_name'];
         $fileSize = $_FILES[$inputKey]['size'];
@@ -133,11 +138,12 @@ foreach ($fileInputs as $inputKey => $storageKey) {
             exit();
         }
 
-        $ext = $allowedMimes[$mime];
+        // If it's an image, re-encode into optimized jpg format; if pdf, retain pdf
+        $ext = ($mime === 'application/pdf') ? 'pdf' : 'jpg';
         $safeName = sprintf("%s_%s.%s", $storageKey, bin2hex(random_bytes(10)), $ext);
         $destination = $uploadBase . $safeName;
 
-        if (move_uploaded_file($fileTmp, $destination)) {
+        if (optimizeAndSaveUploadedFile($fileTmp, $mime, $destination, $maxDim, $quality)) {
             $uploadedPaths[$storageKey] = 'uploads/athletes/' . date('Y') . '/' . $safeName;
         }
     }

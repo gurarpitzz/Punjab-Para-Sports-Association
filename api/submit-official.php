@@ -18,6 +18,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/../config/app.php';
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/mailer.php';
+require_once __DIR__ . '/../includes/uploads.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -72,21 +73,27 @@ if (!is_dir($uploadBase)) {
 $allowedMimes = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp', 'application/pdf' => 'pdf'];
 
 $fileInputs = [
-    'passportPhoto'   => 'photo',
-    'identityProofDoc'=> 'id_proof',
-    'certificateDoc'  => 'cert'
+    'passportPhoto'   => ['key' => 'photo',    'maxDim' => 800,  'quality' => 85],
+    'identityProofDoc'=> ['key' => 'id_proof', 'maxDim' => 1600, 'quality' => 82],
+    'certificateDoc'  => ['key' => 'cert',     'maxDim' => 1600, 'quality' => 82]
 ];
 
-foreach ($fileInputs as $inputKey => $storageKey) {
+foreach ($fileInputs as $inputKey => $meta) {
+    $storageKey = $meta['key'];
+    $maxDim     = $meta['maxDim'];
+    $quality    = $meta['quality'];
+
     if (isset($_FILES[$inputKey]) && $_FILES[$inputKey]['error'] === UPLOAD_ERR_OK) {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $mime  = finfo_file($finfo, $_FILES[$inputKey]['tmp_name']);
         finfo_close($finfo);
 
         if (isset($allowedMimes[$mime]) && $_FILES[$inputKey]['size'] <= 5 * 1024 * 1024) {
-            $ext = $allowedMimes[$mime];
+            $ext = ($mime === 'application/pdf') ? 'pdf' : 'jpg';
             $safeName = sprintf("%s_%s.%s", $storageKey, bin2hex(random_bytes(10)), $ext);
-            if (move_uploaded_file($_FILES[$inputKey]['tmp_name'], $uploadBase . $safeName)) {
+            $destination = $uploadBase . $safeName;
+
+            if (optimizeAndSaveUploadedFile($_FILES[$inputKey]['tmp_name'], $mime, $destination, $maxDim, $quality)) {
                 $uploadedPaths[$storageKey] = 'uploads/officials/' . date('Y') . '/' . $safeName;
             }
         }

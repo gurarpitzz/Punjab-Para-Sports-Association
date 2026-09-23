@@ -594,6 +594,61 @@
       sub.style.display = (cat === 'Classifier' || cat === 'classifier') ? 'block' : 'none';
     }
 
+    /**
+     * Efficiently downsamples and compresses images in the browser before upload
+     */
+    async function compressImageFile(file, maxDimension, quality = 0.82) {
+      if (!file || !file.type || !file.type.startsWith('image/')) {
+        return file; // Allow PDFs and non-images through unchanged
+      }
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+            if (width > maxDimension || height > maxDimension) {
+              if (width > height) {
+                height = Math.round((height * maxDimension) / width);
+                width = maxDimension;
+              } else {
+                width = Math.round((width * maxDimension) / height);
+                height = maxDimension;
+              }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+            canvas.toBlob(
+              (blob) => {
+                if (blob && (blob.size < file.size || width !== img.width)) {
+                  const cleanName = (file.name || 'document').replace(/\.[^/.]+$/, "") + ".jpg";
+                  const compressed = new File([blob], cleanName, {
+                    type: 'image/jpeg',
+                    lastModified: Date.now()
+                  });
+                  resolve(compressed);
+                } else {
+                  resolve(file);
+                }
+              },
+              'image/jpeg',
+              quality
+            );
+          };
+          img.onerror = () => resolve(file);
+          img.src = e.target.result;
+        };
+        reader.onerror = () => resolve(file);
+        reader.readAsDataURL(file);
+      });
+    }
+
     async function submitOfficial() {
       const name = document.getElementById('offFullName').value.trim();
       const phone = document.getElementById('offMobile').value.trim();
@@ -630,6 +685,23 @@
         return;
       }
 
+      const submitBtn = event ? event.target : document.querySelector('#paneStep3 button.btn-primary');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Optimizing & Compressing Documents...';
+      }
+
+      // Optimize and compress images before upload
+      const [optPhoto, optId, optCert] = await Promise.all([
+        compressImageFile(photoFile, 800, 0.85),
+        compressImageFile(idFile, 1600, 0.82),
+        compressImageFile(certFile, 1600, 0.82)
+      ]);
+
+      if (submitBtn) {
+        submitBtn.textContent = 'Submitting Official Application & Uploading...';
+      }
+
       // Role category mapping
       let categorySlug = 'technical_official';
       const cLower = category.toLowerCase();
@@ -659,15 +731,9 @@
         formData.append('classifierType', document.getElementById('classifierSubtype').value.toLowerCase());
       }
 
-      if (photoFile) formData.append('passportPhoto', photoFile);
-      if (idFile) formData.append('identityProofDoc', idFile);
-      if (certFile) formData.append('certificateDoc', certFile);
-
-      const submitBtn = event ? event.target : document.querySelector('#paneStep3 button.btn-primary');
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Submitting Official Application...';
-      }
+      if (optPhoto) formData.append('passportPhoto', optPhoto);
+      if (optId)    formData.append('identityProofDoc', optId);
+      if (optCert)  formData.append('certificateDoc', optCert);
 
       try {
         const resp = await fetch('api/submit-official.php', {
