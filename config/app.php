@@ -47,7 +47,7 @@ if (!defined('DB_PASSWORD')) define('DB_PASSWORD', ppsa_config('DB_PASSWORD', ''
 if (!defined('DB_PASS')) define('DB_PASS', DB_PASSWORD); // alias
 
 if (!defined('RESEND_API_KEY')) define('RESEND_API_KEY', ppsa_config('RESEND_API_KEY', ''));
-if (!defined('MAILER_FROM')) define('MAILER_FROM', ppsa_config('MAILER_FROM', 'Punjab Para Sports Association <noreply@punjabparasports.org>'));
+if (!defined('MAILER_FROM')) define('MAILER_FROM', ppsa_config('MAILER_FROM', 'Punjab Para Sports Association <noreply@punjabparasports.ajeetgraphics.com>'));
 if (!defined('PPSA_ADMIN_EMAIL')) define('PPSA_ADMIN_EMAIL', ppsa_config('PPSA_ADMIN_EMAIL', 'admin@punjabparasports.org'));
 
 if (!defined('OTP_SECRET')) define('OTP_SECRET', ppsa_config('OTP_SECRET', ''));
