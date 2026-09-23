@@ -22,6 +22,10 @@ CREATE TABLE IF NOT EXISTS `ppsa_users` (
     INDEX `idx_ppsa_user_role` (`role`, `is_active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Default Initial Superadmin Account (Username: admin / Password: PPSA@Admin2026!)
+INSERT IGNORE INTO `ppsa_users` (`username`, `email`, `password_hash`, `full_name`, `role`, `is_active`) VALUES
+('admin', 'admin@punjabparasports.org', '$2y$12$aThOj8QpvSK21WD.HulrxusgmrJW2EZfWqF5Av0Gvf9RFgQcP7xia', 'PPSA Administrator', 'admin', 1);
+
 -- 2. Concurrency-Safe Atomic Registration Sequence Tracker
 CREATE TABLE IF NOT EXISTS `ppsa_registration_sequences` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,

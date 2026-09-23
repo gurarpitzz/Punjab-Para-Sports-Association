@@ -15,16 +15,11 @@ if (!$db) {
     exit(1);
 }
 
-$adminUsername = ppsa_config('PPSA_ADMIN_USERNAME', 'admin');
+$adminUsername = $argv[1] ?? ppsa_config('PPSA_ADMIN_USERNAME', 'admin');
 $adminEmail    = ppsa_config('PPSA_ADMIN_EMAIL', 'admin@punjabparasports.org');
-$adminPass     = ppsa_config('PPSA_ADMIN_PASSWORD', '');
+$adminPass     = $argv[2] ?? ppsa_config('PPSA_ADMIN_PASSWORD', 'PPSA@Admin2026!');
 
 $generated = false;
-if (empty($adminPass)) {
-    // Generate secure 16-character alphanumeric password
-    $adminPass = bin2hex(random_bytes(8));
-    $generated = true;
-}
 
 $hash = password_hash($adminPass, PASSWORD_BCRYPT, ['cost' => 12]);
 
