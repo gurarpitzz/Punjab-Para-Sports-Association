@@ -145,9 +145,13 @@ if ($db) {
               </td>
               <td style="padding:14px 16px;">
                 <?php if (!empty($u['is_active'])): ?>
-                  <span style="color:#10B981;font-weight:700;font-size:0.8rem;">● Active</span>
+                  <span style="color:#10B981;font-weight:700;font-size:0.8rem;display:inline-flex;align-items:center;gap:6px;">
+                    <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3.5" fill="#10B981"/></svg> Active
+                  </span>
                 <?php else: ?>
-                  <span style="color:#EF4444;font-weight:700;font-size:0.8rem;">● Inactive</span>
+                  <span style="color:#EF4444;font-weight:700;font-size:0.8rem;display:inline-flex;align-items:center;gap:6px;">
+                    <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3.5" fill="#EF4444"/></svg> Inactive
+                  </span>
                 <?php endif; ?>
               </td>
               <td style="padding:14px 16px;color:var(--text-muted);font-size:0.82rem;">

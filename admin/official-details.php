@@ -367,7 +367,7 @@ $sb = $statusMap[$app['status']] ?? ['label' => ucfirst($app['status']), 'bg' =>
                 <img src="view-doc.php?file=<?php echo urlencode($app['id_proof_path']); ?>" alt="ID Proof" style="width:100%;height:100%;object-fit:contain;">
               <?php else: ?>
                 <div style="text-align:center;">
-                  <span style="font-size:2rem;color:var(--navy);display:block;">&#128196;</span>
+                  <span style="display:block;margin-bottom:6px;color:var(--navy);"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
                   <span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);">PDF Document</span>
                 </div>
               <?php endif; ?>
@@ -389,7 +389,7 @@ $sb = $statusMap[$app['status']] ?? ['label' => ucfirst($app['status']), 'bg' =>
                 <img src="view-doc.php?file=<?php echo urlencode($app['cert_proof_path']); ?>" alt="Cert Proof" style="width:100%;height:100%;object-fit:contain;">
               <?php else: ?>
                 <div style="text-align:center;">
-                  <span style="font-size:2rem;color:#00B074;display:block;">&#128196;</span>
+                  <span style="display:block;margin-bottom:6px;color:#00B074;"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
                   <span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);">PDF Document</span>
                 </div>
               <?php endif; ?>
@@ -425,7 +425,7 @@ $sb = $statusMap[$app['status']] ?? ['label' => ucfirst($app['status']), 'bg' =>
           <input type="hidden" name="review_action" value="approve">
           
           <button type="submit" style="width:100%;background:#00B074;color:#fff;border:none;font-weight:800;font-size:0.92rem;padding:12px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
-            <span>&#10003;</span> Approve & Issue PPSA Official ID
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Approve & Issue PPSA Official ID
           </button>
         </form>
       <?php else: ?>
@@ -437,8 +437,9 @@ $sb = $statusMap[$app['status']] ?? ['label' => ucfirst($app['status']), 'bg' =>
 
       <!-- Action 2: REQUEST CORRECTION -->
       <details style="margin-bottom:14px;border:1px solid var(--border);border-radius:6px;background:#F8FAFC;">
-        <summary style="padding:10px 14px;font-size:0.88rem;font-weight:700;color:#B45309;cursor:pointer;outline:none;">
-          Request Correction &darr;
+        <summary style="padding:10px 14px;font-size:0.88rem;font-weight:700;color:#B45309;cursor:pointer;outline:none;display:flex;align-items:center;justify-content:space-between;">
+          <span>Request Correction</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </summary>
         <div style="padding:12px 14px;border-top:1px solid var(--border);">
           <form method="POST" action="">
@@ -459,8 +460,9 @@ $sb = $statusMap[$app['status']] ?? ['label' => ucfirst($app['status']), 'bg' =>
       <!-- Action 3: REJECT -->
       <?php if ($app['status'] !== 'rejected'): ?>
         <details style="margin-bottom:18px;border:1px solid #FECACA;border-radius:6px;background:#FEF2F2;">
-          <summary style="padding:10px 14px;font-size:0.88rem;font-weight:700;color:#DC2626;cursor:pointer;outline:none;">
-            Reject Application &darr;
+          <summary style="padding:10px 14px;font-size:0.88rem;font-weight:700;color:#DC2626;cursor:pointer;outline:none;display:flex;align-items:center;justify-content:space-between;">
+            <span>Reject Application</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div style="padding:12px 14px;border-top:1px solid #FECACA;">
             <form method="POST" action="" onsubmit="return confirm('Are you sure you want to REJECT this official application?');">
@@ -482,12 +484,12 @@ $sb = $statusMap[$app['status']] ?? ['label' => ucfirst($app['status']), 'bg' =>
       <!-- Fast Contact Links -->
       <div style="border-top:1px solid var(--border);padding-top:14px;margin-top:14px;">
         <span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;display:block;margin-bottom:8px;">Direct Communications</span>
-        <div style="display:flex;flex-direction:column;gap:6px;font-size:0.82rem;">
-          <a href="mailto:<?php echo htmlspecialchars($app['email']); ?>?subject=Regarding your PPSA Official Registration (Ref: <?php echo htmlspecialchars($app['reference_id']); ?>)" style="color:var(--navy);font-weight:600;text-decoration:none;">
-            &#9993; Email Official
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:0.82rem;">
+          <a href="mailto:<?php echo htmlspecialchars($app['email']); ?>?subject=Regarding your PPSA Official Registration (Ref: <?php echo htmlspecialchars($app['reference_id']); ?>)" style="color:var(--navy);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Email Official
           </a>
-          <a href="tel:<?php echo htmlspecialchars($app['mobile_phone']); ?>" style="color:var(--navy);font-weight:600;text-decoration:none;">
-            &#128222; Call: <?php echo htmlspecialchars($app['mobile_phone']); ?>
+          <a href="tel:<?php echo htmlspecialchars($app['mobile_phone']); ?>" style="color:var(--navy);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Call: <?php echo htmlspecialchars($app['mobile_phone']); ?>
           </a>
         </div>
       </div>

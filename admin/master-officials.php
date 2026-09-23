@@ -122,8 +122,8 @@ $totalPages = ceil($totalRows / $limit);
     <div class="admin-page-subtitle">Accredited technical officials, coaches, classifiers, referees & state volunteers</div>
   </div>
   <div style="display:flex;align-items:center;gap:12px;">
-    <a href="master-officials.php?<?php echo http_build_query(array_merge($_GET, ['export' => 'csv'])); ?>" style="background:#00B074;color:#fff;font-weight:700;font-size:0.85rem;padding:9px 16px;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
-      <span>&#128190;</span> Export CSV
+    <a href="master-officials.php?<?php echo http_build_query(array_merge($_GET, ['export' => 'csv'])); ?>" style="background:#00B074;color:#fff;font-weight:700;font-size:0.85rem;padding:9px 16px;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:7px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export CSV
     </a>
     <span style="font-weight:700;font-size:0.9rem;color:var(--text-muted);">Total Accredited: <strong><?php echo $totalRows; ?></strong></span>
   </div>
@@ -132,10 +132,10 @@ $totalPages = ceil($totalRows / $limit);
 <!-- Switcher Tabs Between Athletes and Officials Master Registries -->
 <div style="display:flex;gap:10px;margin-bottom:20px;">
   <a href="athletes.php" style="padding:9px 20px;border-radius:8px;font-weight:700;font-size:0.88rem;text-decoration:none;background:#fff;color:var(--navy);border:1.5px solid var(--border);display:inline-flex;align-items:center;gap:8px;">
-    <span>🏃</span> Athletes Registry <span style="background:#E2E8F0;color:var(--navy);font-size:0.75rem;padding:2px 8px;border-radius:12px;font-weight:800;"><?php echo $totalAthletesCount; ?></span>
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Athletes Registry <span style="background:#E2E8F0;color:var(--navy);font-size:0.75rem;padding:2px 8px;border-radius:12px;font-weight:800;"><?php echo $totalAthletesCount; ?></span>
   </a>
   <a href="master-officials.php" style="padding:9px 20px;border-radius:8px;font-weight:700;font-size:0.88rem;text-decoration:none;background:var(--navy);color:#fff;border:1.5px solid var(--navy);display:inline-flex;align-items:center;gap:8px;box-shadow:0 2px 8px rgba(14,31,75,0.25);">
-    <span>👔</span> Officials Registry <span style="background:#FFC400;color:var(--navy);font-size:0.75rem;padding:2px 8px;border-radius:12px;font-weight:800;"><?php echo $totalRows; ?></span>
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Officials Registry <span style="background:#FFC400;color:var(--navy);font-size:0.75rem;padding:2px 8px;border-radius:12px;font-weight:800;"><?php echo $totalRows; ?></span>
   </a>
 </div>
 
@@ -188,7 +188,9 @@ $totalPages = ceil($totalRows / $limit);
         <?php if (empty($officials)): ?>
           <tr>
             <td colspan="6" style="padding:48px 20px;text-align:center;color:var(--text-muted);">
-              <div style="font-size:2rem;margin-bottom:8px;">👔</div>
+              <div style="margin-bottom:12px;color:var(--text-muted);opacity:0.6;">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              </div>
               <div style="font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:6px;">No accredited officials in master registry</div>
               <div style="font-size:0.85rem;">Official applications will appear here once approved from the <a href="officials.php" style="color:var(--navy);font-weight:700;">Official Intake Queue</a>.</div>
             </td>

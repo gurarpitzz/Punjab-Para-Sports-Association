@@ -202,7 +202,7 @@ $totalPages = ceil($totalRows / $limit);
               <td style="padding:14px 16px;">
                 <?php if (!empty($app['has_duplicate_flag'])): ?>
                   <span style="display:inline-flex;align-items:center;gap:4px;background:#FEE2E2;color:#DC2626;font-weight:800;font-size:0.72rem;padding:3px 8px;border-radius:4px;border:1px solid #FCA5A5;">
-                    &#9888; DUPLICATE RISK
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> DUPLICATE RISK
                   </span>
                 <?php else: ?>
                   <span style="color:#94A3B8;font-size:0.78rem;">Clean</span>
@@ -214,8 +214,8 @@ $totalPages = ceil($totalRows / $limit);
 
               <!-- Review Action Link -->
               <td style="padding:14px 16px;text-align:right;">
-                <a href="athlete-details.php?id=<?php echo $app['id']; ?>" style="display:inline-block;background:var(--navy);color:#fff;font-size:0.82rem;font-weight:700;padding:7px 14px;border-radius:6px;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='#00B074'" onmouseout="this.style.background='var(--navy)'">
-                  Review Profile &rarr;
+                <a href="athlete-details.php?id=<?php echo $app['id']; ?>" style="display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;font-size:0.82rem;font-weight:700;padding:7px 14px;border-radius:6px;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='#00B074'" onmouseout="this.style.background='var(--navy)'">
+                  Review Profile <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                 </a>
               </td>
             </tr>

@@ -220,8 +220,8 @@ $totalPages = ceil($totalRows / $limit);
 
               <!-- Review Action Link -->
               <td style="padding:14px 16px;text-align:right;">
-                <a href="official-details.php?id=<?php echo $off['id']; ?>" style="display:inline-block;background:var(--navy);color:#fff;font-size:0.82rem;font-weight:700;padding:7px 14px;border-radius:6px;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='#00B074'" onmouseout="this.style.background='var(--navy)'">
-                  Review &rarr;
+                <a href="official-details.php?id=<?php echo $off['id']; ?>" style="display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;font-size:0.82rem;font-weight:700;padding:7px 14px;border-radius:6px;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='#00B074'" onmouseout="this.style.background='var(--navy)'">
+                  Review <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                 </a>
               </td>
             </tr>

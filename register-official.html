@@ -509,7 +509,8 @@
             sandboxBox.innerHTML = `
               <div style="background: #FFFBEB; border: 1.5px solid #F59E0B; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; text-align: left;">
                 <div style="display: flex; align-items: center; gap: 8px; font-weight: 800; color: #92400E; font-size: 0.92rem; margin-bottom: 4px;">
-                  <span>⚠️ Resend Mailer Testing Mode Notice</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                  <span>Resend Mailer Testing Mode Notice</span>
                 </div>
                 <p style="margin: 0 0 8px 0; font-size: 0.82rem; color: #78350F; line-height: 1.45;">
                   Resend accounts in sandbox mode restrict sending to the account owner (<code>ajeet.graphics@gmail.com</code>). 
@@ -519,7 +520,10 @@
                   <span style="font-size: 0.84rem; color: #64748B; font-weight: 600;">Test Verification Code:</span>
                   <span style="font-family: monospace; font-size: 1.3rem; font-weight: 900; color: #003366; letter-spacing: 3px;">${data.test_otp}</span>
                 </div>
-                <p style="margin: 6px 0 0 0; font-size: 0.78rem; color: #00B074; font-weight: 700;">✓ Verification code auto-filled below for instant testing</p>
+                <p style="margin: 6px 0 0 0; font-size: 0.78rem; color: #00B074; font-weight: 700; display: flex; align-items: center; gap: 6px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Verification code auto-filled below for instant testing
+                </p>
               </div>
             `;
           }
