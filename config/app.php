@@ -43,8 +43,18 @@ function ppsa_config($key, $default = '') {
 if (!defined('DB_HOST')) define('DB_HOST', ppsa_config('DB_HOST', 'localhost'));
 if (!defined('DB_NAME')) define('DB_NAME', ppsa_config('DB_NAME', ''));
 if (!defined('DB_USER')) define('DB_USER', ppsa_config('DB_USER', ''));
-if (!defined('DB_PASSWORD')) define('DB_PASSWORD', ppsa_config('DB_PASSWORD', ''));
-if (!defined('DB_PASS')) define('DB_PASS', DB_PASSWORD); // alias
+
+// Support both DB_PASSWORD and DB_PASS interchangeably
+$resolvedPassword = '';
+if (defined('DB_PASSWORD') && DB_PASSWORD !== '') {
+    $resolvedPassword = DB_PASSWORD;
+} elseif (defined('DB_PASS') && DB_PASS !== '') {
+    $resolvedPassword = DB_PASS;
+} else {
+    $resolvedPassword = ppsa_config('DB_PASSWORD', ppsa_config('DB_PASS', ''));
+}
+if (!defined('DB_PASSWORD')) define('DB_PASSWORD', $resolvedPassword);
+if (!defined('DB_PASS')) define('DB_PASS', $resolvedPassword);
 
 if (!defined('RESEND_API_KEY')) define('RESEND_API_KEY', ppsa_config('RESEND_API_KEY', ''));
 if (!defined('MAILER_FROM')) define('MAILER_FROM', ppsa_config('MAILER_FROM', 'Punjab Para Sports Association <noreply@punjabparasports.ajeetgraphics.com>'));

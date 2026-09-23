@@ -3,6 +3,12 @@
 
 require_once __DIR__ . '/../config/app.php';
 
+$GLOBALS['PPSA_DB_ERROR'] = null;
+
+function getPpsaDbError(): ?string {
+    return $GLOBALS['PPSA_DB_ERROR'] ?? null;
+}
+
 /**
  * Returns the singleton PDO connection instance
  * @return PDO|null
@@ -20,7 +26,7 @@ function getPpsaDb(): ?PDO {
     $dbPass = defined('DB_PASSWORD') ? DB_PASSWORD : (defined('DB_PASS') ? DB_PASS : '');
 
     if (empty($dbName) || empty($dbUser)) {
-        // Database credentials not yet configured
+        $GLOBALS['PPSA_DB_ERROR'] = "Database credentials missing in config/local.php (DB_NAME or DB_USER is empty).";
         return null;
     }
 
@@ -34,8 +40,10 @@ function getPpsaDb(): ?PDO {
 
     try {
         $pdo = new PDO($dsn, $dbUser, $dbPass, $options);
+        $GLOBALS['PPSA_DB_ERROR'] = null;
         return $pdo;
     } catch (PDOException $e) {
+        $GLOBALS['PPSA_DB_ERROR'] = $e->getMessage();
         error_log("PPSA Database Connection Error: " . $e->getMessage());
         return null;
     }

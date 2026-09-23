@@ -22,7 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $db = getPpsaDb();
         if (!$db) {
-            $error = "Database offline. Please check your DB environment variables.";
+            $dbErr = getPpsaDbError();
+            $error = "Database offline: " . ($dbErr ?: "Please verify config/local.php exists in your config folder.");
         } else {
             $stmt = $db->prepare("SELECT * FROM ppsa_users WHERE (LOWER(username) = ? OR LOWER(email) = ?) AND is_active = 1 LIMIT 1");
             $lowerLogin = strtolower($loginInput);
