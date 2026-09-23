@@ -112,52 +112,62 @@ function initHeroCarousel() {
 }
 
 /* ==========================================================================
-   2. HEADER & MOBILE DRAWER CONTROLLER
+   2. HEADER & BELL-SHAPED NAVBAR CONTROLLER
    ========================================================================== */
 function initHeaderInteractions() {
-  const header = document.querySelector('.ppsa-header');
-  const toggleBtn = document.getElementById('ppsaMobileToggle');
-  const navDrawer = document.getElementById('ppsaNavDrawer');
-  const dropdownTrigger = document.querySelector('.ppsa-nav-item.has-dropdown');
+  const header = document.getElementById('siteHeaderFixed') || document.querySelector('.site-header-fixed');
+  const burger = document.getElementById('burgerBtn');
+  const navPillList = document.getElementById('navPillList');
 
-  // Sticky shadow elevation
+  // Sticky navbar shadow and transition on scroll
   window.addEventListener('scroll', () => {
     if (window.scrollY > 20) {
-      header?.classList.add('is-scrolled');
+      header?.classList.add('scrolled');
     } else {
-      header?.classList.remove('is-scrolled');
+      header?.classList.remove('scrolled');
     }
   }, { passive: true });
 
-  // Mobile menu toggle
-  if (toggleBtn && navDrawer) {
-    toggleBtn.addEventListener('click', () => {
-      const isOpen = navDrawer.classList.toggle('is-open');
-      toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      document.body.style.overflow = isOpen ? 'hidden' : '';
+  // Mobile menu toggle via burger button
+  if (burger && navPillList) {
+    burger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = navPillList.classList.toggle('open');
+      burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
   }
 
-  // Mobile dropdown toggle
-  if (dropdownTrigger) {
-    const link = dropdownTrigger.querySelector('.ppsa-nav-link');
-    link?.addEventListener('click', (e) => {
-      if (window.innerWidth <= 868) {
+  // Mobile & touch dropdown toggles
+  document.querySelectorAll('.npl-has-drop').forEach(link => {
+    link.addEventListener('click', (e) => {
+      if (window.innerWidth <= 992) {
         e.preventDefault();
-        dropdownTrigger.classList.toggle('is-open');
+        e.stopPropagation();
+        const dropdown = link.closest('.npl-dropdown');
+        dropdown?.classList.toggle('open');
       }
     });
-  }
+  });
 
-  // Close mobile drawer on link click
-  document.querySelectorAll('.ppsa-nav-link:not(.has-dropdown > .ppsa-nav-link), .ppsa-dropdown-link').forEach(link => {
+  // Close mobile drawer when clicking regular links or sub-items
+  document.querySelectorAll('.nav-pill-list a:not(.npl-has-drop)').forEach(link => {
     link.addEventListener('click', () => {
-      if (window.innerWidth <= 868 && navDrawer?.classList.contains('is-open')) {
-        navDrawer.classList.remove('is-open');
-        toggleBtn?.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+      if (window.innerWidth <= 992 && navPillList?.classList.contains('open')) {
+        navPillList.classList.remove('open');
+        burger?.setAttribute('aria-expanded', 'false');
       }
     });
+  });
+
+  // Close dropdowns and mobile drawer when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.npl-dropdown')) {
+      document.querySelectorAll('.npl-dropdown.open').forEach(d => d.classList.remove('open'));
+    }
+    if (!e.target.closest('.navbar-row-inner') && navPillList?.classList.contains('open')) {
+      navPillList.classList.remove('open');
+      burger?.setAttribute('aria-expanded', 'false');
+    }
   });
 }
 

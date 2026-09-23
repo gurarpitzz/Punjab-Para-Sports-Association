@@ -54,92 +54,140 @@
     </div>
   </div>
 
-  <!-- MAIN SITE HEADER -->
-  <header class="ppsa-header" role="banner">
-    <div class="ppsa-container ppsa-header-inner">
-      <!-- Brand Identity / Logo -->
-      <a href="index.html" class="ppsa-brand-link" aria-label="Punjab Para Sports Association Home">
-        <div class="ppsa-brand-emblem" aria-hidden="true">
-          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50" cy="50" r="46" fill="#003366" stroke="#FFC400" stroke-width="4"/>
-            <!-- Stylized Tri-color Flame / Athletic Rings Motif -->
-            <path d="M50 20 C42 34 38 48 42 60 C44 65 48 68 50 68 C52 68 56 65 58 60 C62 48 58 34 50 20 Z" fill="#FFC400"/>
-            <circle cx="50" cy="46" r="6" fill="#FFFFFF"/>
-            <path d="M30 68 Q50 78 70 68" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
-            <text x="50%" y="86%" font-size="11" font-family="'Outfit', sans-serif" font-weight="900" fill="#FFC400" text-anchor="middle" letter-spacing="1">PUNJAB</text>
-          </svg>
-        </div>
-        <div class="ppsa-brand-text-block">
-          <span class="ppsa-brand-title">PUNJAB <span class="gold-word">PARA SPORTS</span></span>
-          <span class="ppsa-brand-sub">STRONGER TOGETHER</span>
-        </div>
-      </a>
+  <!-- SITE HEADER WRAPPER (Banner + Bell-Shaped Navigation Bar) -->
+  <header class="site-header-fixed" id="siteHeaderFixed" role="banner">
 
-      <!-- Primary Navigation (Desktop Centered + Mobile Slide Drawer) -->
-      <nav class="ppsa-nav" id="ppsaNavDrawer" aria-label="Primary Navigation">
-        <ul class="ppsa-nav-list">
-          <li class="ppsa-nav-item">
-            <a href="index.html" class="ppsa-nav-link is-active" aria-current="page">Home</a>
-          </li>
-          <li class="ppsa-nav-item">
-            <button class="ppsa-nav-link" data-placeholder="About PPSA">About</button>
-          </li>
-          <li class="ppsa-nav-item">
-            <a href="#sports" class="ppsa-nav-link">Our Sports</a>
-          </li>
-          <li class="ppsa-nav-item">
-            <button class="ppsa-nav-link" data-placeholder="State Competitions">Competitions</button>
-          </li>
-          <li class="ppsa-nav-item">
-            <a href="#news" class="ppsa-nav-link">News & Media</a>
-          </li>
-          <li class="ppsa-nav-item">
-            <button class="ppsa-nav-link" data-placeholder="Selection Guidelines">Selection Guidelines</button>
-          </li>
-          <!-- FUNCTIONAL DROPDOWN: GET INVOLVED -->
-          <li class="ppsa-nav-item has-dropdown">
-            <button class="ppsa-nav-link" aria-haspopup="true" aria-expanded="false" id="getInvolvedDropdownBtn">
-              Get Involved
-              <svg class="caret" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </button>
-            <ul class="ppsa-dropdown-menu" aria-label="Get Involved Options">
-              <li>
-                <a href="register-athlete.html" class="ppsa-dropdown-link">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFC400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                  Athlete Registration
-                  <span class="dropdown-badge" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;">Open</span>
-                </a>
-              </li>
-              <li>
-                <a href="register-official.html" class="ppsa-dropdown-link">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1455A3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
-                  Official Registration
-                  <span class="dropdown-badge">Staff</span>
-                </a>
-              </li>
-              <li>
-                <a href="#sports" class="ppsa-dropdown-link">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="12 8 8 12 12 16 12 8"></polygon></svg>
-                  Browse Event Catalog
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="ppsa-nav-item">
-            <a href="#footer-contact" class="ppsa-nav-link">Contact Us</a>
-          </li>
-          <li class="ppsa-nav-item mobile-only" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--ppsa-border);">
-            <a href="admin/login.html" class="btn btn-navy" style="width:100%;text-align:center;">LOGIN TO PORTAL</a>
-          </li>
-        </ul>
-      </nav>
+    <!-- TOP LOGO BAR (Official Punjab Para Sports Association Header Banner) -->
+    <div class="top-logo-bar">
+      <div class="top-logo-inner">
+        <a href="index.html" class="top-logo-banner-link" aria-label="Punjab Para Sports Association Home">
+          <img src="assets/images/ppsa-header-banner.png" alt="Punjab Para Sports Association - ਪੰਜਾਬ ਪੈਰਾ ਸਪੋਰਟਸ ਐਸੋਸੀਏਸ਼ਨ" class="ppsa-banner-img">
+        </a>
+      </div>
+    </div>
 
-      <!-- Right Header Actions (LOGIN & Mobile Hamburger) -->
-      <div class="ppsa-header-actions">
-        <a href="admin/login.html" class="btn-header-login desktop-only" title="Authorized Official & Classifier Login">Login</a>
-        <button class="ppsa-mobile-toggle" id="ppsaMobileToggle" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="ppsaNavDrawer">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    <!-- BELL-SHAPED NAVBAR ROW -->
+    <div class="navbar-row" id="mainNavbarRow">
+      <div class="navbar-row-inner">
+
+        <!-- Bell-shaped Pill Navigation Container -->
+        <nav class="nav-pill" id="ppsaNavPill" role="navigation" aria-label="Main Navigation">
+          <ul class="nav-pill-list" id="navPillList">
+            <li>
+              <a href="index.html" class="npl is-active" aria-current="page">Home</a>
+            </li>
+
+            <!-- ABOUT DROPDOWN -->
+            <li class="npl-dropdown">
+              <a href="#about" class="npl npl-has-drop" data-placeholder="About PPSA">
+                About
+                <svg class="drop-caret-svg" viewBox="0 0 24 24" width="11" height="11" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </a>
+              <ul class="npl-submenu" aria-label="About PPSA Submenu">
+                <li><a href="#about" class="npl-sub-item">About PPSA</a></li>
+                <li><a href="#pillars" class="npl-sub-item">Mission & Vision</a></li>
+                <li><a href="#about" class="npl-sub-item" data-placeholder="Executive Board">Executive Board</a></li>
+                <li><a href="#about" class="npl-sub-item" data-placeholder="Affiliations (PCI & MYAS)">Affiliations</a></li>
+              </ul>
+            </li>
+
+            <!-- OUR SPORTS DROPDOWN -->
+            <li class="npl-dropdown">
+              <a href="#sports" class="npl npl-has-drop">
+                Our Sports
+                <svg class="drop-caret-svg" viewBox="0 0 24 24" width="11" height="11" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </a>
+              <ul class="npl-submenu" aria-label="Our Sports Submenu">
+                <li><a href="#sports" class="npl-sub-item">All 14 State Disciplines</a></li>
+                <li><a href="#sports" class="npl-sub-item">Athletics & Track</a></li>
+                <li><a href="#sports" class="npl-sub-item">Para Badminton</a></li>
+                <li><a href="#sports" class="npl-sub-item">Para Powerlifting</a></li>
+                <li><a href="#sports" class="npl-sub-item">Wheelchair Basketball</a></li>
+              </ul>
+            </li>
+
+            <!-- COMPETITIONS DROPDOWN -->
+            <li class="npl-dropdown">
+              <a href="#events" class="npl npl-has-drop" data-placeholder="State Competitions">
+                Competitions
+                <svg class="drop-caret-svg" viewBox="0 0 24 24" width="11" height="11" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </a>
+              <ul class="npl-submenu" aria-label="Competitions Submenu">
+                <li><a href="#events" class="npl-sub-item">Punjab State Para Games 2026</a></li>
+                <li><a href="#events" class="npl-sub-item">District Qualifying Meets</a></li>
+                <li><a href="#events" class="npl-sub-item">National Trials & Selection</a></li>
+              </ul>
+            </li>
+
+            <!-- NEWS & MEDIA DROPDOWN -->
+            <li class="npl-dropdown">
+              <a href="#news" class="npl npl-has-drop">
+                News & Media
+                <svg class="drop-caret-svg" viewBox="0 0 24 24" width="11" height="11" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </a>
+              <ul class="npl-submenu" aria-label="News & Media Submenu">
+                <li><a href="#news" class="npl-sub-item">Press Releases & News</a></li>
+                <li><a href="#heroCarousel" class="npl-sub-item">Photo Gallery</a></li>
+                <li><a href="#footer-contact" class="npl-sub-item">Circulars & Notices</a></li>
+              </ul>
+            </li>
+
+            <!-- SELECTION GUIDELINES -->
+            <li>
+              <a href="#selection" class="npl" data-placeholder="Selection Guidelines">Selection Guidelines</a>
+            </li>
+
+            <!-- GET INVOLVED (REGISTRATION) DROPDOWN -->
+            <li class="npl-dropdown">
+              <a href="#get-involved" class="npl npl-has-drop">
+                Get Involved
+                <svg class="drop-caret-svg" viewBox="0 0 24 24" width="11" height="11" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </a>
+              <ul class="npl-submenu" aria-label="Get Involved Submenu">
+                <li>
+                  <a href="register-athlete.html" class="npl-sub-item">
+                    Athlete Registration
+                    <span class="npl-badge npl-badge-gold">Open</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="register-official.html" class="npl-sub-item">
+                    Official Registration
+                    <span class="npl-badge npl-badge-blue">Staff</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#sports" class="npl-sub-item">
+                    Browse Event Catalog
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- CONTACT US -->
+            <li>
+              <a href="#footer-contact" class="npl">Contact Us</a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Right Side: Green Athletic Pill LOGIN Button -->
+        <div class="nav-login-wrap">
+          <a href="admin/login.html" class="login-pill" title="Authorized Official & Classifier Login">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+              <polyline points="10 17 15 12 10 7"></polyline>
+              <line x1="15" y1="12" x2="3" y2="12"></line>
+            </svg>
+            LOGIN
+          </a>
+        </div>
+
+        <!-- Mobile Burger Menu Toggle Button -->
+        <button class="burger-btn" id="burgerBtn" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="navPillList">
+          <span></span><span></span><span></span>
         </button>
+
       </div>
     </div>
   </header>
