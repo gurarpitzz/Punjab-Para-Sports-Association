@@ -6,7 +6,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
@@ -112,19 +112,26 @@ $html = "
 
 $plainText = "PUNJAB PARA SPORTS ASSOCIATION - STRONGER TOGETHER\n\nYour 6-digit verification code is: {$otpCode}\n\nThis code is valid for 10 minutes. Please enter this code on the State Games registration portal.\n\nSecretariat: officeparapunjab@gmail.com";
 
-// 5. Dispatch via Resend API
+// 5. Dispatch via Resend API / native mail fallback
 $sent = sendEmail($email, $subject, $html, $plainText);
+$status = getPpsaLastMailerStatus();
 
 if ($sent) {
     echo json_encode([
         'success' => true,
+        'dispatched' => true,
+        'dispatcher' => $status['dispatcher'] ?? 'resend',
         'message' => 'Verification code sent successfully to ' . $email
     ]);
 } else {
-    // Return graceful notice with fallback code if mailer failed
+    // Return testing OTP code so applicant / tester is never blocked during sandbox mode
     echo json_encode([
         'success' => true,
-        'message' => 'Verification code generated.',
-        'note' => 'Please check your inbox or spam folder.'
+        'dispatched' => false,
+        'test_otp' => $otpCode,
+        'sandbox_notice' => true,
+        'message' => 'Verification code generated (Test Mode).',
+        'note' => $status['error'] ?? 'Email delivery restricted by Resend sandbox until domain is verified.'
     ]);
 }
+

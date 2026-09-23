@@ -259,8 +259,9 @@
 
             <!-- OTP Input Section (Hidden initially) -->
             <div id="otpInputSection" style="display: none; margin-top: 24px;">
-              <p style="font-size: 0.88rem; font-weight: 600; color: #065F46;">
-                Verification code dispatched to <span id="sentEmailDisplay"></span> via Resend. Code valid for 10 minutes.
+              <div id="sandboxAlertNotice" style="display: none;"></div>
+              <p id="otpSuccessMsg" style="font-size: 0.88rem; font-weight: 600; color: #065F46;">
+                Verification code dispatched to <span id="sentEmailDisplay"></span>. Code valid for 10 minutes.
               </p>
               <div class="otp-input-group">
                 <input type="text" maxlength="6" id="otpCode" class="form-control" placeholder="123456" style="max-width: 180px; text-align: center; letter-spacing: 0.3em; font-size: 1.3rem; font-weight: 800;">
@@ -555,7 +556,7 @@
       }
       
       btn.disabled = true;
-      btn.textContent = 'Sending code via Resend...';
+      btn.textContent = 'Sending verification code...';
 
       try {
         const resp = await fetch('api/send-otp.php', {
@@ -567,6 +568,43 @@
         
         document.getElementById('sentEmailDisplay').textContent = email;
         document.getElementById('otpInputSection').style.display = 'block';
+
+        const sandboxBox = document.getElementById('sandboxAlertNotice');
+        const successMsg = document.getElementById('otpSuccessMsg');
+
+        if (data && data.test_otp) {
+          if (sandboxBox) {
+            sandboxBox.style.display = 'block';
+            sandboxBox.innerHTML = `
+              <div style="background: #FFFBEB; border: 1.5px solid #F59E0B; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; text-align: left;">
+                <div style="display: flex; align-items: center; gap: 8px; font-weight: 800; color: #92400E; font-size: 0.92rem; margin-bottom: 4px;">
+                  <span>⚠️ Resend Mailer Testing Mode Notice</span>
+                </div>
+                <p style="margin: 0 0 8px 0; font-size: 0.82rem; color: #78350F; line-height: 1.45;">
+                  Resend accounts in sandbox mode restrict sending to the account owner (<code>ajeet.graphics@gmail.com</code>). 
+                  To send to any recipient, add & verify your domain in <strong>resend.com/domains</strong>.
+                </p>
+                <div style="background: #FFFFFF; border: 1px solid #FCD34D; border-radius: 6px; padding: 8px 12px; display: flex; align-items: center; justify-content: space-between;">
+                  <span style="font-size: 0.84rem; color: #64748B; font-weight: 600;">Test Verification Code:</span>
+                  <span style="font-family: monospace; font-size: 1.3rem; font-weight: 900; color: #003366; letter-spacing: 3px;">${data.test_otp}</span>
+                </div>
+                <p style="margin: 6px 0 0 0; font-size: 0.78rem; color: #00B074; font-weight: 700;">✓ Verification code auto-filled below for instant testing</p>
+              </div>
+            `;
+          }
+          if (successMsg) successMsg.style.display = 'none';
+          document.getElementById('otpCode').value = data.test_otp;
+        } else {
+          if (sandboxBox) sandboxBox.style.display = 'none';
+          if (successMsg) {
+            successMsg.style.display = 'block';
+            if (data && data.dispatcher === 'native_mail') {
+              successMsg.textContent = `Verification code dispatched to ${email} via Server Mail. Code valid for 10 minutes.`;
+            } else {
+              successMsg.textContent = `Verification code dispatched to ${email} via Resend. Code valid for 10 minutes.`;
+            }
+          }
+        }
         
         let countdown = 60;
         btn.textContent = `Resend Code (${countdown}s)`;

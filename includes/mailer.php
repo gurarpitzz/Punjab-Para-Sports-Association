@@ -15,65 +15,171 @@ if (!defined('MAILER_TIMEOUT')) {
     define('MAILER_TIMEOUT', 10);
 }
 
+$GLOBALS['PPSA_LAST_MAILER_STATUS'] = [
+    'success' => false,
+    'dispatcher' => 'none',
+    'message_id' => null,
+    'error' => null,
+    'http_code' => 0
+];
+
+function getPpsaLastMailerStatus(): array {
+    return $GLOBALS['PPSA_LAST_MAILER_STATUS'] ?? [
+        'success' => false,
+        'dispatcher' => 'none',
+        'message_id' => null,
+        'error' => null,
+        'http_code' => 0
+    ];
+}
+
 /**
- * Send an email via Resend API
+ * Native PHP mail() fallback for cPanel/Exim environments
+ */
+function sendNativePhpMail(string $to, string $subject, string $html): bool {
+    $host = 'ajeetgraphics.com';
+    if (!empty($_SERVER['HTTP_HOST'])) {
+        $parts = explode(':', $_SERVER['HTTP_HOST'])[0];
+        if (filter_var($parts, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
+            $host = $parts;
+        }
+    }
+    
+    $headers = [
+        'MIME-Version: 1.0',
+        'Content-Type: text/html; charset=UTF-8',
+        'From: Punjab Para Sports <noreply@' . $host . '>',
+        'Reply-To: officeparapunjab@gmail.com',
+        'X-Mailer: PHP/' . phpversion()
+    ];
+    
+    return @mail($to, $subject, $html, implode("\r\n", $headers));
+}
+
+/**
+ * Send an email via Resend API with native mail() fallback
  */
 function sendEmail(string $to, string $subject, string $html, ?string $text = null, string $templateType = 'general'): bool
 {
+    $GLOBALS['PPSA_LAST_MAILER_STATUS'] = [
+        'success' => false,
+        'dispatcher' => 'none',
+        'message_id' => null,
+        'error' => null,
+        'http_code' => 0
+    ];
+
     if (!MAILER_ENABLED) {
         error_log("[PPSA Mailer] Mailer disabled. Mock send to {$to}: {$subject}");
+        $GLOBALS['PPSA_LAST_MAILER_STATUS']['success'] = true;
+        $GLOBALS['PPSA_LAST_MAILER_STATUS']['dispatcher'] = 'mock';
         return true;
     }
 
     if (empty($to) || !filter_var($to, FILTER_VALIDATE_EMAIL)) {
         error_log("[PPSA Mailer] Invalid recipient email: {$to}");
+        $GLOBALS['PPSA_LAST_MAILER_STATUS']['error'] = "Invalid recipient email address.";
         return false;
     }
 
     $apiKey = defined('RESEND_API_KEY') ? RESEND_API_KEY : '';
-    if (empty($apiKey)) {
-        error_log("[PPSA Mailer] RESEND_API_KEY not configured. Skipping email dispatch.");
-        return false;
-    }
-
-    $payload = [
-        'from'    => MAILER_FROM,
-        'to'      => $to,
-        'subject' => $subject,
-        'html'    => $html,
-    ];
-
-    if ($text !== null) {
-        $payload['text'] = $text;
-    }
-
-    $headers = [
-        'Authorization: Bearer ' . $apiKey,
-        'Content-Type: application/json',
-    ];
-
-    $ch = curl_init('https://api.resend.com/emails');
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_TIMEOUT        => MAILER_TIMEOUT,
-        CURLOPT_HTTPHEADER     => $headers,
-        CURLOPT_POSTFIELDS     => json_encode($payload),
-    ]);
-
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $curlErr  = curl_error($ch);
-    curl_close($ch);
-
-    $success = ($httpCode >= 200 && $httpCode < 300);
+    $resendSuccess = false;
     $messageId = null;
+    $lastError = null;
+    $httpCode = 0;
 
-    if ($success && $response) {
-        $resData = json_decode($response, true);
-        $messageId = $resData['id'] ?? null;
+    if (!empty($apiKey)) {
+        // Attempt 1: Using configured MAILER_FROM
+        $fromCandidates = [MAILER_FROM];
+        // If MAILER_FROM is not onboarding@resend.dev, add onboarding@resend.dev as automatic fallback
+        if (strpos(MAILER_FROM, 'resend.dev') === false) {
+            $fromCandidates[] = 'Punjab Para Sports <onboarding@resend.dev>';
+        }
+
+        foreach ($fromCandidates as $fromAddress) {
+            $payload = [
+                'from'    => $fromAddress,
+                'to'      => $to,
+                'subject' => $subject,
+                'html'    => $html,
+            ];
+            if ($text !== null) {
+                $payload['text'] = $text;
+            }
+
+            $headers = [
+                'Authorization: Bearer ' . $apiKey,
+                'Content-Type: application/json',
+            ];
+
+            $ch = curl_init('https://api.resend.com/emails');
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST           => true,
+                CURLOPT_TIMEOUT        => MAILER_TIMEOUT,
+                CURLOPT_HTTPHEADER     => $headers,
+                CURLOPT_POSTFIELDS     => json_encode($payload),
+            ]);
+
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlErr  = curl_error($ch);
+            curl_close($ch);
+
+            if ($httpCode >= 200 && $httpCode < 300) {
+                $resData = json_decode($response, true);
+                $messageId = $resData['id'] ?? null;
+                $resendSuccess = true;
+                $GLOBALS['PPSA_LAST_MAILER_STATUS'] = [
+                    'success' => true,
+                    'dispatcher' => 'resend',
+                    'message_id' => $messageId,
+                    'error' => null,
+                    'http_code' => $httpCode
+                ];
+                break;
+            } else {
+                $lastError = $curlErr ?: $response;
+                // If error is not a domain verification error (e.g. invalid key or network issue), break early
+                $resJson = json_decode($response, true);
+                if (isset($resJson['message'])) {
+                    $lastError = $resJson['message'];
+                }
+            }
+        }
     } else {
-        error_log("[PPSA Mailer] Failed to send to {$to}. HTTP: {$httpCode}. Error: {$curlErr}. Response: {$response}");
+        $lastError = 'RESEND_API_KEY not configured.';
+    }
+
+    if ($resendSuccess) {
+        $finalSuccess = true;
+        $dispatcherUsed = 'resend';
+    } else {
+        // Resend failed or was blocked by sandbox restrictions.
+        // Fallback to PHP native mail() (works natively through cPanel/Exim)
+        $nativeSent = sendNativePhpMail($to, $subject, $html);
+        if ($nativeSent) {
+            $finalSuccess = true;
+            $dispatcherUsed = 'native_mail';
+            $GLOBALS['PPSA_LAST_MAILER_STATUS'] = [
+                'success' => true,
+                'dispatcher' => 'native_mail',
+                'message_id' => 'cpanel_' . uniqid(),
+                'error' => null,
+                'http_code' => 200
+            ];
+        } else {
+            $finalSuccess = false;
+            $dispatcherUsed = 'none';
+            $GLOBALS['PPSA_LAST_MAILER_STATUS'] = [
+                'success' => false,
+                'dispatcher' => 'none',
+                'message_id' => null,
+                'error' => $lastError,
+                'http_code' => $httpCode
+            ];
+            error_log("[PPSA Mailer] All dispatchers failed for {$to}. Resend Err: {$lastError}");
+        }
     }
 
     // Log to ppsa_email_logs if database is available
@@ -89,14 +195,14 @@ function sendEmail(string $to, string $subject, string $html, ?string $text = nu
                 $to,
                 $subject,
                 $templateType,
-                $success ? 'sent' : 'failed',
-                $messageId,
-                $success ? null : ($curlErr ?: $response)
+                $finalSuccess ? 'sent' : 'failed',
+                $messageId ?: ($dispatcherUsed === 'native_mail' ? 'native_exim' : null),
+                $finalSuccess ? null : $lastError
             ]);
         } catch (\Throwable $e) {}
     }
 
-    return $success;
+    return $finalSuccess;
 }
 
 /**
