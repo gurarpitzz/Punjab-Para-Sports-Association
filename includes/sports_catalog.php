@@ -32,7 +32,7 @@ function getPpsaSportsCatalog(): array {
                     'T-54' => ['100m', '200m', '400m', '800m', '1500m', '5000m'],
                     'T-62' => ['100m', '200m', '400m'],
                     'T-63' => ['100m', '200m', 'Long Jump', 'High Jump'],
-                    'T-64' => ['100m', '200m', 'Long Jump', 'High Jump'],
+                    'T-64' => ['100m', '200m', '400m', 'Long Jump', 'High Jump'],
                     'Other (Track)' => ['100m', '200m', '400m', '800m', '1500m', '5000m', 'Long Jump', 'High Jump']
                 ],
                 'Category of Player - Field' => [
