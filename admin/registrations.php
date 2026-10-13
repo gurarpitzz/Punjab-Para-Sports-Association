@@ -76,12 +76,6 @@ if ($db) {
 }
 
 $totalPages = ceil($totalRows / $limit);
-$pendingOfficialsCount = 0;
-if ($db) {
-    try {
-        $pendingOfficialsCount = (int)$db->query("SELECT COUNT(*) FROM ppsa_official_applications WHERE status = 'pending'")->fetchColumn();
-    } catch (\Throwable $e) {}
-}
 ?>
 
 <div class="admin-page-header">
@@ -92,26 +86,6 @@ if ($db) {
   <div>
     <span style="font-weight:700;font-size:0.9rem;color:var(--text-muted);">Total Athlete Applications: <strong><?php echo $totalRows; ?></strong></span>
   </div>
-</div>
-
-<!-- Switcher Tabs Between Athlete Approvals and Official Approvals -->
-<div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
-  <a href="registrations.php" style="padding:10px 22px;border-radius:8px;font-weight:700;font-size:0.9rem;text-decoration:none;background:var(--navy);color:#fff;border:1.5px solid var(--navy);display:inline-flex;align-items:center;gap:8px;box-shadow:0 3px 10px rgba(14,31,75,0.25);">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    <span>Athlete Approvals Queue</span>
-    <?php if ($pendingAthletes > 0): ?>
-      <span style="background:#EF4444;color:#fff;font-size:0.75rem;padding:2px 8px;border-radius:12px;font-weight:800;"><?php echo $pendingAthletes; ?> Pending</span>
-    <?php else: ?>
-      <span style="background:rgba(255,255,255,0.2);color:#fff;font-size:0.75rem;padding:2px 8px;border-radius:12px;font-weight:700;">0 Pending</span>
-    <?php endif; ?>
-  </a>
-  <a href="officials.php" style="padding:10px 22px;border-radius:8px;font-weight:700;font-size:0.9rem;text-decoration:none;background:#fff;color:var(--navy);border:1.5px solid var(--border);display:inline-flex;align-items:center;gap:8px;transition:all 0.15s ease;">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-    <span>Official & Technical Approvals Queue</span>
-    <?php if ($pendingOfficialsCount > 0): ?>
-      <span style="background:#F59E0B;color:#000;font-size:0.75rem;padding:2px 8px;border-radius:12px;font-weight:800;"><?php echo $pendingOfficialsCount; ?> Pending</span>
-    <?php endif; ?>
-  </a>
 </div>
 
 <!-- Filters Bar -->
