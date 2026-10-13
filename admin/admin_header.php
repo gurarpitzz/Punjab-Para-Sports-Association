@@ -214,17 +214,23 @@ $currentPage = basename($_SERVER['PHP_SELF']);
       <li><a href="dashboard.php" class="admin-menu-link <?php echo $currentPage === 'dashboard.php' ? 'active' : ''; ?>">Dashboard</a></li>
       <li>
         <a href="registrations.php" class="admin-menu-link <?php echo in_array($currentPage, ['registrations.php', 'athlete-details.php']) ? 'active' : ''; ?>">
-          Athlete Intake
-          <?php if ($pendingAthletes > 0): ?><span class="badge-count"><?php echo $pendingAthletes; ?></span><?php endif; ?>
+          <span style="display:inline-flex;align-items:center;gap:6px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Athlete Approvals
+          </span>
+          <?php if ($pendingAthletes > 0): ?><span class="badge-count" style="background:#EF4444;"><?php echo $pendingAthletes; ?></span><?php endif; ?>
         </a>
       </li>
       <li>
         <a href="officials.php" class="admin-menu-link <?php echo in_array($currentPage, ['officials.php', 'official-details.php']) ? 'active' : ''; ?>">
-          Official Intake
-          <?php if ($pendingOfficials > 0): ?><span class="badge-count"><?php echo $pendingOfficials; ?></span><?php endif; ?>
+          <span style="display:inline-flex;align-items:center;gap:6px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            Official Approvals
+          </span>
+          <?php if ($pendingOfficials > 0): ?><span class="badge-count" style="background:#F59E0B;color:#000;"><?php echo $pendingOfficials; ?></span><?php endif; ?>
         </a>
       </li>
-      <li><a href="athletes.php" class="admin-menu-link <?php echo in_array($currentPage, ['athletes.php', 'master-officials.php', 'master_officials.php']) ? 'active' : ''; ?>">Master Registry</a></li>
+      <li><a href="athletes.php" class="admin-menu-link <?php echo in_array($currentPage, ['athletes.php', 'master-officials.php', 'master_officials.php']) ? 'active' : ''; ?>">Master Registries</a></li>
       <li><a href="audit-logs.php" class="admin-menu-link <?php echo $currentPage === 'audit-logs.php' ? 'active' : ''; ?>">Audit Logs</a></li>
       <li><a href="users.php" class="admin-menu-link <?php echo $currentPage === 'users.php' ? 'active' : ''; ?>">Staff Accounts</a></li>
     </ul>

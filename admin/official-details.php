@@ -213,7 +213,7 @@ $sb = $statusMap[$app['status']] ?? ['label' => ucfirst($app['status']), 'bg' =>
 
 <div style="margin-bottom:18px;">
   <a href="officials.php" style="color:var(--text-muted);text-decoration:none;font-size:0.88rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;">
-    &larr; Back to Official Intake Queue
+    &larr; Back to Official Approvals Queue
   </a>
 </div>
 
@@ -230,7 +230,13 @@ $sb = $statusMap[$app['status']] ?? ['label' => ucfirst($app['status']), 'bg' =>
 <?php endif; ?>
 
 <!-- Official Profile Header Banner -->
-<div class="admin-card" style="padding:24px 28px;margin-bottom:24px;border-left:5px solid var(--navy);">
+<div class="admin-card" style="padding:24px 28px;margin-bottom:24px;border-left:5px solid #F59E0B;">
+  <div style="margin-bottom:10px;">
+    <span style="display:inline-flex;align-items:center;gap:6px;background:#FFFBEB;color:#B45309;border:1px solid #FDE68A;padding:4px 12px;border-radius:999px;font-size:0.75rem;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      Official & Technical Accreditation Interface
+    </span>
+  </div>
   <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;">
     <div style="display:flex;align-items:center;gap:20px;">
       <div style="width:80px;height:80px;border-radius:8px;background:#E2E8F0;overflow:hidden;border:2px solid var(--border);flex-shrink:0;">

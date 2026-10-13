@@ -303,7 +303,7 @@
             </p>
             <div style="max-width: 360px; margin: 0 auto;">
               <input type="email" id="officialEmail" class="form-control" placeholder="official@example.com" required style="text-align: center;">
-              <button type="button" class="btn btn-navy" id="btnSendOtpOff" style="width: 100%; margin-top: 12px;" onclick="simulateOfficialOtp()">
+              <button type="button" class="btn btn-navy" id="btnSendOtpOff" style="width: 100%; margin-top: 12px;" onclick="sendOfficialOtp()">
                 Send Verification Code
               </button>
             </div>
@@ -611,16 +611,19 @@
       el.value = formatted;
     }
 
-    async function simulateOfficialOtp() {
-      const email = document.getElementById('officialEmail').value.trim();
+    async function sendOfficialOtp() {
+      const emailInput = document.getElementById('officialEmail');
+      const email = emailInput ? emailInput.value.trim() : '';
       const btn = document.getElementById('btnSendOtpOff');
       if (!email || !email.includes('@')) {
-        alert('Please enter a valid email.');
+        alert('Please enter a valid email address.');
         return;
       }
       
-      btn.disabled = true;
-      btn.textContent = 'Sending verification code...';
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Sending verification code...';
+      }
 
       try {
         const resp = await fetch('api/send-otp.php', {
@@ -629,9 +632,21 @@
           body: JSON.stringify({ email: email, action: 'official_registration' })
         });
         const data = await resp.json().catch(() => null);
+
+        if (data && data.success === false && data.error) {
+          alert('OTP Error: ' + data.error);
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = 'Send Verification Code';
+          }
+          return;
+        }
         
-        document.getElementById('sentOffEmailDisplay').textContent = email;
-        document.getElementById('otpInputSectionOff').style.display = 'block';
+        const sentEmailDisplay = document.getElementById('sentOffEmailDisplay');
+        if (sentEmailDisplay) sentEmailDisplay.textContent = email;
+
+        const otpSection = document.getElementById('otpInputSectionOff');
+        if (otpSection) otpSection.style.display = 'block';
 
         const sandboxBox = document.getElementById('sandboxAlertNoticeOff');
         const successMsg = document.getElementById('otpSuccessMsgOff');
@@ -661,7 +676,8 @@
             `;
           }
           if (successMsg) successMsg.style.display = 'none';
-          document.getElementById('otpCodeOff').value = data.test_otp;
+          const otpInput = document.getElementById('otpCodeOff');
+          if (otpInput) otpInput.value = data.test_otp;
         } else {
           if (sandboxBox) sandboxBox.style.display = 'none';
           if (successMsg) {
@@ -675,24 +691,30 @@
         }
         
         let countdown = 60;
-        btn.textContent = `Resend Code (${countdown}s)`;
-        const timer = setInterval(() => {
-          countdown--;
-          if (countdown <= 0) {
-            clearInterval(timer);
-            btn.disabled = false;
-            btn.textContent = 'Resend Code';
-          } else {
-            btn.textContent = `Resend Code (${countdown}s)`;
-          }
-        }, 1000);
+        if (btn) {
+          btn.textContent = `Resend Code (${countdown}s)`;
+          const timer = setInterval(() => {
+            countdown--;
+            if (countdown <= 0) {
+              clearInterval(timer);
+              btn.disabled = false;
+              btn.textContent = 'Resend Code';
+            } else {
+              btn.textContent = `Resend Code (${countdown}s)`;
+            }
+          }, 1000);
+        }
       } catch (err) {
         console.warn('API call fallback:', err);
-        document.getElementById('otpInputSectionOff').style.display = 'block';
-        btn.disabled = false;
-        btn.textContent = 'Resend Code';
+        const otpSection = document.getElementById('otpInputSectionOff');
+        if (otpSection) otpSection.style.display = 'block';
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = 'Resend Code';
+        }
       }
     }
+    const simulateOfficialOtp = sendOfficialOtp;
 
     async function verifyOfficialOtp() {
       const email = document.getElementById('officialEmail').value.trim();
@@ -724,7 +746,9 @@
     function toggleClassifierFields() {
       const cat = document.getElementById('officialCategory').value;
       const sub = document.getElementById('classifierSubGroup');
-      sub.style.display = (cat === 'Classifier' || cat === 'classifier') ? 'block' : 'none';
+      if (sub) {
+        sub.style.display = (cat === 'Classifier' || cat === 'classifier') ? 'block' : 'none';
+      }
     }
 
     /**
@@ -782,28 +806,6 @@
       });
     }
 
-    async function submitOfficial() {
-      const name = document.getElementById('offFullName').value.trim();
-      const phone = document.getElementById('offMobile').value.trim();
-      const email = document.getElementById('officialEmail').value.trim();
-      const aadhaar = document.getElementById('offAadhaar').value.trim().replace(/\s/g, '');
-      const address = document.getElementById('offAddress').value.trim();
-      const district = document.getElementById('offDistrict').value;
-      const category = document.getElementById('officialCategory').value;
-      const agreed = document.getElementById('offLegalDeclaration').checked;
-
-      if (!name || !phone || !email || !category) {
-        alert('Please complete all mandatory personal and role details.');
-        return;
-      }
-      if (!aadhaar || aadhaar.length !== 12) {
-        alert('Please enter a valid 12-digit Aadhaar number.');
-        return;
-      }
-      if (!address || !district) {
-        alert('Please enter permanent address and Punjab district.');
-        return;
-      }
     const selectedOffDocs = { photo: null, govtId: null, cert: null };
 
     function triggerOffPick(docKey, isCamera) {
@@ -843,10 +845,10 @@
 
     async function submitOfficial() {
       const name = document.getElementById('offFullName').value.trim();
-      const phone = document.getElementById('offPhone').value.trim();
-      const email = document.getElementById('offEmail').value.trim();
+      const phone = document.getElementById('offMobile').value.trim();
+      const email = document.getElementById('officialEmail').value.trim();
       const aadhaar = document.getElementById('offAadhaar').value.trim().replace(/\s/g, '');
-      const category = document.getElementById('offCategory').value;
+      const category = document.getElementById('officialCategory').value;
       const address = document.getElementById('offAddress').value.trim();
       const district = document.getElementById('offDistrict').value;
       const agreed = document.getElementById('offLegalDeclaration').checked;
@@ -873,7 +875,7 @@
         return;
       }
 
-      const submitBtn = event ? event.target : document.querySelector('#paneStep3 button.btn-primary');
+      const submitBtn = document.querySelector('#paneStep3 button.btn-primary');
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.textContent = 'Optimizing & Compressing Documents...';
@@ -916,7 +918,10 @@
       formData.append('legalDeclaration', '1');
 
       if (categorySlug === 'classifier') {
-        formData.append('classifierType', document.getElementById('classifierSubtype').value.toLowerCase());
+        const classifierSubtype = document.getElementById('classifierSubtype');
+        if (classifierSubtype) {
+          formData.append('classifierType', classifierSubtype.value.toLowerCase());
+        }
       }
 
       if (optPhoto) formData.append('passportPhoto', optPhoto);

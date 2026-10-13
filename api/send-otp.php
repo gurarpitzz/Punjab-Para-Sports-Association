@@ -57,7 +57,10 @@ if (!is_dir($tempDir)) {
 ]));
 
 // 4. Build Punjab Para Sports Branded HTML Email
-$subject = "Your PPSA Verification Code: {$otpCode}";
+$isOfficial = (strpos($action, 'official') !== false);
+$portalName = $isOfficial ? "Official & Technical Portal" : "State Games Portal";
+$titleText  = $isOfficial ? "Verification Code for Official & Technical Registration" : "Verification Code for State Games Registration";
+$subject    = "Your PPSA Verification Code: {$otpCode}";
 
 $html = "
 <!DOCTYPE html>
@@ -86,9 +89,9 @@ $html = "
       <p>STRONGER TOGETHER</p>
     </div>
     <div class='body'>
-      <div class='title'>Verification Code for State Games Registration</div>
+      <div class='title'>{$titleText}</div>
       <p class='text'>
-        You are receiving this email because a verification request was initiated for your email address (<strong>{$email}</strong>) on the Punjab Para Sports State Games portal.
+        You are receiving this email because a verification request was initiated for your email address (<strong>{$email}</strong>) on the Punjab Para Sports {$portalName}.
       </p>
       
       <div class='otp-box'>

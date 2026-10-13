@@ -357,7 +357,7 @@ $sb = $statusMap[$app['status']] ?? ['label' => ucfirst($app['status']), 'bg' =>
 <!-- Breadcrumb -->
 <div style="margin-bottom:18px;">
   <a href="registrations.php" style="color:var(--text-muted);text-decoration:none;font-size:0.88rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;">
-    &larr; Back to Athlete Intake Queue
+    &larr; Back to Athlete Approvals Queue
   </a>
 </div>
 
@@ -375,7 +375,13 @@ $sb = $statusMap[$app['status']] ?? ['label' => ucfirst($app['status']), 'bg' =>
 <?php endif; ?>
 
 <!-- Application Profile Header Banner -->
-<div class="admin-card" style="padding:24px 28px;margin-bottom:24px;border-left:5px solid var(--navy);">
+<div class="admin-card" style="padding:24px 28px;margin-bottom:24px;border-left:5px solid #2563EB;">
+  <div style="margin-bottom:10px;">
+    <span style="display:inline-flex;align-items:center;gap:6px;background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;padding:4px 12px;border-radius:999px;font-size:0.75rem;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Athlete Approval Interface — State Games Registrations
+    </span>
+  </div>
   <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;">
     <div style="display:flex;align-items:center;gap:20px;">
       <!-- Athlete Photo Thumbnail -->
